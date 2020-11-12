@@ -11,4 +11,4 @@ class ContactView(BaseView):
 
 admin.add_view(ModelView(Category, db.session))
 admin.add_view(ModelView(Product, db.session))
-# admin.add_view(ContactView(name="lien he"))
+admin.add_view(ContactView(name="lien he"))
