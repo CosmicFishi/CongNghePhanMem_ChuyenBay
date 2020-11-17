@@ -21,14 +21,22 @@ class LogoutView(BaseView):
         return redirect('/admin')
     def is_accessible(self):
         return current_user.is_authenticated
+class AuthenticatedView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated
 
+class View(AuthenticatedView):
+    column_display_pk = False
+    can_create = True
+    can_export = True
+    can_delete = False
 
+admin.add_view(View(maybay, db.session))
+admin.add_view(View(khchuyenbay, db.session))
+admin.add_view(View(chuyenbay, db.session))
+admin.add_view(View(khachhang, db.session))
+admin.add_view(View(sanbay, db.session))
+admin.add_view(View(sanbaytrunggian, db.session))
+admin.add_view(View(loaighe, db.session))
 admin.add_view(ContactView(name='Liên hệ'))
 admin.add_view(LogoutView(name='Logout'))
-admin.add_view(ModelView(maybay, db.session))
-admin.add_view(ModelView(khchuyenbay, db.session))
-admin.add_view(ModelView(chuyenbay, db.session))
-admin.add_view(ModelView(khachhang, db.session))
-admin.add_view(ModelView(sanbay, db.session))
-admin.add_view(ModelView(sanbaytrunggian, db.session))
-admin.add_view(ModelView(loaighe, db.session))
