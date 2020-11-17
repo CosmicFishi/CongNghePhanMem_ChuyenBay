@@ -1,33 +1,68 @@
-from sqlalchemy import Column, Integer, Float, String, ForeignKey
+from sqlalchemy import Column, Integer, Float, Boolean, String, ForeignKey
 from sqlalchemy.orm import relationship
 
 from app import db
 
+class khachhang(db.Model):
+    MaKH = Column(Integer, autoincrement=True, primary_key=True)
+    TenKH = Column(String(255), nullable=False)
+    CMND = Column(String(12), nullable=False)
+    SDT = Column(String(11), nullable=False)
 
-class DefaultClass(db.Model):
-    __abstract__ = True
-
-    id = Column(Integer, autoincrement=True, primary_key=True)
-    name = Column(String(50), nullable=False)
-
-    def __str__(self):
-        return self.name
+    khchuyenbay_khachhang = relationship('khchuyenbay', lazy=True)
 
 
-class Category(DefaultClass):
-    __tablename__ = 'category'
+class maybay(db.Model):
+    MaMayBay = Column(Integer, autoincrement=True, primary_key=True)
+    TenMayBay = Column(String(255))
 
-    products = relationship('Product', backref='category', lazy=True)
+    loaighe_maybay = relationship('loaighe', lazy=True)
+    chuyenbay_maybay = relationship('chuyenbay', lazy=True)
+
+class sanbay(db.Model):
+    MaSanBay = Column(Integer, autoincrement=True, primary_key=True)
+    TenSanBay = Column(String(255), nullable=False)
+
+    sanbaytrunggian_sanbay = relationship('sanbaytrunggian', lazy=True)
+    khchuyenbay_sanbay = relationship('sanbaytrunggian', lazy=True)
 
 
-class Product(DefaultClass):
-    __tablename__ = 'product'
+class chuyenbay(db.Model):
+    MaMayBay = Column(Integer, ForeignKey(maybay.MaMayBay))
+    MaChuyenBay = Column(Integer, autoincrement=True, primary_key=True)
+    SanBayDi = Column(Integer,ForeignKey(sanbay.MaSanBay), nullable=False)
+    SanBayDen = Column(Integer, ForeignKey(sanbay.MaSanBay), nullable=False)
+    TGXuatPhat = Column(String(255), nullable=False)
+    TGBay = Column(String(255), nullable=False)
 
-    description = Column(String(255))
-    price = Column(Float, default=0)
-    image = Column(String(180))
+    khchuyenbay_chuyenbay = relationship('khchuyenbay', lazy=True)
+    sanbaytrunggian_chuyenbay = relationship('sanbaytrunggian', lazy=True)
 
-    category_id = Column(Integer, ForeignKey(Category.id), nullable=False)
+
+class loaighe(db.Model):
+    MaMayBay = Column(Integer, ForeignKey(maybay.MaMayBay))
+    MaGhe = Column(Integer, autoincrement=True, primary_key=True)
+    MaChuyenBay = Column(Integer, nullable=False)
+    TenGhe = Column(String(255), nullable=False)
+    SoLuong = Column(String(255), nullable=False)
+
+    khchuyenbay_loaighe = relationship('khchuyenbay', lazy=True)
+
+
+class khchuyenbay(db.Model):
+    MaKH = Column(Integer, ForeignKey(khachhang.MaKH), primary_key=True)
+    MaChuyenBay = Column(Integer, ForeignKey(chuyenbay.MaChuyenBay), primary_key=True)
+    MaGhe= Column(Integer, ForeignKey(loaighe.MaGhe), primary_key=True)
+    SLGhe = Column(String(255), nullable=False)
+    DonGia = Column(String(255), nullable=False)
+    DaDung = Column(Boolean, default=False)
+
+class sanbaytrunggian(db.Model):
+    MaChuyenBay = Column(Integer, ForeignKey(chuyenbay.MaChuyenBay) ,primary_key=True)
+    MaTrungGian = Column(Integer, ForeignKey(sanbay.MaSanBay), nullable=True)
+    ThoiGianDung = Column(String(255), nullable=False)
+    ThuTu = Column(String(255), nullable=False)
+    GhiChu = Column(String(255), nullable=True)
 
 
 if __name__ == "__main__":
