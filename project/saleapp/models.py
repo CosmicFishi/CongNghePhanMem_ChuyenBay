@@ -17,6 +17,7 @@ class User(UserMixin, db.Model):
     def __str__(self):
         return self.name
 
+
 class khachhang(db.Model):
 
     MaKH = Column(Integer, autoincrement=True, primary_key=True)

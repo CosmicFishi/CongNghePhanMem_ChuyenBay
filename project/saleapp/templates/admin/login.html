@@ -2,13 +2,13 @@
 <form action="{{url_for('login_admin')}}" method="post">
     <div class="container">
         <div class="form-group">
-            <input type="text" name="username" class="form-control" placeholder="username" />
+            <input type="text" name="username" class="form-control" placeholder="Enter username" />
         </div>
         <div class="form-group">
-            <input type="password" name="password" class="form-control" placeholder="username" />
+            <input autocomplete="true" type="password" name="password" class="form-control" placeholder="Password" />
         </div>
         <div>
-            <input type="submit" value="login" class='btn btn-primary' />
+            <input type="submit" value="Login" class='btn btn-primary' />
         </div>
     </div>
 </form>
