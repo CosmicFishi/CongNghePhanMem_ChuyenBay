@@ -22,7 +22,9 @@ class LogoutView(BaseView):
     def is_accessible(self):
         return current_user.is_authenticated
 
-        
+
+admin.add_view(ContactView(name='Liên hệ'))
+admin.add_view(LogoutView(name='Logout'))
 admin.add_view(ModelView(maybay, db.session))
 admin.add_view(ModelView(khchuyenbay, db.session))
 admin.add_view(ModelView(chuyenbay, db.session))
@@ -30,5 +32,3 @@ admin.add_view(ModelView(khachhang, db.session))
 admin.add_view(ModelView(sanbay, db.session))
 admin.add_view(ModelView(sanbaytrunggian, db.session))
 admin.add_view(ModelView(loaighe, db.session))
-admin.add_view(ContactView(name='Liên hệ'))
-admin.add_view(LogoutView(name='Logout'))

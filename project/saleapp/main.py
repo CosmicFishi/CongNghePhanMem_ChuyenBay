@@ -1,7 +1,6 @@
 from flask import render_template, request, redirect
 from flask_login import login_user
 import hashlib
-
 from saleapp import app, utils, login
 from saleapp.admin import *
 from saleapp.models import User
