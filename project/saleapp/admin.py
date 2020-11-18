@@ -30,12 +30,12 @@ class View(AuthenticatedView):
     can_export = True
     can_delete = False
 
-admin.add_view(View(maybay, db.session))
-admin.add_view(View(khchuyenbay, db.session))
-admin.add_view(View(chuyenbay, db.session))
-admin.add_view(View(khachhang, db.session))
-admin.add_view(View(sanbay, db.session))
-admin.add_view(View(sanbaytrunggian, db.session))
-admin.add_view(View(loaighe, db.session))
+admin.add_view(View(maybay, db.session, name='Máy bay'))
+admin.add_view(View(khchuyenbay, db.session, name="Vé"))
+admin.add_view(View(chuyenbay, db.session, name='Chuyến bay'))
+admin.add_view(View(khachhang, db.session, name='Khách hàng'))
+admin.add_view(View(sanbay, db.session, name='Sân bay'))
+admin.add_view(View(sanbaytrunggian, db.session, name='Sân bay trung gian'))
+admin.add_view(View(loaighe, db.session, name='Loại ghế'))
 admin.add_view(ContactView(name='Liên hệ'))
 admin.add_view(LogoutView(name='Logout'))
