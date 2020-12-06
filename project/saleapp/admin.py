@@ -25,7 +25,7 @@ class AuthenticatedView(ModelView):
         return current_user.is_authenticated
 
 class View(AuthenticatedView):
-    column_display_pk = False
+    column_display_pk = True
     can_create = True
     can_export = True
     can_delete = False
@@ -36,6 +36,6 @@ admin.add_view(View(chuyenbay, db.session))
 admin.add_view(View(khachhang, db.session))
 admin.add_view(View(sanbay, db.session))
 admin.add_view(View(sanbaytrunggian, db.session))
-admin.add_view(View(loaighe, db.session))
+admin.add_view(View(loaighe, db.session, name='loai ghe '))
 admin.add_view(ContactView(name='Liên hệ'))
 admin.add_view(LogoutView(name='Logout'))

@@ -1,0 +1,37 @@
+body {
+    height: 100%;
+    width: 100%;
+}
+
+.imgStater {
+    position: relative;
+    width: 100%;
+}
+.imgStater img {
+    width: 100%;
+}
+.cards {
+    margin: auto;
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.cards .card {
+    margin: 10px;
+}
+.page-footer {
+    color: white;
+    background-color: #646E78;
+}
+.info {
+    color: white;
+    padding: 10px;
+    text-align: center;
+    background-color: #8D98A7;
+}
+.info h1 {
+    font-size: 32px;
+}
+.info h3 {
+    font-size: 16px
+}
