@@ -1,62 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Quản lý sản phẩm</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
-</head>
-<body>
-    <div class="container">
-        <h1 class="text-center">QUẢN LÝ SẢN PHẨM</h1>
-        <div>
-            <form>
-                <div class="form-group">
-                    <input placeholder="Nhập từ khóa tìm kiếm..."
-                           name="kw"
-                           class="form-control" />
+{% extends 'admin/master.html' %} {% block body %}
+<div class="container">
+    <h1 class="text-center">QUẢN LÝ SẢN PHẨM</h1>
+    <div>
+        <form>
+            <div class="form-group">
+                <input
+                    placeholder="Nhập từ khóa tìm kiếm..."
+                    name="kw"
+                    class="form-control"
+                />
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <input
+                        type="number"
+                        name="from_price"
+                        class="form-control"
+                        placeholder="Nhập giá bắt đầu..."
+                    />
                 </div>
-                <div class="row">
-                    <div class="col-md-6 form-group">
-                        <input type="number"
-                               name="from_price"
-                               class="form-control"
-                               placeholder="Nhập giá bắt đầu..." />
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <input type="number"
-                               name="to_price"
-                               class="form-control"
-                               placeholder="Nhập giá kết thúc..." />
-                    </div>
+                <div class="col-md-6 form-group">
+                    <input
+                        type="number"
+                        name="to_price"
+                        class="form-control"
+                        placeholder="Nhập giá kết thúc..."
+                    />
                 </div>
-                <div class="form-group">
-                    <input type="submit"
-                           class="btn btn-danger"
-                           value="Tìm kiếm" />
-                </div>
-            </form>
-        </div>
-        <table class="table">
-            <tr>
-                <th></th>
-                <th>Id</th>
-                <td>Name</td>
-                <td>Price</td>
-            </tr>
-            {% for p in products %}
-            <tr>
-                <td>
-                    <img width="120" alt="{{ p.name }}" src="{{ url_for('static', filename=p.image) }}" />
-                </td>
-                <td>{{ p.id }}</td>
-                <td>
-                    <a href="{{ url_for('product_detail', product_id=p.id) }}">{{ p.name }}</a>
-                </td>
-                <td>{{ "{:,.1f}".format(p.price) }} VNĐ</td>
-            </tr>
-            {% endfor %}
-        </table>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-danger" value="Tìm kiếm" />
+            </div>
+        </form>
     </div>
-</body>
-</html>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Id</th>
+            <td>Name</td>
+            <td>Price</td>
+        </tr>
+        {% for p in products %}
+        <tr>
+            <td>
+                <img
+                    width="120"
+                    alt="{{ p.name }}"
+                    src="{{ url_for('static', filename=p.image) }}"
+                />
+            </td>
+            <td>{{ p.id }}</td>
+            <td>
+                <a href="{{ url_for('product_detail', product_id=p.id) }}"
+                    >{{ p.name }}</a
+                >
+            </td>
+            <td>{{ "{:,.1f}".format(p.price) }} VNĐ</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
