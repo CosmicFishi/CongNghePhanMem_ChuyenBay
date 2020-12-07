@@ -28,6 +28,39 @@ body {
     position: relative;
     margin-top: auto;
 }
+.footer-context {
+    width: 30%;
+}
+.footer-context h5 {
+    font-size: 32px;
+    font-weight:  bold;
+}
+.footer-card h5 {
+    font-size: 24px;
+}
+.footer-context p, .footer-card ul li a {
+    font-size: 14px;
+}
+.footer-card ul li {
+    padding-left:  10px;
+}
+.footer-card {
+    padding: 10px;
+}
+.navbar-color {
+    justify-content: space-between;
+}
+.navbar-color ul{
+    margin: 10px
+}
+.navbar-color ul li {
+    padding:  10px;
+    background: #f8f9fa!important;
+}
+.btn-nav {
+    width:100%;
+}
+
 .info {
     color: white;
     padding: 10px;
@@ -58,9 +91,6 @@ body {
 .navbar{
     min-height: 10vh;
 }
-.info{
-    height: 12%;
-}
 .slide{
     height: 88%;
     overflow: hidden;
@@ -76,4 +106,19 @@ body {
 }
 .container .form-group {
     padding-bottom: 8px;
+}
+
+.query {
+    margin-top:  16px;
+    min-height: 60vh;
+}
+.query .container {
+    display: flex;
+    flex-wrap: wrap;
+}
+.query .btn-submit {
+    text-align: center;
+}
+.query .btn-submit input {
+    width: 50%;
 }

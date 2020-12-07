@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="query">
+    <form action="{{url_for('login_admin')}}" method="post">
+        <div class="container">
+            <div class="form-group col-md-6 col-sm-12">
+                <input type="text" name="maChuyenBay" class="form-control" placeholder="Mã chuyến bay ..." />
+            </div>
+            <div class="form-group col-md-6 col-sm-12">
+                <input autocomplete="true" type="text" name="tenChuyenBay" class="form-control" placeholder="Tên chuyến bay ..." />
+            </div>
+            <div class="btn-submit col-md-12 col-sm-12">
+                <input type="submit" value="Tìm kiếm" class='btn btn-primary' />
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

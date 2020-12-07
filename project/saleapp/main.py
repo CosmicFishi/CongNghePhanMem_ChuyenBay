@@ -35,6 +35,10 @@ def register():
 def log():
     return render_template('login.html')
 
+@app.route('/query', methods=['post', 'get'])
+def quer():
+    return render_template('query.html')
+
 @app.route('/login-admin', methods=['post', 'get'])
 def login_admin():
     if request.method == "POST":
