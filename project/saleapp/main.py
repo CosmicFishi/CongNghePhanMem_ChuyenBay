@@ -31,7 +31,9 @@ def register():
     return render_template('register.html', msg_error=msg)
 
 
-
+@app.route('/login', methods=['post', 'get'])
+def log():
+    return render_template('login.html')
 
 @app.route('/login-admin', methods=['post', 'get'])
 def login_admin():
