@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="324c5146-ad26-4fa5-8912-9eb719b49f45" name="Default Changelist" comment="" />
+    <list default="true" id="324c5146-ad26-4fa5-8912-9eb719b49f45" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/CongNghePhanMem_ChuyenBay.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CongNghePhanMem_ChuyenBay.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaiLieu/NhanVien.drawio" beforeDir="false" afterPath="$PROJECT_DIR$/TaiLieu/NhanVien.drawio" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaiLieu/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/TaiLieu/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaiLieu/Untitled Diagram.drawio" beforeDir="false" afterPath="$PROJECT_DIR$/TaiLieu/Untitled Diagram.drawio" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/project/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/saleapp/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/saleapp/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/saleapp/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/saleapp/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/saleapp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/saleapp/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/saleapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/saleapp/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/saleapp/static/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/project/saleapp/static/css/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/saleapp/templates/admin/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/saleapp/templates/admin/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/saleapp/templates/admin/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/saleapp/templates/admin/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/saleapp/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/saleapp/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/saleapp/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/saleapp/templates/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/saleapp/templates/product-detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/saleapp/templates/product-detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/saleapp/templates/product-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/saleapp/templates/product-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/saleapp/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/saleapp/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/saleapp/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/saleapp/utils.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,6 +41,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/project" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -29,11 +54,5 @@
       <updated>1605334432918</updated>
     </task>
     <servers />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="549" y="187" key="FileChooserDialogImpl" timestamp="1605334448325">
-      <screen x="0" y="0" width="1536" height="864" />
-    </state>
-    <state x="549" y="187" key="FileChooserDialogImpl/0.0.1536.864@0.0.1536.864" timestamp="1605334448325" />
   </component>
 </project>
