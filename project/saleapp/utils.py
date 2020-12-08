@@ -3,7 +3,7 @@ import json
 
 from flask import request
 from saleapp import db
-from saleapp.models import User
+from saleapp.models import khachhang
 
 
 def read_data(path='data/categories.json'):
@@ -39,11 +39,13 @@ def get_product_by_id(product_id):
             return p
 
 
-def check_register(name, username, password):
+def check_register(name, username, password, CMND, SDT):
     password = str(hashlib.md5(password.encode('utf-8')).hexdigest())
 
-    u = User(username=username, name=name, password=password)
+    u = khachhang(TenTK=username, TenKH=name, MatKhau=password, CMND=CMND, SDT=SDT)
 
+    # import pdb
+    # pdb.set_trace()
     try:
         print('running')
         db.session.add(u)

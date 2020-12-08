@@ -5,25 +5,28 @@ from sqlalchemy.orm import relationship
 from saleapp import db
 
 
-class User(UserMixin, db.Model):
-
-    __tablename__ = 'user'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(50), nullable=False)
-    active = Column(Boolean, default=True)
-    username = Column(String(50), nullable=False)
-    password = Column(String(50), nullable=False)
-
-    def __str__(self):
-        return self.name
+# class User(UserMixin, db.Model):
+#
+#     __tablename__ = 'user'
+#     id = Column(Integer, primary_key=True, autoincrement=True)
+#     name = Column(String(50), nullable=False)
+#     username =
+#     def __str__(self):
+#         return self.name
 
 
-class khachhang(db.Model):
+class khachhang(db.Model, UserMixin):
+    __tablename__ = 'KhachHang'
 
     MaKH = Column(Integer, autoincrement=True, primary_key=True)
+
     TenKH = Column(String(255), nullable=False)
+    TenTK = Column(String(50), nullable=False)
+    MatKhau = Column(String(50), nullable=False)
+
     CMND = Column(String(12), nullable=False)
     SDT = Column(String(11), nullable=False)
+    active = Column(Boolean, default=True)
 
     khchuyenbay_khachhang = relationship('khchuyenbay', lazy=True)
     def is_accessible(self):
