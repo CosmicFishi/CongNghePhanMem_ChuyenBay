@@ -1,6 +1,6 @@
 from flask_admin.contrib.sqla import ModelView
 from flask_login import UserMixin, current_user, login_required
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float
 from sqlalchemy.orm import relationship
 from saleapp import db
 
@@ -76,6 +76,7 @@ class loaighe(db.Model):
     MaChuyenBay = Column(Integer, nullable=False)
     TenGhe = Column(String(255), nullable=False)
     SoLuong = Column(String(255), nullable=False)
+    Gia = Column(Float, nullable=False)
 
     khchuyenbay_loaighe = relationship('khchuyenbay', lazy=True)
 
