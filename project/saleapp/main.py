@@ -42,6 +42,14 @@ def log():
 def quer():
     return render_template('query.html')
 
+@app.route('/flight-detail')
+def flight_detail():
+    return render_template('flight-detail.html')
+
+@app.route('/book-detail')
+def bookk_detail():
+    return render_template('book-detail.html')
+
 # @app.route('/login-admin', methods=['post', 'get'])
 # def login_admin():
 #     if request.method == "POST":

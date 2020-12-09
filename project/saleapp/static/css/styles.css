@@ -114,6 +114,8 @@ body {
     min-height: 60vh;
 }
 .container {
+    padding-top: 1rem!important;
+    padding-bottom: 1rem!important;
     display: flex;
     flex-wrap: wrap;
 }
@@ -138,4 +140,20 @@ body {
     position: relative;
     padding: 10px;
     z-index: 999;
+}
+.card {
+    margin: auto
+}
+.card-btn {
+    text-align: end;
+}
+.card-btn input {
+    width: 30%;
+}
+.card-title {
+    font-weight: bold;
+}
+
+.book-card {
+    margin: 10px;
 }
