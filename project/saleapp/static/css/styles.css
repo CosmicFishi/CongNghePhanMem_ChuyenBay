@@ -17,6 +17,7 @@ body {
     width: 80%;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 .cards .card {
     margin: 10px;

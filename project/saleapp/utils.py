@@ -53,3 +53,8 @@ def check_register(name, username, password, CMND, SDT):
         return True
     except:
         return False
+
+
+def get_promo_card():
+
+    return;

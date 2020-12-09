@@ -46,6 +46,7 @@ class maybay(db.Model):
 class sanbay(db.Model):
     MaSanBay = Column(Integer, autoincrement=True, primary_key=True)
     TenSanBay = Column(String(255), nullable=False)
+    Anh = Column(String(300), nullable=False)
 
     sanbaytrunggian_sanbay = relationship('sanbaytrunggian', lazy=True)
     khchuyenbay_sanbay = relationship('sanbaytrunggian', lazy=True)
