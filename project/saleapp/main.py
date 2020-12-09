@@ -3,14 +3,28 @@ from flask_login import login_user
 import hashlib
 from saleapp import app, utils, login
 from saleapp.admin import *
-from saleapp.models import khachhang
-
+from saleapp.models import khachhang, chuyenbay, sanbay
+import time, datetime
 
 @app.route("/")
 def index():
+    CB = chuyenbay.query.all()
+    cards = []
+
+    for i in CB:
+        card = {}
+        SB = sanbay.query.get(i.SanBayDen)
+        card['Anh'] = SB.Anh
+        card['BayDen'] = SB.TenSanBay
+        card['MaChuyenBay'] = i.MaChuyenBay
+        card['TGXuatPhat'] = datetime.datetime.fromtimestamp(int(i.TGXuatPhat)).strftime("%d/%m/%Y")
+        card['BayTu'] = sanbay.query.get(i.SanBayDi).TenSanBay
+        cards.append(card)
+
     categories = utils.read_data()
-    return render_template('index.html',
-                           categories=categories)
+    # import pdb
+    # pdb.set_trace()
+    return render_template('index.html', categories=categories, cards=cards)
 
 
 @app.route("/register", methods=['get', 'post'])
@@ -50,20 +64,20 @@ def flight_detail():
 def bookk_detail():
     return render_template('book-detail.html')
 
-# @app.route('/login-admin', methods=['post', 'get'])
-# def login_admin():
-#     if request.method == "POST":
-#
-#         username = request.form.get('username')
-#         password = request.form.get('password')
-#         password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
-#         user = User.query.filter(User.username == username.strip(),
-#                                  User.password == password).first()
-#         if user:
-#             login_user(user=user)
-#     return redirect('/admin')
-#
-#
+@app.route('/login-admin', methods=['post', 'get'])
+def login_admin():
+    if request.method == "POST":
+
+        username = request.form.get('username')
+        password = request.form.get('password')
+        password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
+        user = khachhang.query.filter(khachhang.TenTK == username.strip(),
+                                 khachhang.MatKhau == password).first()
+        if user:
+            login_user(user=user)
+    return redirect('/admin')
+
+
 @login.user_loader
 def load_user(user_id):
     return khachhang.query.get(user_id)

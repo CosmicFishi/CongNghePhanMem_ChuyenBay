@@ -99,102 +99,27 @@
 
 <div class="body">
     <div class="cards">
-        <div class="card" style="width: 18rem">
-            <img
-                src="https://dynaimage.cdn.cnn.com/cnn/q_auto,w_876,c_fill,g_auto,h_493,ar_16:9/http%3A%2F%2Fcdn.cnn.com%2Fcnnnext%2Fdam%2Fassets%2F190830104655-08-100-best-places-rough-guide.jpg"
-                class="card-img-top"
-                alt="..."
-            />
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                </p>
-                <p>time</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+        {% for card in cards %}
+            <div class="card" style="width: 18rem">
+                <img
+                    src="static{{card.Anh}}"
+                    class="card-img-top"
+                    alt="..."
+                />
+                <div class="card-body">
+                    <h5 class="card-title">ID: {{ card['MaChuyenBay'] }}</h5>
+                    <p class="card-text">
+                        From: {{card['BayTu']}}
+                    </p>
+                     <p class="card-text">
+                        To: {{card['BayDen']}}
+                    </p>
+                    <p>Time: {{ card.TGXuatPhat }}</p>
+                    <a href="#" class="btn btn-primary">Book</a>
+                </div>
             </div>
-        </div>
-        <div class="card" style="width: 18rem">
-            <img
-                src="https://dynaimage.cdn.cnn.com/cnn/q_auto,w_876,c_fill,g_auto,h_493,ar_16:9/http%3A%2F%2Fcdn.cnn.com%2Fcnnnext%2Fdam%2Fassets%2F190830104448-02-100-best-places-rough-guide.jpg"
-                class="card-img-top"
-                alt="..."
-            />
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                </p>
-                <p>time</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem">
-            <img
-                src="https://dynaimage.cdn.cnn.com/cnn/q_auto,w_876,c_fill,g_auto,h_493,ar_16:9/http%3A%2F%2Fcdn.cnn.com%2Fcnnnext%2Fdam%2Fassets%2F190830104508-03-100-best-places-rough-guide.jpg"
-                class="card-img-top"
-                alt="..."
-            />
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                </p>
-                <p>time</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem">
-            <img
-                src="https://dynaimage.cdn.cnn.com/cnn/q_auto,w_876,c_fill,g_auto,h_493,ar_16:9/http%3A%2F%2Fcdn.cnn.com%2Fcnnnext%2Fdam%2Fassets%2F190830104525-04-100-best-places-rough-guide.jpg"
-                class="card-img-top"
-                alt="..."
-            />
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                </p>
-                <p>time</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem">
-            <img
-                src="https://dynaimage.cdn.cnn.com/cnn/q_auto,w_876,c_fill,g_auto,h_493,ar_16:9/http%3A%2F%2Fcdn.cnn.com%2Fcnnnext%2Fdam%2Fassets%2F190830104641-07-100-best-places-rough-guide.jpg"
-                class="card-img-top"
-                alt="..."
-            />
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                </p>
-                <p>time</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem">
-            <img
-                src="https://dynaimage.cdn.cnn.com/cnn/q_auto,w_876,c_fill,g_auto,h_493,ar_16:9/http%3A%2F%2Fcdn.cnn.com%2Fcnnnext%2Fdam%2Fassets%2F190830104736-10-100-best-places-rough-guide.jpg"
-                class="card-img-top"
-                alt="..."
-            />
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                </p>
-                <p>time</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
+        {% endfor %}
+
     </div>
 </div>
 {% endblock %}
