@@ -10,98 +10,101 @@ class UserRole(UserEnum):
     ADMIN = 2
 
 
-class khachhang(db.Model, UserMixin):
-    __tablename__ = 'KhachHang'
+class customer(db.Model, UserMixin):
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    user_name = Column(String(50), nullable=False)
 
-    MaKH = Column(Integer, autoincrement=True, primary_key=True)
-
-    TenKH = Column(String(255), nullable=False)
-    TenTK = Column(String(50), nullable=False)
-    MatKhau = Column(String(50), nullable=False)
-
-    loai_nguoi_dung = Column(Enum(UserRole), default=UserRole.USER)
-    CMND = Column(String(12), nullable=False)
-    SDT = Column(String(11), nullable=False)
+    account_name = Column(String(255), nullable=False)
+    password = Column(String(50), nullable=False)
+    type_user = Column(Enum(UserRole), default=UserRole.USER)
+    id_card = Column(String(12), nullable=False)
+    phone = Column(String(11), nullable=False)
     active = Column(Boolean, default=True)
 
-    khchuyenbay_khachhang = relationship('khchuyenbay', lazy=True)
-
-    def get_id(self):
-        return (self.MaKH)
+    scheduled = relationship('scheduled', lazy=True)
 
     def is_accessible(self):
         return False
 
 
-class maybay(db.Model):
-    MaMayBay = Column(Integer, autoincrement=True, primary_key=True)
-    TenMayBay = Column(String(255))
+class plane(db.Model):
+    id = Column(Integer, autoincrement=True, primary_key=True)
 
-    loaighe_maybay = relationship('loaighe', lazy=True)
-    chuyenbay_maybay = relationship('chuyenbay', lazy=True)
-    def is_accessible(self):
-        return current_user.is_authenticated
+    plane_name = Column(String(255))
+    airlines = Column(String(50))
 
-
-class sanbay(db.Model):
-    MaSanBay = Column(Integer, autoincrement=True, primary_key=True)
-    TenSanBay = Column(String(255), nullable=False)
-    Anh = Column(String(300), nullable=False)
-
-    sanbaytrunggian_sanbay = relationship('sanbaytrunggian', lazy=True)
-    khchuyenbay_sanbay = relationship('sanbaytrunggian', lazy=True)
+    seat_type = relationship('seat_type', lazy=True)
+    flight = relationship('flight', lazy=True)
 
     def is_accessible(self):
         return current_user.is_authenticated
 
 
-class chuyenbay(db.Model):
-    MaMayBay = Column(Integer, ForeignKey(maybay.MaMayBay))
-    MaChuyenBay = Column(Integer, autoincrement=True, primary_key=True)
-    SanBayDi = Column(Integer, ForeignKey(sanbay.MaSanBay), nullable=False)
-    SanBayDen = Column(Integer, ForeignKey(sanbay.MaSanBay), nullable=False)
-    TGXuatPhat = Column(String(255), nullable=False)
-    TGBay = Column(String(255), nullable=False)
+class airport(db.Model):
+    id = Column(Integer, autoincrement=True, primary_key=True)
 
-    khchuyenbay_chuyenbay = relationship('khchuyenbay', lazy=True)
-    sanbaytrunggian_chuyenbay = relationship('sanbaytrunggian', lazy=True)
+    airport_name = Column(String(255), nullable=False)
+    image = Column(String(300), nullable=False)
+
+    intermediate_airport = relationship('intermediate_airport', lazy=True)
 
     def is_accessible(self):
         return current_user.is_authenticated
 
 
-class loaighe(db.Model):
-    MaMayBay = Column(Integer, ForeignKey(maybay.MaMayBay))
-    MaGhe = Column(Integer, autoincrement=True, primary_key=True)
-    MaChuyenBay = Column(Integer, nullable=False)
-    TenGhe = Column(String(255), nullable=False)
-    SoLuong = Column(String(255), nullable=False)
-    Gia = Column(Float, nullable=False)
+class flight(db.Model):
+    id = Column(Integer, autoincrement=True, primary_key=True)
 
-    khchuyenbay_loaighe = relationship('khchuyenbay', lazy=True)
+    plane_id = Column(Integer, ForeignKey(plane.id))
+    flight_from = Column(Integer, ForeignKey(airport.id), nullable=False)
+    flight_to = Column(Integer, ForeignKey(airport.id), nullable=False)
+    time_start = Column(String(255), nullable=False)
+    flight_time = Column(String(255), nullable=False)
+
+    scheduled = relationship('scheduled', lazy=True)
+    intermediate_airport = relationship('intermediate_airport', lazy=True)
+    flight_to_id = relationship('airport', lazy=True, foreign_keys=[flight_to])
+    flight_from_id = relationship('airport', lazy=True, foreign_keys=[flight_from])
 
     def is_accessible(self):
         return current_user.is_authenticated
 
 
-class khchuyenbay(db.Model):
-    MaKH = Column(Integer, ForeignKey(khachhang.MaKH), primary_key=True)
-    MaChuyenBay = Column(Integer, ForeignKey(chuyenbay.MaChuyenBay), primary_key=True)
-    MaGhe = Column(Integer, ForeignKey(loaighe.MaGhe), primary_key=True)
-    SLGhe = Column(String(255), nullable=False)
-    DonGia = Column(String(255), nullable=False)
+class seat_type(db.Model):
+    id = Column(Integer, autoincrement=True, primary_key=True)
+
+    plane_id = Column(Integer, ForeignKey(plane.id))
+    seat_name = Column(String(255), nullable=False)
+    amount = Column(String(255), nullable=False)
+    row_from = Column(Integer, nullable=False)
+    row_to = Column(Integer, nullable=False)
+
+    scheduled = relationship('scheduled', lazy=True)
+
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+
+class scheduled(db.Model):
+    flight_id = Column(Integer, ForeignKey(flight.id), primary_key=True)
+    customer_id = Column(Integer, ForeignKey(customer.id), primary_key=True)
+    seat_type_id = Column(Integer, ForeignKey(seat_type.id), primary_key=True)
+
+    count_seat = Column(String(255), nullable=False)
+    price = Column(String(255), nullable=False)
     DaDung = Column(Boolean, default=False)
 
     def is_accessible(self):
         return current_user.is_authenticated
 
 
-class sanbaytrunggian(db.Model):
-    MaChuyenBay = Column(Integer, ForeignKey(chuyenbay.MaChuyenBay), primary_key=True)
-    MaTrungGian = Column(Integer, ForeignKey(sanbay.MaSanBay), nullable=True)
-    ThoiGianDung = Column(String(255), nullable=False)
-    ThuTu = Column(String(255), nullable=False)
-    GhiChu = Column(String(255), nullable=True)
+class intermediate_airport(db.Model):
+    flight_id = Column(Integer, ForeignKey(flight.id), primary_key=True)
+    id = Column(Integer, ForeignKey(airport.id), nullable=True)
+
+    time_layover = Column(String(255), nullable=False)
+    order = Column(String(255), nullable=False)
+    note = Column(String(255), nullable=True)
 
     def is_accessible(self):
         return current_user.is_authenticated

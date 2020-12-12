@@ -3,27 +3,25 @@ from flask_login import login_user
 import hashlib
 from saleapp import app, utils, login
 from saleapp.admin import *
-from saleapp.models import khachhang, chuyenbay, sanbay, UserRole
+from saleapp.models import customer, flight, airport, UserRole
 import time, datetime
 
 @app.route("/")
 def index():
-    CB = chuyenbay.query.all()
+    f = flight.query.all()
     cards = []
-
-    for i in CB:
+    for i in f:
         card = {}
-        SB = sanbay.query.get(i.SanBayDen)
-        card['Anh'] = SB.Anh
-        card['BayDen'] = SB.TenSanBay
-        card['MaChuyenBay'] = i.MaChuyenBay
-        card['TGXuatPhat'] = datetime.datetime.fromtimestamp(int(i.TGXuatPhat)).strftime("%d/%m/%Y")
-        card['BayTu'] = sanbay.query.get(i.SanBayDi).TenSanBay
+        SB = airport.query.get(i.flight_to)
+        card['Anh'] = SB.image
+        card['BayDen'] = SB.airport_name
+        card['MaChuyenBay'] = i.id
+        card['TGXuatPhat'] = datetime.datetime.fromtimestamp(int(i.time_start)).strftime("%d/%m/%Y")
+        card['BayTu'] = airport.query.get(i.flight_to).airport_name
         cards.append(card)
 
     categories = utils.read_data()
-    # import pdb
-    # pdb.set_trace()
+
     return render_template('index.html', categories=categories, cards=cards)
 
 
@@ -35,20 +33,20 @@ def register():
         confirm = request.form.get('confirm-password')
 
         if confirm == password:
-            name = request.form.get('name')
-            username = request.form.get('username')
-            CMND = request.form.get('CMND')
-            SDT = request.form.get('SDT')
+            account_name = request.form.get('name')
+            user_name = request.form.get('username')
+            id_card = request.form.get('CMND')
+            phone = request.form.get('SDT')
 
-            if utils.check_register(name=name, username=username, password=password, SDT=SDT, CMND=CMND):
-                msg = "dang ki thanh cong"
+            if utils.check_register(account_name=account_name, user_name=user_name, password=password, phone=phone, id_card=id_card):
+                msg = "Đăng kí thành công"
             else:
-                msg = "dang ki that bai, he thong dang loi"
+                msg = "Đăng kí thất bại, vui lòng thử lại sau"
 
     return render_template('register.html', msg_error=msg)
 
 
-@app.route('/login', methods=['post', 'get'])
+@app.route('/login', methods=['get'])
 def log():
     return render_template('login.html')
 
@@ -65,15 +63,15 @@ def bookk_detail():
     return render_template('book-detail.html')
 
 
-def check_user(loai_nguoi_dung=UserRole.ADMIN):
+def check_user(type_user=UserRole.ADMIN):
     if request.method == "POST":
         username = request.form.get('username')
         password = request.form.get('password')
 
         password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
-        user = khachhang.query.filter(khachhang.TenTK == username.strip(),
-                                      khachhang.MatKhau == password,
-                                      khachhang.loai_nguoi_dung == loai_nguoi_dung).first()
+        user = customer.query.filter(customer.user_name == username.strip(),
+                                      customer.password == password,
+                                      customer.type_user == type_user).first()
 
         if user:
             login_user(user=user)
@@ -86,12 +84,13 @@ def login_admin():
 
 
 @app.route('/login-user', methods=['post', 'get'])
-def log_user():
-    return check_user(loai_nguoi_dung=UserRole.USER)
+def login_for_user():
+    return check_user(type_user=UserRole.USER)
+
 
 @login.user_loader
 def load_user(user_id):
-    return khachhang.query.get(user_id)
+    return customer.query.get(user_id)
 
 
 if __name__ == "__main__":

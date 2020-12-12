@@ -2,7 +2,7 @@
 
 {% block body %}
     {% if current_user.is_authenticated %}
-        <h1 class="text-center">hello Admin {{current_user.name}}</h1>
+        <h1 class="text-center">Hello Admin {{current_user.name}}</h1>
     {% else %}
         {% include 'admin/login.html'%}
     {% endif %}
