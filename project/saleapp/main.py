@@ -3,7 +3,7 @@ from flask_login import login_user
 import hashlib
 from saleapp import app, utils, login
 from saleapp.admin import *
-from saleapp.models import khachhang, chuyenbay, sanbay
+from saleapp.models import khachhang, chuyenbay, sanbay, UserRole
 import time, datetime
 
 @app.route("/")
@@ -64,19 +64,30 @@ def flight_detail():
 def bookk_detail():
     return render_template('book-detail.html')
 
-@app.route('/login-admin', methods=['post', 'get'])
-def login_admin():
-    if request.method == "POST":
 
+def check_user(loai_nguoi_dung=UserRole.ADMIN):
+    if request.method == "POST":
         username = request.form.get('username')
         password = request.form.get('password')
+
         password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
         user = khachhang.query.filter(khachhang.TenTK == username.strip(),
-                                 khachhang.MatKhau == password).first()
+                                      khachhang.MatKhau == password,
+                                      khachhang.loai_nguoi_dung == loai_nguoi_dung).first()
+
         if user:
             login_user(user=user)
     return redirect('/admin')
 
+
+@app.route('/login-admin', methods=['post', 'get'])
+def login_admin():
+    return check_user()
+
+
+@app.route('/login-user', methods=['post', 'get'])
+def log_user():
+    return check_user(loai_nguoi_dung=UserRole.USER)
 
 @login.user_loader
 def load_user(user_id):

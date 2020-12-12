@@ -1,18 +1,13 @@
 from flask_admin.contrib.sqla import ModelView
 from flask_login import UserMixin, current_user, login_required
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, Enum
 from sqlalchemy.orm import relationship
 from saleapp import db
+from enum import Enum as UserEnum
 
-
-# class User(UserMixin, db.Model):
-#
-#     __tablename__ = 'user'
-#     id = Column(Integer, primary_key=True, autoincrement=True)
-#     name = Column(String(50), nullable=False)
-#     username =
-#     def __str__(self):
-#         return self.name
+class UserRole(UserEnum):
+    USER = 1
+    ADMIN = 2
 
 
 class khachhang(db.Model, UserMixin):
@@ -24,11 +19,16 @@ class khachhang(db.Model, UserMixin):
     TenTK = Column(String(50), nullable=False)
     MatKhau = Column(String(50), nullable=False)
 
+    loai_nguoi_dung = Column(Enum(UserRole), default=UserRole.USER)
     CMND = Column(String(12), nullable=False)
     SDT = Column(String(11), nullable=False)
     active = Column(Boolean, default=True)
 
     khchuyenbay_khachhang = relationship('khchuyenbay', lazy=True)
+
+    def get_id(self):
+        return (self.MaKH)
+
     def is_accessible(self):
         return False
 

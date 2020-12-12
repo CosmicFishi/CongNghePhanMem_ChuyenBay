@@ -44,8 +44,6 @@ def check_register(name, username, password, CMND, SDT):
 
     u = khachhang(TenTK=username, TenKH=name, MatKhau=password, CMND=CMND, SDT=SDT)
 
-    # import pdb
-    # pdb.set_trace()
     try:
         print('running')
         db.session.add(u)
