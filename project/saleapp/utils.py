@@ -3,7 +3,7 @@ import json
 
 from flask import request
 from saleapp import db
-from saleapp.models import khachhang
+from saleapp.models import customer
 
 
 def read_data(path='data/categories.json'):
@@ -39,10 +39,10 @@ def get_product_by_id(product_id):
             return p
 
 
-def check_register(name, username, password, CMND, SDT):
+def check_register(account_name, user_name, password, id_card, phone):
     password = str(hashlib.md5(password.encode('utf-8')).hexdigest())
 
-    u = khachhang(TenTK=username, TenKH=name, MatKhau=password, CMND=CMND, SDT=SDT)
+    u = customer(user_name=user_name, account_name=account_name, password=password, id_card=id_card, phone=phone)
 
     try:
         print('running')

@@ -5,12 +5,15 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
-INSERT INTO `chuyenbay` (`MaMayBay`, `MaChuyenBay`, `SanBayDi`, `SanBayDen`, `TGXuatPhat`, `TGBay`) VALUES
+INSERT INTO `customer` VALUES
+(1,	'haungo',	'Ngo Van Hau',	'202cb962ac59075b964b07152d234b70',	'ADMIN',	'000011111',	'012345678',	1);
+
+INSERT INTO `flight` VALUES
 (1,	1,	1,	2,	'1607517379',	'0130');
 
 
 
-INSERT INTO `maybay` (`MaMayBay`, `TenMayBay`) VALUES
+INSERT INTO `plane` (`id`, `plane_name`) VALUES
 (1,	'B52'),
 (2,	'Vietnam Airlines 1'),
 (3,	'Vietnam Airlines 2'),
@@ -29,7 +32,7 @@ INSERT INTO `maybay` (`MaMayBay`, `TenMayBay`) VALUES
 (16,	'Bamboo Airways 3'),
 (17,	'Bamboo Airways 4');
 
-INSERT INTO `sanbay` (`MaSanBay`, `TenSanBay`, `Anh`) VALUES
+INSERT INTO `airport` (`id`, `airport_name`, `image`) VALUES
 (1,	'Tân Sơn Nhất ',	'/images/airport/Ho-Chi-Minh-City-SGN.jpg'),
 (2,	'Huế',	'/images/airport/Hue-HUI.jpg'),
 (3,	'Vinh',	'/images/airport/Vinh-VII.jpg'),
@@ -39,4 +42,4 @@ INSERT INTO `sanbay` (`MaSanBay`, `TenSanBay`, `Anh`) VALUES
 (7,	'Đà Lạt',	'images/airport/Da-Lat-DLI.jpg');
 
 
--- 2020-12-11 16:55:28
+-- 2020-12-12 16:03:51
