@@ -148,6 +148,10 @@ body {
 .card {
     margin: auto
 }
+.cards > .card > img {
+    height: 200px;
+    object-fit: cover;
+}
 .card-btn {
     text-align: end;
 }
@@ -171,6 +175,6 @@ body {
 .container-billing {
     width: 100%;
 }
-.profile-card {
-
+.fit-content{
+    width: 50%;
 }

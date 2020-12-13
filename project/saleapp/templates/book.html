@@ -1,0 +1,67 @@
+{% extends 'layout.html' %} {% block body %}
+<div class="container card">
+    <form class="d-flex justify-content-between w-100 flex-wrap" method="post" action="{{url_for('book_detail')}}">
+        <div class="w-50 pr-2">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01"
+                        >From</label
+                    >
+                </div>
+                <select name="flight_from" class="custom-select" id="inputGroupSelect01">
+                    {% for i in airports %}
+                        <option>{{ i.place }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="w-50 pl-2">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect02"
+                        >To</label
+                    >
+                </div>
+                <select name="flight_to" class="custom-select" id="inputGroupSelect02">
+                    {% for i in airports %}
+                        <option>{{ i.place }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="w-50 pr-2">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Depart</span>
+                </div>
+                <input
+                    name="depart"
+                    type="text"
+                    class="form-control"
+                    placeholder="dd/mm/yy"
+                    aria-label="Username"
+                    aria-describedby="basic-addon1"
+                />
+            </div>
+        </div>
+        <div class="w-50 pl-2">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon2">Return</span>
+                </div>
+                <input
+                    name="return"
+                    type="text"
+                    class="form-control"
+                    placeholder="dd/mm/yy"
+                    aria-label="Username"
+                    aria-describedby="basic-addon2"
+                />
+            </div>
+        </div>
+        <div class="w-100">
+          <button type="submit" class="btn btn-danger float-right">Find flight</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

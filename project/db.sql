@@ -5,14 +5,14 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
-INSERT INTO `airport` (`id`, `airport_name`, `image`) VALUES
-(1,	'Tân Sơn Nhất ',	'/images/airport/Ho-Chi-Minh-City-SGN.jpg'),
-(2,	'Huế',	'/images/airport/Hue-HUI.jpg'),
-(3,	'Vinh',	'/images/airport/Vinh-VII.jpg'),
-(4,	'Phú Quốc',	'/images/airport/Phu-Quoc-PQC.jpg'),
-(5,	'Hải Phòng',	'images/airport/Hai-Phong-HPH.jpg'),
-(6,	'Đà Nẵng',	'images/airport/Da-Nang-DAD.jpg'),
-(7,	'Đà Lạt',	'images/airport/Da-Lat-DLI.jpg');
+INSERT INTO `airport` (`id`, `place`, `image`, `airport_name`) VALUES
+(1,	'TP. HCM',	'/images/airport/Ho-Chi-Minh-City-SGN.jpg', 'Tân Sơn Nhất'),
+(2,	'Huế',	'/images/airport/Hue-HUI.jpg', 'Phú Bài'),
+(3,	'Trà Vinh',	'/images/airport/Vinh-VII.jpg', 'Trà Vinh'),
+(4,	'Kiên Giang',	'/images/airport/Phu-Quoc-PQC.jpg', 'Phú Quốc'),
+(5,	'Hải Phòng',	'images/airport/Hai-Phong-HPH.jpg', 'Kiến An'),
+(6,	'Đà Nẵng',	'images/airport/Da-Nang-DAD.jpg', 'Đà Nẵng'),
+(7,	'Lâm Đồng',	'images/airport/Da-Lat-DLI.jpg', 'Liên Khương');
 
 INSERT INTO `customer` (`id`, `user_name`, `account_name`, `password`, `type_user`, `id_card`, `phone`, `active`) VALUES
 (1,	'haungo',	'Ngo Van Hau',	'202cb962ac59075b964b07152d234b70',	'ADMIN',	'000011111',	'012345678',	1),

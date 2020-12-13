@@ -1,9 +1,10 @@
+from flask import request, redirect
+from saleapp import db
+from saleapp.models import customer, UserRole, flight, airport
+from flask_login import login_user
+
 import hashlib
 import json
-
-from flask import request
-from saleapp import db
-from saleapp.models import customer
 
 
 def read_data(path='data/categories.json'):
@@ -53,6 +54,26 @@ def check_register(account_name, user_name, password, id_card, phone):
         return False
 
 
-def get_promo_card():
+def check_user(type_user=UserRole.ADMIN):
+    if request.method == "POST":
+        username = request.form.get('username')
+        password = request.form.get('password')
 
-    return;
+        password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
+        user = customer.query.filter(customer.user_name == username.strip(),
+                                     customer.password == password,
+                                     customer.type_user == type_user).first()
+
+        if user:
+            login_user(user=user)
+    return redirect('/')
+
+
+def get_airport():
+    return airport.query.all()
+
+
+def get_flight(flight_from=None, flight_to=None, flight_depart=None, flight_return=None):
+    return flight.query.filer(flight.flight_from==flight_from,
+                  flight.flight_to==flight_to,
+                  flight.time_start>flight_depart).all()

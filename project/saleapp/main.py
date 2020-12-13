@@ -1,5 +1,4 @@
-from flask import render_template, request, redirect
-from flask_login import login_user
+from flask import render_template, request
 import hashlib
 from saleapp import app, utils, login
 from saleapp.admin import *
@@ -15,10 +14,10 @@ def index():
         card = {}
         SB = airport.query.get(i.flight_to)
         card['Anh'] = SB.image
-        card['BayDen'] = SB.airport_name
+        card['BayDen'] = SB.place
         card['MaChuyenBay'] = i.id
-        card['TGXuatPhat'] = datetime.datetime.fromtimestamp(int(i.time_start)).strftime("%d/%m/%Y")
-        card['BayTu'] = airport.query.get(i.flight_to).airport_name
+        card['TGXuatPhat'] = datetime.datetime.fromtimestamp(int(i.time_start)).strftime("%d/%m/%Y - %H:%M")
+        card['BayTu'] = airport.query.get(i.flight_from).place
         cards.append(card)
 
     categories = utils.read_data()
@@ -39,7 +38,9 @@ def register():
             id_card = request.form.get('CMND')
             phone = request.form.get('SDT')
 
-            if utils.check_register(account_name=account_name, user_name=user_name, password=password, phone=phone,
+            if utils.check_register(account_name=account_name,
+                                    user_name=user_name,
+                                    password=password, phone=phone,
                                     id_card=id_card):
                 msg = "Đăng kí thành công"
                 redirect('/')
@@ -64,9 +65,33 @@ def flight_detail():
     return render_template('flight-detail.html')
 
 
-@app.route('/book-detail')
-def bookk_detail():
-    return render_template('book-detail.html')
+@app.route('/book', methods=['post', 'get'])
+def book():
+    if request.method == 'post':
+        import pdb
+        pdb.set_trace()
+        return redirect('/')
+
+    airports = utils.get_airport()
+    return render_template('book.html', airports=airports)
+
+
+@app.route('/book-detail', methods=['post'])
+def book_detail():
+    flight_from = request.form.get('flight_from')
+    flight_to = request.form.get('flight_to')
+    flight_return = request.form.get('return')
+    flight_depart = request.form.get('depart')
+    flights = utils.get_flight(flight_from=flight_from,
+                               flight_to=flight_to,
+                               flight_depart=flight_depart,
+                               flight_return=flight_return)
+    return render_template('book-detail.html', flights=flights)
+
+
+@app.route('/book-history')
+def book_history():
+    return render_template('book-history.html')
 
 
 @app.route('/profile')
@@ -74,29 +99,14 @@ def profile():
     return render_template('profile.html')
 
 
-def check_user(type_user=UserRole.ADMIN):
-    if request.method == "POST":
-        username = request.form.get('username')
-        password = request.form.get('password')
-
-        password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
-        user = customer.query.filter(customer.user_name == username.strip(),
-                                     customer.password == password,
-                                     customer.type_user == type_user).first()
-
-        if user:
-            login_user(user=user)
-    return redirect('/')
-
-
 @app.route('/login-admin', methods=['post', 'get'])
 def login_admin():
-    return check_user()
+    return utils.check_user()
 
 
 @app.route('/login-user', methods=['post', 'get'])
 def login_for_user():
-    return check_user(type_user=UserRole.USER)
+    return utils.check_user(type_user=UserRole.USER)
 
 
 @login.user_loader

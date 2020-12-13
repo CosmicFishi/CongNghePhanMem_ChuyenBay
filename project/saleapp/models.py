@@ -43,6 +43,7 @@ class plane(db.Model):
 class airport(db.Model):
     id = Column(Integer, autoincrement=True, primary_key=True)
 
+    place = Column(String(255), nullable=False)
     airport_name = Column(String(255), nullable=False)
     image = Column(String(300), nullable=False)
     intermediate_airport = relationship('intermediate_airport', lazy=True, backref="airport")

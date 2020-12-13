@@ -1,18 +1,142 @@
-{% extends 'layout.html' %}
-
-{% block body %}
-    <div class="container">
-        <div class="row w-100">
-          <div class="col-md-12 col-sm-12">
-            <div class="card book-card">
-              <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <div class="text-right"><a href="/flight-detail" class="w-25 btn btn-primary">View details</a></div>
-              </div>
-            </div>
-          </div>
-        </div>
-    </div>
+{% extends 'layout.html' %} {% block body %}
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Time</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Type seat 1</th>
+                <th scope="col">Type seat 2</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">
+                    <strong>05:50</strong> to
+                    <strong>08:00</strong>
+                    <p>FlightId: MY65</p>
+                    <p>PlaneId: B52</p>
+                </th>
+                <td>
+                    2 hrs 15 mins
+                    <p>Non stop</p>
+                </td>
+                <td>
+                    <h3>From 30$</h3>
+                    <a
+                        
+                        data-toggle="collapse"
+                        href="#collapseExample"
+                        role="button"
+                        aria-expanded="false"
+                        aria-controls="collapseExample"
+                    >
+                        Detail - 12 seats left
+                    </a>
+                    
+                </td>
+                <td>
+                  <h3>From 220$</h3>
+                    <a
+                        
+                        data-toggle="collapse"
+                        href="#collapseExample1"
+                        role="button"
+                        aria-expanded="false"
+                        aria-controls="collapseExample1"
+                    >
+                        Detail - 2 seats left
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Ticket Changes</th>
+                                <th scope="col">Ticket Cancellation</th>
+                                <th scope="col">Go Show</th>
+                                <th scope="col">Priority Check-In</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">#</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th scope="row">No</th>
+                                <td>No</td>
+                                <td>No</td>
+                                <td>No</td>
+                                <td>30$</td>
+                                <td>
+                                  <button type="button" class="btn btn-primary">Book</button>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th scope="row">Yes</th>
+                                <td>No</td>
+                                <td>Yes</td>
+                                <td>No</td>
+                                <td>50$</td>
+                                <td>
+                                  <button type="button" class="btn btn-primary">Book</button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                    </div>
+                    <div class="collapse" id="collapseExample1">
+                        <div class="card card-body">
+                           <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Ticket Changes</th>
+                                <th scope="col">Ticket Cancellation</th>
+                                <th scope="col">Go Show</th>
+                                <th scope="col">Priority Check-In</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">#</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th scope="row">Yes</th>
+                                <td>20$</td>
+                                <td>Yes</td>
+                                <td>No</td>
+                                <td>220$</td>
+                                <td>
+                                  <button type="button" class="btn btn-primary">Book</button>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th scope="row">Yes</th>
+                                <td>Yes</td>
+                                <td>Yes</td>
+                                <td>Yes</td>
+                                <td>250$</td>
+                                <td>
+                                  <button type="button" class="btn btn-primary">Book</button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 {% endblock %}
