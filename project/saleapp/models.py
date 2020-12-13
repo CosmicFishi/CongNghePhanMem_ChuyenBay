@@ -71,23 +71,13 @@ class flight(db.Model):
 
 class seat_type(db.Model):
     id = Column(Integer, autoincrement=True, primary_key=True)
-<<<<<<< HEAD
-
     plane_id = Column(Integer, ForeignKey(plane.id))
     seat_name = Column(String(255), nullable=False)
     amount = Column(String(255), nullable=False)
     row_from = Column(Integer, nullable=False)
     row_to = Column(Integer, nullable=False)
     amount_row = Column(Integer, nullable=False)
-=======
 
-    plane_id = Column(Integer, ForeignKey(plane.id))
-    seat_name = Column(String(255), nullable=False)
-    amount = Column(String(255), nullable=False)
-    row_from = Column(Integer, nullable=False)
-    row_to = Column(Integer, nullable=False)
-
->>>>>>> 8c4fe4a848b4fc421c275206bfc3f70526642a47
     scheduled = relationship('scheduled', lazy=True)
 
     def is_accessible(self):
