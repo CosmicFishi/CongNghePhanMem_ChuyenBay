@@ -8,7 +8,7 @@ from enum import Enum as UserEnum
 class UserRole(UserEnum):
     USER = 1
     ADMIN = 2
-
+    STAFF = 3
 
 class customer(db.Model, UserMixin):
     id = Column(Integer, autoincrement=True, primary_key=True)
@@ -21,7 +21,7 @@ class customer(db.Model, UserMixin):
     phone = Column(String(11), nullable=False)
     active = Column(Boolean, default=True)
 
-    scheduled = relationship('scheduled', lazy=True)
+    scheduled = relationship('scheduled', lazy=True, backref="customer")
 
     def is_accessible(self):
         return False
@@ -33,8 +33,8 @@ class plane(db.Model):
     plane_name = Column(String(255))
     airlines = Column(String(50))
 
-    seat_type = relationship('seat_type', lazy=True)
-    flight = relationship('flight', lazy=True)
+    seat_type = relationship('seat_type', lazy=True, backref="plane")
+    flight = relationship('flight', lazy=True, backref="plane")
 
     def is_accessible(self):
         return current_user.is_authenticated
@@ -45,7 +45,7 @@ class airport(db.Model):
 
     airport_name = Column(String(255), nullable=False)
     image = Column(String(300), nullable=False)
-    intermediate_airport = relationship('intermediate_airport', lazy=True)
+    intermediate_airport = relationship('intermediate_airport', lazy=True, backref="airport")
 
     def is_accessible(self):
         return current_user.is_authenticated
@@ -60,8 +60,8 @@ class flight(db.Model):
     time_start = Column(String(255), nullable=False)
     flight_time = Column(String(255), nullable=False)
 
-    scheduled = relationship('scheduled', lazy=True)
-    intermediate_airport = relationship('intermediate_airport', lazy=True)
+    scheduled = relationship('scheduled', lazy=True, backref="flight")
+    intermediate_airport = relationship('intermediate_airport', lazy=True, backref="flight")
     flight_to_id = relationship('airport', lazy=True, foreign_keys=[flight_to])
     flight_from_id = relationship('airport', lazy=True, foreign_keys=[flight_from])
 
@@ -73,12 +73,11 @@ class seat_type(db.Model):
     id = Column(Integer, autoincrement=True, primary_key=True)
     plane_id = Column(Integer, ForeignKey(plane.id))
     seat_name = Column(String(255), nullable=False)
-    amount = Column(String(255), nullable=False)
     row_from = Column(Integer, nullable=False)
     row_to = Column(Integer, nullable=False)
-    amount_row = Column(Integer, nullable=False)
+    amount_of_row = Column(Integer, nullable=False)
 
-    scheduled = relationship('scheduled', lazy=True)
+    scheduled = relationship('scheduled', lazy=True, backref="seat_type")
 
     def is_accessible(self):
         return current_user.is_authenticated
@@ -91,7 +90,7 @@ class scheduled(db.Model):
 
     count_seat = Column(String(255), nullable=False)
     price = Column(String(255), nullable=False)
-    DaDung = Column(Boolean, default=False)
+    is_used = Column(Boolean, default=False)
 
     def is_accessible(self):
         return current_user.is_authenticated
