@@ -1,0 +1,10 @@
+{% extends 'layout.html' %} {% block body %}
+<div class="w-100 pagenotfound">
+    <div class="w-100 text-center">
+        <img
+            src="{{ url_for('static', filename='images/404/page404animation.gif') }}"
+            alt="404"
+        />
+    </div>
+</div>
+{% endblock %}

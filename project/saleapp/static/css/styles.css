@@ -24,7 +24,7 @@ body {
 }
 .page-footer {
     color: white;
-    background-color: #646E78;
+    background-color: #646e78;
     clear: both;
     position: relative;
     margin-top: auto;
@@ -34,16 +34,17 @@ body {
 }
 .footer-context h5 {
     font-size: 32px;
-    font-weight:  bold;
+    font-weight: bold;
 }
 .footer-card h5 {
     font-size: 24px;
 }
-.footer-context p, .footer-card ul li a {
+.footer-context p,
+.footer-card ul li a {
     font-size: 14px;
 }
 .footer-card ul li {
-    padding-left:  10px;
+    padding-left: 10px;
 }
 .footer-card {
     padding: 10px;
@@ -51,48 +52,53 @@ body {
 .navbar-color {
     justify-content: space-between;
 }
-.navbar-color ul{
-    margin: 10px
+.navbar-color ul {
+    margin: 10px;
 }
 .navbar-color ul li {
-    padding:  10px;
-    background: #f8f9fa!important;
+    padding: 10px;
+    background: #f8f9fa !important;
 }
 .btn-nav {
-    width:100%;
+    width: 100%;
 }
 
 .info {
     color: white;
     padding: 10px;
     text-align: center;
-    background-color: #8D98A7;
+    background-color: #8d98a7;
 }
 .info h1 {
     font-size: 32px;
 }
 .info h3 {
-    font-size: 16px
+    font-size: 16px;
 }
-.banner{
+.banner {
     /* background: linear-gradient(180deg, rgb(255 255 255) 0%, rgb(0 0 0 / 0%) 90%, rgb(0 0 0 / 100%) 100%), url(https://images2.minutemediacdn.com/image/upload/c_crop,h_1189,w_2119,x_0,y_13/f_auto,q_auto,w_1100/v1554929260/shape/mentalfloss/538764-istock-898619710.jpg); */
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     height: 90vh;
 }
-.carousel-item{
-    background: linear-gradient(180deg, rgb(255 255 255) 0%, rgb(0 0 0 / 0%) 90%, rgb(0 0 0 / 100%) 100%);
+.carousel-item {
+    background: linear-gradient(
+        180deg,
+        rgb(255 255 255) 0%,
+        rgb(0 0 0 / 0%) 90%,
+        rgb(0 0 0 / 100%) 100%
+    );
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     /* height: 90vh; */
     overflow: hidden;
 }
-.navbar{
+.navbar {
     min-height: 10vh;
 }
-.slide{
+.slide {
     height: 88%;
     overflow: hidden;
 }
@@ -103,7 +109,12 @@ body {
 .login h1 {
     text-align: center;
     padding: 8px;
-    font-size: 3.5rem;
+    font-size: 3rem;
+}
+.register h1 {
+    text-align: center;
+    padding: 8px;
+    font-size: 3rem;
 }
 .container .form-group {
     padding-bottom: 8px;
@@ -111,23 +122,18 @@ body {
 
 .query {
     height: fit-content;
-    margin:  16px 0;
+    margin: 16px 0;
     min-height: 60vh;
 }
-.container {
-    padding-top: 1rem!important;
-    padding-bottom: 1rem!important;
-    display: flex;
-    flex-wrap: wrap;
-}
+
 .login-container {
-    display:block;
+    display: block;
 }
 .btn-submit {
     text-align: center;
 }
 .btn-submit input {
-    width: 50%;
+    width: 100%;
 }
 
 .register {
@@ -146,7 +152,7 @@ body {
     z-index: 999;
 }
 .card {
-    margin: auto
+    margin: auto;
 }
 .cards > .card > img {
     height: 200px;
@@ -175,6 +181,14 @@ body {
 .container-billing {
     width: 100%;
 }
-.fit-content{
+.fit-content {
     width: 50%;
+}
+.pagenotfound {
+    background: whitesmoke;
+}
+.title h1 {
+    text-align: center;
+    padding: 8px;
+    font-size: 3rem;
 }

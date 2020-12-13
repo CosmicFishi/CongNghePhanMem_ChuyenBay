@@ -5,45 +5,43 @@
             <tr>
                 <th scope="col">Time</th>
                 <th scope="col">Duration</th>
-                <th scope="col">Type seat 1</th>
-                <th scope="col">Type seat 2</th>
+                <th scope="col">ECONOMY</th>
+                <th scope="col">BUSINESS</th>
             </tr>
         </thead>
         <tbody>
+            {% for i in flights %}
             <tr>
                 <th scope="row">
-                    <strong>05:50</strong> to
-                    <strong>08:00</strong>
-                    <p>FlightId: MY65</p>
-                    <p>PlaneId: B52</p>
+                    <strong>{{i.time_start}}</strong> to
+                    <strong>{{i.time_end}}</strong>
+                    <p>FlightId: {{i.id}}</p>
+                    <p>PlaneId: {{i.plane_id}}</p>
                 </th>
                 <td>
-                    2 hrs 15 mins
+                    {{i.flight_time}}
                     <p>Non stop</p>
                 </td>
                 <td>
                     <h3>From 30$</h3>
                     <a
-                        
                         data-toggle="collapse"
-                        href="#collapseExample"
+                        href="#collapseExample{{i.id}}"
                         role="button"
                         aria-expanded="false"
-                        aria-controls="collapseExample"
+                        aria-controls="collapseExample{{i.id}}"
                     >
                         Detail - 12 seats left
                     </a>
-                    
                 </td>
                 <td>
-                  <h3>From 220$</h3>
+                    <h3>From 220$</h3>
                     <a
-                        
                         data-toggle="collapse"
-                        href="#collapseExample1"
+                        href="#collapseExample1{{i.id}}"
                         role="button"
                         aria-expanded="false"
-                        aria-controls="collapseExample1"
+                        aria-controls="collapseExample1{{i.id}}"
                     >
                         Detail - 2 seats left
                     </a>
@@ -51,90 +49,152 @@
             </tr>
             <tr>
                 <td colspan="4">
-                    <div class="collapse" id="collapseExample">
+                    <div class="collapse" id="collapseExample{{i.id}}">
                         <div class="card card-body">
-                          <table class="table">
-                            <thead>
-                              <tr>
-                                <th scope="col">Ticket Changes</th>
-                                <th scope="col">Ticket Cancellation</th>
-                                <th scope="col">Go Show</th>
-                                <th scope="col">Priority Check-In</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">#</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <th scope="row">No</th>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>No</td>
-                                <td>30$</td>
-                                <td>
-                                  <button type="button" class="btn btn-primary">Book</button>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th scope="row">Yes</th>
-                                <td>No</td>
-                                <td>Yes</td>
-                                <td>No</td>
-                                <td>50$</td>
-                                <td>
-                                  <button type="button" class="btn btn-primary">Book</button>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Ticket Changes</th>
+                                        <th scope="col">Ticket Cancellation</th>
+                                        <th scope="col">Go Show</th>
+                                        <th scope="col">Priority Check-In</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Amount of seat</th>
+                                        <th scope="col">#</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">No</th>
+                                        <td>No</td>
+                                        <td>No</td>
+                                        <td>No</td>
+                                        <td>30$</td>
+                                        <td>
+                                            <div class="input-group mb-3">
+                                                <input
+                                                    type="number"
+                                                    class="form-control"
+                                                    placeholder="Amount"
+                                                    aria-label="Username"
+                                                    aria-describedby="basic-addon1"
+                                                />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button
+                                                type="button"
+                                                class="btn btn-primary"
+                                            >
+                                                Book
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Yes</th>
+                                        <td>No</td>
+                                        <td>Yes</td>
+                                        <td>No</td>
+                                        <td>50$</td>
+                                        <td>
+                                            <div class="input-group mb-3">
+                                                <input
+                                                    type="number"
+                                                    class="form-control"
+                                                    placeholder="Amount"
+                                                    aria-label="Username"
+                                                    aria-describedby="basic-addon1"
+                                                />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button
+                                                type="button"
+                                                class="btn btn-primary"
+                                            >
+                                                Book
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="collapse" id="collapseExample1">
+                    <div class="collapse" id="collapseExample1{{i.id}}">
                         <div class="card card-body">
-                           <table class="table">
-                            <thead>
-                              <tr>
-                                <th scope="col">Ticket Changes</th>
-                                <th scope="col">Ticket Cancellation</th>
-                                <th scope="col">Go Show</th>
-                                <th scope="col">Priority Check-In</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">#</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <th scope="row">Yes</th>
-                                <td>20$</td>
-                                <td>Yes</td>
-                                <td>No</td>
-                                <td>220$</td>
-                                <td>
-                                  <button type="button" class="btn btn-primary">Book</button>
-                                </td>
-                              </tr>
-                              <tr>
-                                <th scope="row">Yes</th>
-                                <td>Yes</td>
-                                <td>Yes</td>
-                                <td>Yes</td>
-                                <td>250$</td>
-                                <td>
-                                  <button type="button" class="btn btn-primary">Book</button>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Ticket Changes</th>
+                                        <th scope="col">Ticket Cancellation</th>
+                                        <th scope="col">Go Show</th>
+                                        <th scope="col">Priority Check-In</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Amount of seat</th>
+
+                                        <th scope="col">#</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Yes</th>
+                                        <td>20$</td>
+                                        <td>Yes</td>
+                                        <td>No</td>
+                                        <td>220$</td>
+                                        <td>
+                                            <div class="input-group mb-3">
+                                                <input
+                                                    type="number"
+                                                    class="form-control"
+                                                    placeholder="Amount"
+                                                    aria-label="Username"
+                                                    aria-describedby="basic-addon1"
+                                                />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button
+                                                type="button"
+                                                class="btn btn-primary"
+                                            >
+                                                Book
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Yes</th>
+                                        <td>Yes</td>
+                                        <td>Yes</td>
+                                        <td>Yes</td>
+                                        <td>250$</td>
+                                        <td>
+                                            <div class="input-group mb-3">
+                                                <input
+                                                    type="number"
+                                                    class="form-control"
+                                                    placeholder="Amount"
+                                                    aria-label="Username"
+                                                    aria-describedby="basic-addon1"
+                                                />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button
+                                                type="button"
+                                                class="btn btn-primary"
+                                            >
+                                                Book
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </td>
             </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>

@@ -1,11 +1,10 @@
-{% extends 'layout.html' %}
-
-{% block body %}
-    <div class="query register">
-        <h3>Register</h3>
-        <form action="{{ url_for('register')}}" method="post">
+{% extends 'layout.html' %} {% block body %}
+<div class="query register">
+    <h1>REGISTER</h1>
+    <form action="{{ url_for('register')}}" method="post">
+        <div class="container">
             <div class="form-group">
-                <label for="name"></label>
+                <label for="name">Your name:</label>
                 <input
                     class="form-control"
                     id="name"
@@ -15,7 +14,7 @@
                 />
             </div>
             <div class="form-group">
-                <label for="username"></label>
+                <label for="username">User name:</label>
                 <input
                     class="form-control"
                     type="text"
@@ -25,7 +24,7 @@
                 />
             </div>
             <div class="form-group">
-                <label for="password"></label>
+                <label for="password">Password:</label>
                 <input
                     class="form-control"
                     id="password"
@@ -35,7 +34,7 @@
                 />
             </div>
             <div class="form-group">
-                <label for="confirm-password"></label>
+                <label for="confirm-password">Confirm password:</label>
                 <input
                     class="form-control"
                     id="confirm-password"
@@ -45,33 +44,34 @@
                 />
             </div>
             <div class="form-group">
-                <label for="CMND"></label>
+                <label for="CMND">Card ID</label>
                 <input
                     class="form-control"
                     id="CMND"
                     type="text"
                     name="CMND"
-                    placeholder="Enter CMND..."
+                    placeholder="Enter card ID..."
                 />
             </div>
             <div class="form-group">
-                <label for="SDT"></label>
+                <label for="SDT">Your phone:</label>
                 <input
                     class="form-control"
                     id="SDT"
                     type="text"
                     name="SDT"
-                    placeholder="Enter SDT..."
+                    placeholder="Enter your phone..."
                 />
             </div>
-            <div class="btn-submit col-md-12 col-sm-12 register-btn">
-                <input type="submit" value="Register" class='btn btn-primary' />
+            <div class="btn-submit">
+                <input type="submit" value="Register" class="btn btn-primary" />
             </div>
-        </form>
-        {% if msg_error %}
-        <div class="msg-box">
-            <h4>{{msg_error}}</h4>
         </div>
-        {% endif %}
+    </form>
+    {% if msg_error %}
+    <div class="msg-box">
+        <h4>{{msg_error}}</h4>
     </div>
+    {% endif %}
+</div>
 {% endblock %}

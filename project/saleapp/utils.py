@@ -1,8 +1,9 @@
-from flask import request, redirect
+from flask import request, redirect, flash
 from saleapp import db
 from saleapp.models import customer, UserRole, flight, airport
 from flask_login import login_user
 
+from datetime import datetime
 import hashlib
 import json
 
@@ -69,11 +70,16 @@ def check_user(type_user=UserRole.ADMIN):
     return redirect('/')
 
 
+def conver_str_time(string_time = '', time_format="%d-%m-%Y - %H:%M"):
+    d = datetime.strptime(string_time, "%Y-%m-%d %H:%M:%S")
+    return d.strftime(time_format)
+
+
 def get_airport():
     return airport.query.all()
 
 
 def get_flight(flight_from=None, flight_to=None, flight_depart=None, flight_return=None):
-    return flight.query.filer(flight.flight_from==flight_from,
+    return flight.query.filter(flight.flight_from==flight_from,
                   flight.flight_to==flight_to,
                   flight.time_start>flight_depart).all()

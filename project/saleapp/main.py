@@ -1,10 +1,10 @@
-from flask import render_template, request
-import hashlib
-from saleapp import app, utils, login
+from flask import render_template, request, session, jsonify
+from saleapp import app, utils, login, decorator
 from saleapp.admin import *
 from saleapp.models import customer, flight, airport, UserRole
-import time, datetime
-
+from datetime import datetime, timedelta
+from flask_login import logout_user, current_user
+import json
 
 @app.route("/")
 def index():
@@ -16,7 +16,8 @@ def index():
         card['Anh'] = SB.image
         card['BayDen'] = SB.place
         card['MaChuyenBay'] = i.id
-        card['TGXuatPhat'] = datetime.datetime.fromtimestamp(int(i.time_start)).strftime("%d/%m/%Y - %H:%M")
+
+        card['TGXuatPhat'] = utils.conver_str_time(i.time_start)
         card['BayTu'] = airport.query.get(i.flight_from).place
         cards.append(card)
 
@@ -50,11 +51,6 @@ def register():
     return render_template('register.html', msg_error=msg)
 
 
-@app.route('/login', methods=['get'])
-def log():
-    return render_template('login.html')
-
-
 @app.route('/query', methods=['post', 'get'])
 def quer():
     return render_template('query.html')
@@ -71,21 +67,32 @@ def book():
         import pdb
         pdb.set_trace()
         return redirect('/')
-
-    airports = utils.get_airport()
-    return render_template('book.html', airports=airports)
+    else:
+        airports = utils.get_airport()
+        return render_template('book.html', airports=airports)
 
 
 @app.route('/book-detail', methods=['post'])
 def book_detail():
-    flight_from = request.form.get('flight_from')
-    flight_to = request.form.get('flight_to')
+    flight_from = int( (request.form.get('flight_from')).split('.')[0] )
+    flight_to = int( (request.form.get('flight_to')).split('.')[0] )
     flight_return = request.form.get('return')
     flight_depart = request.form.get('depart')
+
+    flight_depart = datetime.strptime(flight_depart, '%Y-%m-%d')
     flights = utils.get_flight(flight_from=flight_from,
                                flight_to=flight_to,
                                flight_depart=flight_depart,
                                flight_return=flight_return)
+
+    for i in flights:
+        a = datetime.strptime(i.time_start, "%Y-%m-%d %H:%M:%S")
+        b = a + timedelta(hours=int(i.flight_time[:2]), minutes=int(i.flight_time[3:]))
+
+        setattr(i, 'time_end', (str(b))[11:16])
+        i.time_start = i.time_start[11:16]
+        i.flight_time = i.flight_time[:2] + ' hrs ' + i.flight_time[3:] + ' mins'
+
     return render_template('book-detail.html', flights=flights)
 
 
@@ -94,19 +101,97 @@ def book_history():
     return render_template('book-history.html')
 
 
+@app.route('/add_ticket', methods=['post'])
+def add_ticket():
+    if 'ticket' not in session:
+        session['ticket'] = {}
+
+    ticket = session['ticket']
+
+    data = json.loads(request.data)
+
+    flight_id = str(data.get("flight_id"))
+    customer_id = data.get("customer_id", None)
+    seat_type_id = data.get("seat_type_id")
+    count_seat = data.get('count_seat')
+    price = data.get('price')
+    id = flight_id + seat_type_id
+
+    ticket[id] = {
+        "id": id,
+        "flight_id": flight_id,
+        "customer_id": customer_id,
+        "seat_type_id": seat_type_id,
+        "count_seat": count_seat,
+        "price": price,
+    }
+
+    session['ticket'] = ticket
+
+    quantity, amount = 0, 0
+
+    return jsonify({
+        "total_quantity": quantity,
+        "total_amount": amount
+    })
+
+
 @app.route('/profile')
 def profile():
     return render_template('profile.html')
 
+# @app.route('/payment')
+# def payment():
+#     quantity, amount = utils.cart_stats(session.get('cart'))
+#     cart_info = {
+#         "total_quantity": quantity,
+#         "total_amount": amount
+#     }
+#     return render_template('payment.html', cart_info=cart_info)
+#
+#
+# @app.route('/api/pay', methods=['post'])
+# @decorator.login_required
+# def pay():
+#     if utils.add_receipt(session.get('cart')):
+#         del session['cart']
+#
+#         return jsonify({
+#             "message": "Add receipt successful!",
+#             "err_code": 200
+#         })
+#
+#     return jsonify({
+#         "message": "Failed"
+#     })
+
+@app.route('/logout')
+def logout():
+    user = current_user
+    user.authenticated = False
+    db.session.add(user)
+    db.session.commit()
+    logout_user()
+    return redirect('/login')
+
+
+@app.route('/login', methods=['get', 'post'])
+def login_for_user():
+    if request.method == 'POST':
+        return utils.check_user(type_user=UserRole.USER)
+    else:
+        return render_template('login.html')
+
 
 @app.route('/login-admin', methods=['post', 'get'])
 def login_admin():
-    return utils.check_user()
+    return utils.check_user(type_user=UserRole.ADMIN)
 
 
-@app.route('/login-user', methods=['post', 'get'])
-def login_for_user():
-    return utils.check_user(type_user=UserRole.USER)
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
 
 
 @login.user_loader

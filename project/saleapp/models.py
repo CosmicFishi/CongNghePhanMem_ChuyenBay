@@ -1,6 +1,6 @@
 from flask_admin.contrib.sqla import ModelView
 from flask_login import UserMixin, current_user, login_required
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, Enum
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Float, Enum, DateTime
 from sqlalchemy.orm import relationship
 from saleapp import db
 from enum import Enum as UserEnum
@@ -58,8 +58,8 @@ class flight(db.Model):
     plane_id = Column(Integer, ForeignKey(plane.id))
     flight_from = Column(Integer, ForeignKey(airport.id), nullable=False)
     flight_to = Column(Integer, ForeignKey(airport.id), nullable=False)
-    time_start = Column(String(255), nullable=False)
-    flight_time = Column(String(255), nullable=False)
+    time_start = Column(DateTime, nullable=False)
+    flight_time = Column(String(10), nullable=False)
 
     scheduled = relationship('scheduled', lazy=True, backref="flight")
     intermediate_airport = relationship('intermediate_airport', lazy=True, backref="flight")

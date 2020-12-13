@@ -1,6 +1,11 @@
 {% extends 'layout.html' %} {% block body %}
-<div class="container card">
-    <form class="d-flex justify-content-between w-100 flex-wrap" method="post" action="{{url_for('book_detail')}}">
+<div class="container card p-md-3 title">
+    <h1>BOOKING</h1>
+    <form
+        class="d-flex justify-content-between w-100 flex-wrap"
+        method="post"
+        action="{{url_for('book_detail')}}"
+    >
         <div class="w-50 pr-2">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -8,9 +13,13 @@
                         >From</label
                     >
                 </div>
-                <select name="flight_from" class="custom-select" id="inputGroupSelect01">
+                <select
+                    name="flight_from"
+                    class="custom-select"
+                    id="inputGroupSelect01"
+                >
                     {% for i in airports %}
-                        <option>{{ i.place }}</option>
+                    <option>{{ i.id }}. {{ i.place }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -22,9 +31,13 @@
                         >To</label
                     >
                 </div>
-                <select name="flight_to" class="custom-select" id="inputGroupSelect02">
+                <select
+                    name="flight_to"
+                    class="custom-select"
+                    id="inputGroupSelect02"
+                >
                     {% for i in airports %}
-                        <option>{{ i.place }}</option>
+                    <option>{{ i.id }}. {{ i.place }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -32,13 +45,15 @@
         <div class="w-50 pr-2">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Depart</span>
+                    <span class="input-group-text" id="basic-addon1"
+                        >Depart</span
+                    >
                 </div>
                 <input
                     name="depart"
-                    type="text"
+                    type="date"
                     class="form-control"
-                    placeholder="dd/mm/yy"
+                    placeholder="mm/dd/yyyy"
                     aria-label="Username"
                     aria-describedby="basic-addon1"
                 />
@@ -47,20 +62,24 @@
         <div class="w-50 pl-2">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon2">Return</span>
+                    <span class="input-group-text" id="basic-addon2"
+                        >Return</span
+                    >
                 </div>
                 <input
                     name="return"
-                    type="text"
+                    type="date"
                     class="form-control"
-                    placeholder="dd/mm/yy"
+                    placeholder="mm/dd/yyyy"
                     aria-label="Username"
                     aria-describedby="basic-addon2"
                 />
             </div>
         </div>
         <div class="w-100">
-          <button type="submit" class="btn btn-danger float-right">Find flight</button>
+            <button type="submit" class="btn btn-danger float-right">
+                Find flight
+            </button>
         </div>
     </form>
 </div>

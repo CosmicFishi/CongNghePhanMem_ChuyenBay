@@ -11,8 +11,11 @@
         <title>Aerial | Flight project</title>
 
         <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap"
+            rel="stylesheet"
+        />
         <link
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -60,10 +63,15 @@
             >
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="navbar-color collapse navbar-collapse" id="navbarSupportedContent">
+            <div
+                class="navbar-color collapse navbar-collapse"
+                id="navbarSupportedContent"
+            >
                 <ul class="navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/">HOME<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/"
+                            >HOME<span class="sr-only">(current)</span></a
+                        >
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('book')}}">BOOK</a>
@@ -96,31 +104,36 @@
                         aria-labelledby="navbarDropdown"
                     >
                         <a class="dropdown-item" href="/profile">Profile</a>
-                        <a class="dropdown-item" href="{{url_for('book_history')}}">Book history</a>
+                        <a
+                            class="dropdown-item"
+                            href="{{url_for('book_history')}}"
+                            >Book history</a
+                        >
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Logout</a>
+                        <a class="dropdown-item" href="{{ url_for('logout') }}"
+                            >Logout</a
+                        >
                     </div>
                 </div>
                 {% else %}
                 <div class="dropdown show">
                     <a href="/login" class="btn-nav btn btn-primary">Login</a>
                 </div>
-<!--                <button type="button" class="btn-nav btn btn-primary" >-->
-<!--                        <a href="/login-user">Login</a>-->
-<!--                </button>-->
+                <!--                <button type="button" class="btn-nav btn btn-primary" >-->
+                <!--                        <a href="/login-user">Login</a>-->
+                <!--                </button>-->
                 {% endif %}
             </div>
         </nav>
-        {% block body %} {% endblock %}
-        {% block footer %}
+        {% block body %} {% endblock %} {% block footer %}
         <footer class="page-footer font-small blue pt-4">
             <div class="container-fluid text-md-left">
                 <div class="d-flex justify-content-around flex-wrap">
                     <div class="footer-context">
                         <h5 class="text-uppercase">Aerial</h5>
                         <p>
-                            Here you can use rows and columns to organize your footer
-                            content.
+                            Here you can use rows and columns to organize your
+                            footer content.
                         </p>
                     </div>
 
@@ -147,7 +160,9 @@
                         <h5 class="text-uppercase">Legal</h5>
                         <ul class="list-unstyled text-light">
                             <li>
-                                <a href="#!" class="text-light">Terms & Conditions</a>
+                                <a href="#!" class="text-light"
+                                    >Terms & Conditions</a
+                                >
                             </li>
                             <li>
                                 <a href="#!" class="text-light"
@@ -155,10 +170,14 @@
                                 >
                             </li>
                             <li>
-                                <a href="#!" class="text-light">Cookies Policy</a>
+                                <a href="#!" class="text-light"
+                                    >Cookies Policy</a
+                                >
                             </li>
                             <li>
-                                <a href="#!" class="text-light">Privacy Policy</a>
+                                <a href="#!" class="text-light"
+                                    >Privacy Policy</a
+                                >
                             </li>
                         </ul>
                     </div>
@@ -166,7 +185,9 @@
                         <h5 class="text-uppercase">Support</h5>
                         <ul class="list-unstyled text-light">
                             <li>
-                                <a href="#!" class="text-light">Customer Care</a>
+                                <a href="#!" class="text-light"
+                                    >Customer Care</a
+                                >
                             </li>
                             <li>
                                 <a href="#!" class="text-light"
@@ -174,7 +195,9 @@
                                 >
                             </li>
                             <li>
-                                <a href="#!" class="text-light">Web Accessibility</a>
+                                <a href="#!" class="text-light"
+                                    >Web Accessibility</a
+                                >
                             </li>
                         </ul>
                     </div>
@@ -186,7 +209,6 @@
                 © 2020 Copyright - Dung && Hau
             </div>
         </footer>
-    {% endblock %}
+        {% endblock %}
     </body>
-
 </html>

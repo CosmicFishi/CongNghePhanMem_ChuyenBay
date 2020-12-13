@@ -1,17 +1,19 @@
-{% extends 'layout.html' %}
-
-{% block body %}
-    <div class="container">
-        <div class="card col-md-8 col-sm-10">
-          <img class="card-img-top" src="https://www.drshaneholmes.com/wp-content/uploads/2020/03/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Profile</h5>
+{% extends 'layout.html' %} {% block body %}
+<div class="container my-3">
+    <div class="card col-md-8 col-sm-10">
+        <img
+            class="card-img-top"
+            src="https://www.drshaneholmes.com/wp-content/uploads/2020/03/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
+            alt="Card image cap"
+        />
+        <div class="card-body">
+            <h4 class="card-title">Profile</h4>
             <p class="card-text">User name: {{current_user.user_name}}</p>
             <p class="card-text">Account name: {{current_user.account_name}}</p>
-            <p class="card-text">ID: {{current_user.id_card}}</p>
-              <p class="card-text">Phone number: {{current_user.phone}}</p>
-          </div>
+            <p class="card-text">ID card: {{current_user.id_card}}</p>
+            <p class="card-text">Phone number: {{current_user.phone}}</p>
         </div>
     </div>
+</div>
 
 {% endblock %}
