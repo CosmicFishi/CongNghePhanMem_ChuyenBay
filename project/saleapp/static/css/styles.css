@@ -120,6 +120,9 @@ body {
     display: flex;
     flex-wrap: wrap;
 }
+.login-container {
+    display:block;
+}
 .btn-submit {
     text-align: center;
 }
@@ -157,4 +160,17 @@ body {
 
 .book-card {
     margin: 10px;
+}
+
+.container .card {
+    margin-bottom: 1rem;
+}
+.container .card:nth-last-child(1) {
+    margin-bottom: 0px;
+}
+.container-billing {
+    width: 100%;
+}
+.profile-card {
+
 }

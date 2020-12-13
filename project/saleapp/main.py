@@ -6,6 +6,7 @@ from saleapp.admin import *
 from saleapp.models import customer, flight, airport, UserRole
 import time, datetime
 
+
 @app.route("/")
 def index():
     f = flight.query.all()
@@ -38,8 +39,10 @@ def register():
             id_card = request.form.get('CMND')
             phone = request.form.get('SDT')
 
-            if utils.check_register(account_name=account_name, user_name=user_name, password=password, phone=phone, id_card=id_card):
+            if utils.check_register(account_name=account_name, user_name=user_name, password=password, phone=phone,
+                                    id_card=id_card):
                 msg = "Đăng kí thành công"
+                redirect('/')
             else:
                 msg = "Đăng kí thất bại, vui lòng thử lại sau"
 
@@ -50,17 +53,25 @@ def register():
 def log():
     return render_template('login.html')
 
+
 @app.route('/query', methods=['post', 'get'])
 def quer():
     return render_template('query.html')
+
 
 @app.route('/flight-detail')
 def flight_detail():
     return render_template('flight-detail.html')
 
+
 @app.route('/book-detail')
 def bookk_detail():
     return render_template('book-detail.html')
+
+
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
 
 
 def check_user(type_user=UserRole.ADMIN):
@@ -70,12 +81,12 @@ def check_user(type_user=UserRole.ADMIN):
 
         password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
         user = customer.query.filter(customer.user_name == username.strip(),
-                                      customer.password == password,
-                                      customer.type_user == type_user).first()
+                                     customer.password == password,
+                                     customer.type_user == type_user).first()
 
         if user:
             login_user(user=user)
-    return redirect('/admin')
+    return redirect('/')
 
 
 @app.route('/login-admin', methods=['post', 'get'])
