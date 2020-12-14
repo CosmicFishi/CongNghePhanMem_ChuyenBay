@@ -8,9 +8,9 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 DROP TABLE IF EXISTS `airport`;
 CREATE TABLE `airport` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `place` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `airport_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `image` varchar(300) COLLATE utf8_unicode_ci NOT NULL,
+  `place` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `airport_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `image` varchar(300) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -26,12 +26,12 @@ INSERT INTO `airport` (`id`, `place`, `airport_name`, `image`) VALUES
 DROP TABLE IF EXISTS `customer`;
 CREATE TABLE `customer` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `account_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `type_user` enum('USER','ADMIN','STAFF') COLLATE utf8_unicode_ci DEFAULT NULL,
-  `id_card` varchar(12) COLLATE utf8_unicode_ci NOT NULL,
-  `phone` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `user_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `account_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `type_user` enum('USER','ADMIN','STAFF') CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `id_card` varchar(12) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `phone` varchar(11) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `active` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `customer_chk_1` CHECK ((`active` in (0,1)))
@@ -48,8 +48,8 @@ CREATE TABLE `flight` (
   `plane_id` int DEFAULT NULL,
   `flight_from` int NOT NULL,
   `flight_to` int NOT NULL,
-  `time_start` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `flight_time` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `time_start` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `flight_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `plane_id` (`plane_id`),
   KEY `flight_from` (`flight_from`),
@@ -60,20 +60,20 @@ CREATE TABLE `flight` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `flight` (`id`, `plane_id`, `flight_from`, `flight_to`, `time_start`, `flight_time`) VALUES
-(1,	1,	1,	2,	'1611352800',	'0130'),
-(2,	2,	4,	3,	'1611439200',	'0130'),
-(3,	3,	3,	2,	'1611093600',	'0150'),
-(4,	2,	1,	3,	'1611180000',	'0130'),
-(5,	1,	2,	6,	'1611525600',	'0200'),
-(6,	3,	4,	6,	'1611266400',	'0130');
+(1,	1,	2,	1,	'2020-12-19 23:06:00',	'0130'),
+(2,	1,	1,	2,	'2020-12-23 23:09:00',	'0130'),
+(3,	2,	4,	3,	'2020-12-21 23:09:00',	'0150'),
+(4,	2,	2,	4,	'2020-12-24 23:09:00',	'0200'),
+(5,	2,	1,	3,	'2020-12-25 23:11:00',	'0130'),
+(6,	3,	2,	1,	'2020-12-24 23:11:00',	'0130');
 
 DROP TABLE IF EXISTS `intermediate_airport`;
 CREATE TABLE `intermediate_airport` (
   `flight_id` int NOT NULL,
   `id` int DEFAULT NULL,
-  `time_layover` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `order` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `note` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `time_layover` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `order` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `note` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`flight_id`),
   KEY `id` (`id`),
   CONSTRAINT `intermediate_airport_ibfk_1` FOREIGN KEY (`flight_id`) REFERENCES `flight` (`id`),
@@ -86,8 +86,8 @@ INSERT INTO `intermediate_airport` (`flight_id`, `id`, `time_layover`, `order`, 
 DROP TABLE IF EXISTS `plane`;
 CREATE TABLE `plane` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `plane_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `airlines` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `plane_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `airlines` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -115,8 +115,8 @@ CREATE TABLE `scheduled` (
   `flight_id` int NOT NULL,
   `customer_id` int NOT NULL,
   `seat_type_id` int NOT NULL,
-  `count_seat` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `price` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `count_seat` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `price` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `is_used` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`flight_id`,`customer_id`,`seat_type_id`),
   KEY `customer_id` (`customer_id`),
@@ -134,7 +134,7 @@ DROP TABLE IF EXISTS `seat_type`;
 CREATE TABLE `seat_type` (
   `id` int NOT NULL AUTO_INCREMENT,
   `plane_id` int DEFAULT NULL,
-  `seat_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `seat_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `row_from` int NOT NULL,
   `row_to` int NOT NULL,
   `amount_of_row` int NOT NULL,
@@ -163,4 +163,4 @@ INSERT INTO `seat_type` (`id`, `plane_id`, `seat_name`, `row_from`, `row_to`, `a
 (17,	6,	'Ghế phổ thông đặc biệt ',	9,	13,	6),
 (18,	6,	'Ghế phổ thông',	14,	20,	8);
 
--- 2020-12-13 15:57:06
+-- 2020-12-14 02:54:37
