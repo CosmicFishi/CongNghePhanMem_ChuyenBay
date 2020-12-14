@@ -77,6 +77,7 @@ class seat_type(db.Model):
     row_from = Column(Integer, nullable=False)
     row_to = Column(Integer, nullable=False)
     amount_of_row = Column(Integer, nullable=False)
+    price = Column(Float, nullable=False)
 
     scheduled = relationship('scheduled', lazy=True, backref="seat_type")
 
@@ -89,6 +90,7 @@ class scheduled(db.Model):
     customer_id = Column(Integer, ForeignKey(customer.id), primary_key=True)
     seat_type_id = Column(Integer, ForeignKey(seat_type.id), primary_key=True)
 
+    position = Column(String(255))
     count_seat = Column(String(255), nullable=False)
     price = Column(String(255), nullable=False)
     is_used = Column(Boolean, default=False)
@@ -99,7 +101,7 @@ class scheduled(db.Model):
 
 class intermediate_airport(db.Model):
     flight_id = Column(Integer, ForeignKey(flight.id), primary_key=True)
-    id = Column(Integer, ForeignKey(airport.id), nullable=True)
+    id = Column(Integer, ForeignKey(airport.id), primary_key=True)
 
     time_layover = Column(String(255), nullable=False)
     order = Column(String(255), nullable=False)

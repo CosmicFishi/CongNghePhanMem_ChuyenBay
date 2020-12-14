@@ -1,6 +1,11 @@
 {% extends 'layout.html' %} {% block body %}
 <div class="container card p-md-3 title">
     <h1>BOOKING</h1>
+    {% if mess %}
+        <div class="alert alert-danger">
+            {{mess}}
+        </div>
+    {% endif %}
     <form
         class="d-flex justify-content-between w-100 flex-wrap"
         method="post"

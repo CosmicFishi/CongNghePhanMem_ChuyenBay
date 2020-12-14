@@ -1,7 +1,7 @@
 from flask import render_template, request, session, jsonify
 from saleapp import app, utils, login, decorator
 from saleapp.admin import *
-from saleapp.models import customer, flight, airport, UserRole
+from saleapp.models import customer, flight, airport, UserRole, seat_type, intermediate_airport
 from datetime import datetime, timedelta
 from flask_login import logout_user, current_user
 import json
@@ -74,6 +74,7 @@ def book():
 
 @app.route('/book-detail', methods=['post'])
 def book_detail():
+    mess=''
     flight_from = int( (request.form.get('flight_from')).split('.')[0] )
     flight_to = int( (request.form.get('flight_to')).split('.')[0] )
     flight_return = request.form.get('return')
@@ -85,15 +86,18 @@ def book_detail():
                                flight_depart=flight_depart,
                                flight_return=flight_return)
 
-    for i in flights:
-        a = datetime.strptime(i.time_start, "%Y-%m-%d %H:%M:%S")
-        b = a + timedelta(hours=int(i.flight_time[:2]), minutes=int(i.flight_time[3:]))
-
-        setattr(i, 'time_end', (str(b))[11:16])
-        i.time_start = i.time_start[11:16]
-        i.flight_time = i.flight_time[:2] + ' hrs ' + i.flight_time[3:] + ' mins'
-
-    return render_template('book-detail.html', flights=flights)
+    if len(flights) == 0:
+        mess = "Sorry! We can not found a flight"
+        return render_template('book.html', mess=mess)
+    else:
+        inter_airport=[]
+        seat = []
+        for i in flights:
+            inter_airport.append(utils.get_intermediate_airport(flightID=i.id))
+            seat.append(utils.get_seat_type_by_flight(plane_id=i.plane_id, flight_id=i.id))
+        if len(inter_airport[0]) == 0:
+            inter_airport = None
+        return render_template('book-detail.html', flights=flights, inter_airport=inter_airport, seat=seat)
 
 
 @app.route('/book-history')
@@ -111,7 +115,7 @@ def add_ticket():
     data = json.loads(request.data)
 
     flight_id = str(data.get("flight_id"))
-    customer_id = data.get("customer_id", None)
+    customer_id = current_user.id
     seat_type_id = data.get("seat_type_id")
     count_seat = data.get('count_seat')
     price = data.get('price')
@@ -128,12 +132,7 @@ def add_ticket():
 
     session['ticket'] = ticket
 
-    quantity, amount = 0, 0
-
-    return jsonify({
-        "total_quantity": quantity,
-        "total_amount": amount
-    })
+    return render_template('payment.html')
 
 
 @app.route('/profile')

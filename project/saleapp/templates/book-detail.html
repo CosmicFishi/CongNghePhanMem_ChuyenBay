@@ -1,198 +1,46 @@
 {% extends 'layout.html' %} {% block body %}
+
 <div class="container">
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">Time</th>
                 <th scope="col">Duration</th>
-                <th scope="col">ECONOMY</th>
-                <th scope="col">BUSINESS</th>
+                {% for i in seat[0] %}
+                <th scope="col">{{i.seat_name}}</th>
+                {% endfor %}
             </tr>
         </thead>
         <tbody>
             {% for i in flights %}
             <tr>
                 <th scope="row">
-                    <strong>{{i.time_start}}</strong> to
-                    <strong>{{i.time_end}}</strong>
-                    <p>FlightId: {{i.id}}</p>
-                    <p>PlaneId: {{i.plane_id}}</p>
+                    <p>
+                        <strong>{{i.time_to_start}}</strong> to
+                        <strong>{{i.time_end}}</strong>
+                    </p>
+                    <p>Flight Id: {{i.id}}</p>
+                    <p>Plane Id: {{i.plane_id}}</p>
                 </th>
                 <td>
-                    {{i.flight_time}}
+                    <p>Total time: {{i.total_flight_time}}</p>
+                    {% if inter_airport %} {% for d in inter_airport[i.index] %}
+                    <p>
+                        Delay {{d.intermediate_airport.delay}} at {{
+                        d.airport.airport_name }}
+                    </p>
+                    {% endfor %} {% else %}
                     <p>Non stop</p>
+                    {% endif %}
                 </td>
+                {% for s in seat[i.index] %}
                 <td>
-                    <h3>From 30$</h3>
-                    <a
-                        data-toggle="collapse"
-                        href="#collapseExample{{i.id}}"
-                        role="button"
-                        aria-expanded="false"
-                        aria-controls="collapseExample{{i.id}}"
-                    >
-                        Detail - 12 seats left
-                    </a>
+                    <button type="button" onclick="addTicket()" class="btn btn-primary">
+                        <h3 class="px-5 py-2">{{s.price}}</h3>
+                    </button>
+                    <p class="font-italic">{{s.left}} seats left</p>
                 </td>
-                <td>
-                    <h3>From 220$</h3>
-                    <a
-                        data-toggle="collapse"
-                        href="#collapseExample1{{i.id}}"
-                        role="button"
-                        aria-expanded="false"
-                        aria-controls="collapseExample1{{i.id}}"
-                    >
-                        Detail - 2 seats left
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="4">
-                    <div class="collapse" id="collapseExample{{i.id}}">
-                        <div class="card card-body">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Ticket Changes</th>
-                                        <th scope="col">Ticket Cancellation</th>
-                                        <th scope="col">Go Show</th>
-                                        <th scope="col">Priority Check-In</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Amount of seat</th>
-                                        <th scope="col">#</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">No</th>
-                                        <td>No</td>
-                                        <td>No</td>
-                                        <td>No</td>
-                                        <td>30$</td>
-                                        <td>
-                                            <div class="input-group mb-3">
-                                                <input
-                                                    type="number"
-                                                    class="form-control"
-                                                    placeholder="Amount"
-                                                    aria-label="Username"
-                                                    aria-describedby="basic-addon1"
-                                                />
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button
-                                                type="button"
-                                                class="btn btn-primary"
-                                            >
-                                                Book
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Yes</th>
-                                        <td>No</td>
-                                        <td>Yes</td>
-                                        <td>No</td>
-                                        <td>50$</td>
-                                        <td>
-                                            <div class="input-group mb-3">
-                                                <input
-                                                    type="number"
-                                                    class="form-control"
-                                                    placeholder="Amount"
-                                                    aria-label="Username"
-                                                    aria-describedby="basic-addon1"
-                                                />
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button
-                                                type="button"
-                                                class="btn btn-primary"
-                                            >
-                                                Book
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="collapse" id="collapseExample1{{i.id}}">
-                        <div class="card card-body">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Ticket Changes</th>
-                                        <th scope="col">Ticket Cancellation</th>
-                                        <th scope="col">Go Show</th>
-                                        <th scope="col">Priority Check-In</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Amount of seat</th>
-
-                                        <th scope="col">#</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">Yes</th>
-                                        <td>20$</td>
-                                        <td>Yes</td>
-                                        <td>No</td>
-                                        <td>220$</td>
-                                        <td>
-                                            <div class="input-group mb-3">
-                                                <input
-                                                    type="number"
-                                                    class="form-control"
-                                                    placeholder="Amount"
-                                                    aria-label="Username"
-                                                    aria-describedby="basic-addon1"
-                                                />
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button
-                                                type="button"
-                                                class="btn btn-primary"
-                                            >
-                                                Book
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Yes</th>
-                                        <td>Yes</td>
-                                        <td>Yes</td>
-                                        <td>Yes</td>
-                                        <td>250$</td>
-                                        <td>
-                                            <div class="input-group mb-3">
-                                                <input
-                                                    type="number"
-                                                    class="form-control"
-                                                    placeholder="Amount"
-                                                    aria-label="Username"
-                                                    aria-describedby="basic-addon1"
-                                                />
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button
-                                                type="button"
-                                                class="btn btn-primary"
-                                            >
-                                                Book
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </td>
+                {% endfor %}
             </tr>
             {% endfor %}
         </tbody>
