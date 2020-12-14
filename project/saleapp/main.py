@@ -75,7 +75,7 @@ def book():
 
 @app.route('/book-detail', methods=['post'])
 def book_detail():
-    mess=''
+    mess = ''
     flight_from = int((request.form.get('flight_from')).split('.')[0])
     flight_to = int((request.form.get('flight_to')).split('.')[0])
     flight_return = request.form.get('return')
@@ -91,7 +91,7 @@ def book_detail():
         mess = "Sorry! We can not found a flight"
         return render_template('book.html', mess=mess)
     else:
-        inter_airport=[]
+        inter_airport = []
         seat = []
         for i in flights:
             inter_airport.append(utils.get_intermediate_airport(flightID=i.id))
@@ -143,12 +143,13 @@ def add_ticket():
 @app.route('/payment', methods=['get'])
 def payment():
     if 'ticket' not in session:
-        mess="Sorry you not have any seat"
+        mess = "Sorry you not have any seat"
         return render_template('payment.html', mess=mess)
     else:
         ticket = session['ticket']
         seat = utils.get_seat_available(flight_id=ticket['flight_id'], plane_id=ticket['plane_id'])
         return render_template('payment.html', ticket=ticket, seat=seat)
+
 
 @app.route('/profile')
 def profile():

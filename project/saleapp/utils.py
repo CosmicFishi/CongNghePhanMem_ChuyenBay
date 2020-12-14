@@ -69,12 +69,15 @@ def check_user(type_user=UserRole.ADMIN):
 
         if user:
             login_user(user=user)
+
+        if type_user == UserRole.ADMIN:
+            return redirect('/admin')
     return redirect('/')
 
 
-def conver_str_time(string_time = '', time_format="%d-%m-%Y - %H:%M"):
+def conver_str_time(string_time='', time_format="%d-%m-%Y - %H:%M"):
     # d = datetime.strptime(string_time, "%Y-%m-%d %H:%M:%S")
-    d=string_time
+    d = string_time
     return d.strftime(time_format)
 
 
@@ -84,9 +87,9 @@ def get_airport():
 
 def get_flight(flight_from=None, flight_to=None, flight_depart=None, flight_return=None):
     flights = db.session.query(flight).filter(flight.flight_from == flight_from,
-                                flight.flight_to == flight_to,
-                                flight.time_start > flight_depart).all()
-    j=0
+                                              flight.flight_to == flight_to,
+                                              flight.time_start > flight_depart).all()
+    j = 0
     for i in flights:
         time_end = i.time_start + timedelta(hours=int(i.flight_time[:2]), minutes=int(i.flight_time[3:]))
 
@@ -110,7 +113,8 @@ def get_flight(flight_from=None, flight_to=None, flight_depart=None, flight_retu
 
 
 def get_intermediate_airport(flightID=-1):
-    inter_airport = db.session.query(intermediate_airport, airport).filter(intermediate_airport.id == airport.id).filter(intermediate_airport.flight_id == flightID).all()
+    inter_airport = db.session.query(intermediate_airport, airport).filter(
+        intermediate_airport.id == airport.id).filter(intermediate_airport.flight_id == flightID).all()
 
     for i in inter_airport:
         t = i.intermediate_airport.time_layover
@@ -129,9 +133,9 @@ def get_seat_type_by_flight(plane_id, flight_id):
     seat = seat_type.query.filter(seat_type.plane_id == plane_id).all()
 
     for i in seat:
-        total =( i.row_to - i.row_from + 1) * i.amount_of_row
-        used = db.session.query(func.sum(scheduled.count_seat))\
-            .filter(scheduled.flight_id==flight_id, scheduled.seat_type_id==i.id).first()[0]
+        total = (i.row_to - i.row_from + 1) * i.amount_of_row
+        used = db.session.query(func.sum(scheduled.count_seat)) \
+            .filter(scheduled.flight_id == flight_id, scheduled.seat_type_id == i.id).first()[0]
         if not used:
             used = 0
         left = int(total) - int(used)
@@ -148,6 +152,7 @@ def get_seat_available(flight_id, plane_id):
     #     i.position = i.position.split(',')
 
     return seat
+
 
 def get_book_history(current_user_id):
     b_history_flight_from = db.session.query(scheduled, seat_type, flight, airport) \

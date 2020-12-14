@@ -111,5 +111,12 @@ class intermediate_airport(db.Model):
         return current_user.is_authenticated
 
 
+class admin_properties(db.Model):
+    flight_time = Column(String, nullable=False, default="30")
+    intermediate_airport = Column(Integer, nullable=False, default=2)
+    flight_stopped_time = Column(String, nullable=False, default="20")
+    time_for_cancel_ticket = Column(String, nullable=False, default="1 day")
+    time_for_booking_ticket = Column(String, nullable=False, default="1 day")
+
 if __name__ == '__main__':
     db.create_all()
