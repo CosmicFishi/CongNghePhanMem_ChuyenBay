@@ -65,8 +65,6 @@ def flight_detail():
 @app.route('/book', methods=['post', 'get'])
 def book():
     if request.method == 'post':
-        import pdb
-        pdb.set_trace()
         return redirect('/')
     else:
         airports = utils.get_airport()
@@ -75,7 +73,11 @@ def book():
 
 @app.route('/book-detail', methods=['post'])
 def book_detail():
-    mess=''
+    ticket = {}
+    ticket['flight_from'] = (request.form.get('flight_from')).split('.')[1]
+    ticket['flight_to'] = (request.form.get('flight_to')).split('.')[1]
+    session['ticket'] = ticket
+
     flight_from = int((request.form.get('flight_from')).split('.')[0])
     flight_to = int((request.form.get('flight_to')).split('.')[0])
     flight_return = request.form.get('return')
@@ -112,73 +114,58 @@ def book_history():
 
 @app.route('/add_ticket', methods=['post'])
 def add_ticket():
-    if 'ticket' not in session:
-        session['ticket'] = {}
-
     data = json.loads(request.data)
-
-    flight_id = (data.get("flight_id"))
-    customer_id = current_user.id
-    plane_id = data.get("plane_id")
-    seat_type_id = data.get("seat_type_id")
-    count_seat = (data.get('count_seat'))
-    price = data.get('price')
-
-    ticket = {
-        "plane_id": plane_id,
-        "flight_id": flight_id,
-        "customer_id": customer_id,
-        "seat_type_id": seat_type_id,
-        "count_seat": count_seat,
-        "price": price,
-    }
+    ticket = session['ticket']
+    
+    ticket['customer_id'] = current_user.id
+    ticket['flight_id'] = data.get("flight_id")
+    ticket['plane_id'] = data.get("plane_id")
+    ticket['seat_type_id'] = data.get("seat_type_id")
+    ticket['seat_name'] = data.get("seat_name")
+    ticket['count_seat'] = data.get("count_seat")
+    ticket['price'] = data.get("price")
 
     session['ticket'] = ticket
-
     return jsonify({
         "mess": 'Book success!!',
     })
 
 
-@app.route('/payment', methods=['get'])
-def payment():
+@app.route('/seat-selection', methods=['get'])
+def seat_selection():
     if 'ticket' not in session:
-        mess="Sorry you not have any seat"
-        return render_template('payment.html', mess=mess)
+        mess="Sorry you not have any ticket"
+        return render_template('seat-selection.html', mess=mess)
     else:
         ticket = session['ticket']
         seat = utils.get_seat_available(flight_id=ticket['flight_id'], plane_id=ticket['plane_id'])
-        return render_template('payment.html', ticket=ticket, seat=seat)
+        return render_template('seat-selection.html', ticket=ticket, seat=seat)
+
+
+@app.route('/payment', methods=['get', 'post'])
+def payment():
+    if 'ticket' not in session:
+        mess="Sorry you not have any ticket"
+        return render_template('payment.html', mess=mess)
+
+    if request.method == 'post':
+        data = json.loads(request.data)
+
+        payment = data.get("payment")
+        position = data.get("position")
+
+        ticket = session['ticket']
+        ticket['payment'] = payment
+        ticket['position'] = position
+        session['ticket'] = ticket
+
+    return render_template('payment.html', ticket=session['ticket'])
+
 
 @app.route('/profile')
 def profile():
     return render_template('profile.html')
 
-
-# @app.route('/payment')
-# def payment():
-#     quantity, amount = utils.cart_stats(session.get('cart'))
-#     cart_info = {
-#         "total_quantity": quantity,
-#         "total_amount": amount
-#     }
-#     return render_template('payment.html', cart_info=cart_info)
-#
-#
-# @app.route('/api/pay', methods=['post'])
-# @decorator.login_required
-# def pay():
-#     if utils.add_receipt(session.get('cart')):
-#         del session['cart']
-#
-#         return jsonify({
-#             "message": "Add receipt successful!",
-#             "err_code": 200
-#         })
-#
-#     return jsonify({
-#         "message": "Failed"
-#     })
 
 @app.route('/logout')
 def logout():

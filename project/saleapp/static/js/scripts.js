@@ -1,4 +1,4 @@
-function addTicket(flight_id, seat_type_id, price, plane_id) {
+function addTicket(seat_name, flight_id, seat_type_id, price, plane_id) {
     let count_seat = parseInt(document.getElementById('count_seat').value);
     fetch('/add_ticket', {
         method: 'post',
@@ -8,6 +8,7 @@ function addTicket(flight_id, seat_type_id, price, plane_id) {
             seat_type_id,
             count_seat,
             price,
+            seat_name,
         }),
         headers: {
             'Context-Type': 'application/json',
@@ -15,8 +16,7 @@ function addTicket(flight_id, seat_type_id, price, plane_id) {
     })
         .then((res) => res.json())
         .then((data) => {
-            alert(data.mess);
-            location.href = '/payment';
+            location.href = '/seat-selection';
         })
         .catch((err) => {
             console.log(err);
@@ -45,6 +45,35 @@ function commit(totalSeat) {
     if (btn.length !== totalSeat) {
         alert(`You have to select ${totalSeat} seat >.>`);
         return;
-    } 
-    
+    }
+
+    let payment = '';
+    let position = '';
+    let seat = document.querySelectorAll('button.danger');
+    let node = document.querySelectorAll('input.payment-method');
+
+    seat.forEach((e) => {
+        if (position !== '') position += ',';
+        position += e.getAttribute('data');
+    });
+    node.forEach((e) => {
+        if (e.checked) payment = e.value;
+    });
+
+    fetch('/payment', {
+        method: 'post',
+        body: JSON.stringify({
+            payment,
+            position,
+        }),
+        headers: {
+            'Context-Type': 'application/json',
+        },
+    })
+    .then(res=>{
+        location.href = '/payment'
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 }

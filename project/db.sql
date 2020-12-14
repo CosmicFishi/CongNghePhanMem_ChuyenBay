@@ -6,7 +6,7 @@ SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 INSERT INTO `airport` (`id`, `place`, `airport_name`, `image`) VALUES
-(1,	'TP. HCM',	'Tân Sơn Nhất',	'/images/airport/Ho-Chi-Minh-City-SGN.jpg'),
+(1,	'TP HCM',	'Tân Sơn Nhất',	'/images/airport/Ho-Chi-Minh-City-SGN.jpg'),
 (2,	'Huế',	'Phú Bài',	'/images/airport/Hue-HUI.jpg'),
 (3,	'Trà Vinh',	'Trà Vinh',	'/images/airport/Vinh-VII.jpg'),
 (4,	'Kiên Giang',	'Phú Quốc',	'/images/airport/Phu-Quoc-PQC.jpg'),
@@ -53,12 +53,13 @@ INSERT INTO `plane` (`id`, `plane_name`, `airlines`) VALUES
 (17,	'AHIHI',	'Bamboo Airways 4');
 
 INSERT INTO `scheduled` (`flight_id`, `customer_id`, `seat_type_id`, `position`, `count_seat`, `price`, `is_used`) VALUES
-(1,	2,	1,	NULL,	'2',	'200',	0);
+(1,	2,	1,	NULL,	'2',	'200',	0),
+(7,	1,	1,	'0102',	'2',	'600',	0),
+(7,	3,	2,	'07',	'1',	'100',	0);
 
 INSERT INTO `seat_type` (`id`, `plane_id`, `seat_name`, `row_from`, `row_to`, `amount_of_row`, `price`) VALUES
 (1,	1,	'Ghế thương gia',	1,	8,	4,	300),
 (2,	1,	'Ghế phổ thông đặc biệt ',	9,	13,	6,	80),
-(3,	1,	'Ghế phổ thông',	14,	20,	8,	30),
 (4,	2,	'Ghế thương gia',	1,	8,	4,	0),
 (5,	2,	'Ghế phổ thông đặc biệt ',	9,	13,	6,	0),
 (6,	2,	'Ghế phổ thông',	14,	20,	8,	0),
@@ -75,4 +76,4 @@ INSERT INTO `seat_type` (`id`, `plane_id`, `seat_name`, `row_from`, `row_to`, `a
 (17,	6,	'Ghế phổ thông đặc biệt ',	9,	13,	6,	0),
 (18,	6,	'Ghế phổ thông',	14,	20,	8,	0);
 
--- 2020-12-14 05:45:47
+-- 2020-12-14 16:08:44
