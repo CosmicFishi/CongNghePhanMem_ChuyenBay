@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from flask_login import logout_user, current_user
 import json
 
+
 @app.route("/")
 def index():
     f = flight.query.all()
@@ -75,8 +76,8 @@ def book():
 @app.route('/book-detail', methods=['post'])
 def book_detail():
     mess=''
-    flight_from = int( (request.form.get('flight_from')).split('.')[0] )
-    flight_to = int( (request.form.get('flight_to')).split('.')[0] )
+    flight_from = int((request.form.get('flight_from')).split('.')[0])
+    flight_to = int((request.form.get('flight_to')).split('.')[0])
     flight_return = request.form.get('return')
     flight_depart = request.form.get('depart')
 
@@ -102,7 +103,11 @@ def book_detail():
 
 @app.route('/book-history')
 def book_history():
-    return render_template('book-history.html')
+    b_history_flight_from, b_history_flight_to = utils.get_book_history(current_user_id=current_user.id);
+    # import pdb
+    # pdb.set_trace()
+    return render_template('book-history.html', b_history_flight_from=b_history_flight_from,
+                           b_history_flight_to=b_history_flight_to)
 
 
 @app.route('/add_ticket', methods=['post'])
@@ -138,6 +143,7 @@ def add_ticket():
 @app.route('/profile')
 def profile():
     return render_template('profile.html')
+
 
 # @app.route('/payment')
 # def payment():
