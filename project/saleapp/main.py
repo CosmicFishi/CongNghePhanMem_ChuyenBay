@@ -78,6 +78,7 @@ def book_detail():
     ticket['flight_to'] = (request.form.get('flight_to')).split('.')[1]
     session['ticket'] = ticket
 
+    mess = ''
     flight_from = int((request.form.get('flight_from')).split('.')[0])
     flight_to = int((request.form.get('flight_to')).split('.')[0])
     flight_return = request.form.get('return')
@@ -93,7 +94,7 @@ def book_detail():
         mess = "Sorry! We can not found a flight"
         return render_template('book.html', mess=mess)
     else:
-        inter_airport=[]
+        inter_airport = []
         seat = []
         for i in flights:
             inter_airport.append(utils.get_intermediate_airport(flightID=i.id))
@@ -160,6 +161,7 @@ def payment():
         session['ticket'] = ticket
 
     return render_template('payment.html', ticket=session['ticket'])
+
 
 
 @app.route('/profile')
