@@ -1,23 +1,35 @@
 {% extends 'layout.html' %} {% block body %}
 <div class="container">
-    <div class="row w-100">
-        <div class="col-md-12 col-sm-12">
-            <div class="card book-card">
-                <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">
-                        With supporting text below as a natural lead-in to
-                        additional content.
-                    </p>
-                    <div class="text-right">
-                        <a href="/flight-detail" class="w-25 btn btn-primary"
-                            >View details</a
-                        >
+    <h2 class="text-center">Book history</h2>
+    {% for book_from in b_history_flight_from %}
+        {% for book_to in b_history_flight_to %}
+            {% if book_from.flight.id == book_to.flight.id %}
+                <div class="card book-card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-plane"></i> Flight ID: {{book_from.flight.id}}</h5>
                     </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="d-flex flex-wrap">
+                                <p class="mb-0 col-md-6 col-sm-12"><strong><i class="fas fa-plane-arrival"></i> Flight to: </strong> {{book_to.airport.place}}</p>
+                                <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-plane-departure"></i>  Flight from:</strong> {{book_from.airport.place}}</p>
+                            </div>
+                            <hr class="my-4">
+                            <div class="d-flex flex-wrap">
+                                <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-clock"></i> Flight start:</strong> {{book_from.flight.time_start}}</p>
+                                <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-plane"></i> Flight time:</strong> {{book_from.flight.flight_time}}</p>
+                            </div>
+                            <hr class="my-4">
+                            <div class="d-flex flex-wrap">
+                                <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-suitcase-rolling"></i> Seat type:</strong> {{book_from.scheduled.seat_type_id}}</p>
+                                <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-suitcase-rolling"></i> Seat amount:</strong> {{book_from.scheduled.count_seat}}</p>
+                            </div>
+                        </li>
+                      </ul>
                 </div>
-            </div>
-        </div>
-    </div>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
 </div>
 
 {% endblock %}

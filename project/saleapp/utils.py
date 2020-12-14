@@ -1,6 +1,6 @@
 from flask import request, redirect, flash
 from saleapp import db
-from saleapp.models import customer, UserRole, flight, airport
+from saleapp.models import customer, UserRole, flight, airport, scheduled, seat_type
 from flask_login import login_user
 
 from datetime import datetime
@@ -16,10 +16,10 @@ def read_data(path='data/categories.json'):
 # def read_products(cate_id=None, kw=None, from_price=None, to_price=None):
 #     products = read_data(path='data/products.json')
 #
-    # if cate_id:
-    #     cate_id = int(cate_id)
-    #     products = [p for p in products \
-    #                 if p['category_id'] == cate_id]
+# if cate_id:
+#     cate_id = int(cate_id)
+#     products = [p for p in products \
+#                 if p['category_id'] == cate_id]
 #
 #     if kw:
 #         products = [p for p in products \
@@ -70,7 +70,7 @@ def check_user(type_user=UserRole.ADMIN):
     return redirect('/')
 
 
-def conver_str_time(string_time = '', time_format="%d-%m-%Y - %H:%M"):
+def conver_str_time(string_time='', time_format="%d-%m-%Y - %H:%M"):
     d = datetime.strptime(string_time, "%Y-%m-%d %H:%M:%S")
     return d.strftime(time_format)
 
@@ -80,6 +80,24 @@ def get_airport():
 
 
 def get_flight(flight_from=None, flight_to=None, flight_depart=None, flight_return=None):
-    return flight.query.filter(flight.flight_from==flight_from,
-                  flight.flight_to==flight_to,
-                  flight.time_start>flight_depart).all()
+    return flight.query.filter(flight.flight_from == flight_from,
+                               flight.flight_to == flight_to,
+                               flight.time_start > flight_depart).all()
+
+
+def get_book_history(current_user_id):
+    b_history_flight_from = db.session.query(scheduled, seat_type, flight, airport) \
+        .filter(current_user_id == scheduled.customer_id) \
+        .filter(seat_type.id == scheduled.seat_type_id) \
+        .filter(flight.id == scheduled.flight_id) \
+        .filter(flight.flight_from == airport.id) \
+        .all()
+    b_history_flight_to = db.session.query(scheduled, flight, airport) \
+        .filter(current_user_id == scheduled.customer_id) \
+        .filter(flight.id == scheduled.flight_id) \
+        .filter(flight.flight_to == airport.id) \
+        .all()
+
+    # b_history = b_history_flight_to
+
+    return b_history_flight_from, b_history_flight_to

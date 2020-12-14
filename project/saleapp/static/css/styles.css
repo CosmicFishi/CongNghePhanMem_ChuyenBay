@@ -4,6 +4,9 @@ body {
     grid-template-rows: auto 1fr auto;
     font-family: 'Quicksand', sans-serif;
 }
+i {
+    padding: 8px;
+}
 
 .imgStater {
     position: relative;
@@ -171,12 +174,11 @@ body {
 .book-card {
     margin: 10px;
 }
-
+.container {
+    margin: 1rem auto;
+}
 .container .card {
     margin-bottom: 1rem;
-}
-.container .card:nth-last-child(1) {
-    margin-bottom: 0px;
 }
 .container-billing {
     width: 100%;
@@ -191,4 +193,7 @@ body {
     text-align: center;
     padding: 8px;
     font-size: 3rem;
+}
+.list-group-item {
+    padding: 1.5rem;
 }
