@@ -1,19 +1,50 @@
-function addTicket(){
-    
+function addTicket(flight_id, seat_type_id, price, plane_id) {
+    let count_seat = parseInt(document.getElementById('count_seat').value);
+    fetch('/add_ticket', {
+        method: 'post',
+        body: JSON.stringify({
+            flight_id,
+            plane_id,
+            seat_type_id,
+            count_seat,
+            price,
+        }),
+        headers: {
+            'Context-Type': 'application/json',
+        },
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            alert(data.mess);
+            location.href = '/payment';
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 }
 
-flight_id = str(data.get('flight_id'));
-customer_id = current_user.id;
-seat_type_id = data.get('seat_type_id');
-count_seat = data.get('count_seat');
-price = data.get('price');
-id = flight_id + seat_type_id;
+function check_number_input() {
+    input = document.getElementById('count_seat');
+    if (parseInt(input.value) < 1) input.value = 1;
+}
 
-ticket[id] = {
-    id: id,
-    flight_id: flight_id,
-    customer_id: customer_id,
-    seat_type_id: seat_type_id,
-    count_seat: count_seat,
-    price: price,
-};
+function checkSeat(context, maxSeat) {
+    if (context.className.indexOf('danger') >= 0) {
+        context.classList.toggle('danger');
+        return;
+    }
+
+    btn = document.querySelectorAll('#checkSeat button.danger');
+    if (btn.length == maxSeat)
+        alert('You have full seat!! Can not be more >.>');
+    else context.classList.toggle('danger');
+}
+
+function commit(totalSeat) {
+    btn = document.querySelectorAll('#checkSeat button.danger');
+    if (btn.length !== totalSeat) {
+        alert(`You have to select ${totalSeat} seat >.>`);
+        return;
+    } 
+    
+}

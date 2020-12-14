@@ -115,19 +115,17 @@ def add_ticket():
     if 'ticket' not in session:
         session['ticket'] = {}
 
-    ticket = session['ticket']
-
     data = json.loads(request.data)
 
-    flight_id = str(data.get("flight_id"))
+    flight_id = (data.get("flight_id"))
     customer_id = current_user.id
+    plane_id = data.get("plane_id")
     seat_type_id = data.get("seat_type_id")
-    count_seat = data.get('count_seat')
+    count_seat = (data.get('count_seat'))
     price = data.get('price')
-    id = flight_id + seat_type_id
 
-    ticket[id] = {
-        "id": id,
+    ticket = {
+        "plane_id": plane_id,
         "flight_id": flight_id,
         "customer_id": customer_id,
         "seat_type_id": seat_type_id,
@@ -137,8 +135,20 @@ def add_ticket():
 
     session['ticket'] = ticket
 
-    return render_template('payment.html')
+    return jsonify({
+        "mess": 'Book success!!',
+    })
 
+
+@app.route('/payment', methods=['get'])
+def payment():
+    if 'ticket' not in session:
+        mess="Sorry you not have any seat"
+        return render_template('payment.html', mess=mess)
+    else:
+        ticket = session['ticket']
+        seat = utils.get_seat_available(flight_id=ticket['flight_id'], plane_id=ticket['plane_id'])
+        return render_template('payment.html', ticket=ticket, seat=seat)
 
 @app.route('/profile')
 def profile():

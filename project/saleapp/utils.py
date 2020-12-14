@@ -130,7 +130,8 @@ def get_seat_type_by_flight(plane_id, flight_id):
 
     for i in seat:
         total =( i.row_to - i.row_from + 1) * i.amount_of_row
-        used = db.session.query(func.sum(scheduled.count_seat)).filter(scheduled.flight_id==flight_id, scheduled.seat_type_id==i.id).first()[0]
+        used = db.session.query(func.sum(scheduled.count_seat))\
+            .filter(scheduled.flight_id==flight_id, scheduled.seat_type_id==i.id).first()[0]
         if not used:
             used = 0
         left = int(total) - int(used)
@@ -138,6 +139,15 @@ def get_seat_type_by_flight(plane_id, flight_id):
 
     return seat
 
+
+def get_seat_available(flight_id, plane_id):
+    seat = seat_type.query.filter(seat_type.plane_id == plane_id).all()
+    # ticket = scheduled.query.filter(scheduled.flight_id == flight_id).all()
+    #
+    # for i in ticket:
+    #     i.position = i.position.split(',')
+
+    return seat
 
 def get_book_history(current_user_id):
     b_history_flight_from = db.session.query(scheduled, seat_type, flight, airport) \

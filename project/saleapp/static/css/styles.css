@@ -197,3 +197,12 @@ i {
 .list-group-item {
     padding: 1.5rem;
 }
+.payment table.table * {
+    border: none !important;
+    text-align: center !important;
+}
+.danger {
+    color: #fff !important;
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
