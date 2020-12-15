@@ -1,5 +1,5 @@
 from flask import request, redirect, session
-from sqlalchemy import func
+from sqlalchemy import func, extract
 
 from saleapp import db
 from saleapp.models import customer, UserRole, flight, airport, intermediate_airport, seat_type, scheduled
@@ -171,11 +171,50 @@ def get_book_history(current_user_id):
 
     return b_history_flight_from, b_history_flight_to
 
-def get_scheduled():
-    scheduled_info = db.session.query(
-        scheduled,
-        func.sum(scheduled.count_seat).label('sum_ticket'),
-        func.sum(scheduled.price).label('sum_price')
-    ).group_by(scheduled.flight_id).all()
 
+def get_scheduled(month='', year=''):
+    scheduled_info = ''
+
+    if month != '' and year != '':
+        date1 = datetime.strptime(year, '%Y')
+        date2 = datetime.strptime(month, '%m')
+        scheduled_info = db.session.query(
+            scheduled,
+            func.sum(scheduled.count_seat).label('sum_ticket'),
+            func.sum(scheduled.price).label('sum_price')
+        ) \
+            .group_by(scheduled.flight_id) \
+            .filter(
+            extract('year', scheduled.time_create) == date1.year,
+            extract('month', scheduled.time_create) == date2.month
+        ) \
+            .all()
+    else:
+        if year != "":
+            date = datetime.strptime(year, '%Y')
+            scheduled_info = db.session.query(
+                scheduled,
+                func.sum(scheduled.count_seat).label('sum_ticket'),
+                func.sum(scheduled.price).label('sum_price')
+            ) \
+                .group_by(scheduled.flight_id) \
+                .filter(
+                extract('year', scheduled.time_create) == date.year
+            ) \
+                .all()
+        else:
+            date = datetime.strptime(month, '%m')
+            scheduled_info = db.session.query(
+                scheduled,
+                func.sum(scheduled.count_seat).label('sum_ticket'),
+                func.sum(scheduled.price).label('sum_price')
+            ) \
+                .group_by(scheduled.flight_id) \
+                .filter(
+                extract('month', scheduled.time_create) == date.month
+            ) \
+                .all()
+
+    import pdb
+    pdb.set_trace()
     return scheduled_info

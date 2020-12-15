@@ -9,6 +9,7 @@ import json
 from PIL import Image
 import qrcode
 
+
 @app.route("/")
 def index():
     f = flight.query.all()
@@ -118,7 +119,7 @@ def book_history():
 def add_ticket():
     data = json.loads(request.data)
     ticket = session['ticket']
-    
+
     ticket['customer_id'] = current_user.id
     ticket['flight_id'] = data.get("flight_id")
     ticket['plane_id'] = data.get("plane_id")
@@ -136,7 +137,7 @@ def add_ticket():
 @app.route('/seat-selection', methods=['get'])
 def seat_selection():
     if 'ticket' not in session:
-        mess="Sorry you not have any ticket"
+        mess = "Sorry you not have any ticket"
         return render_template('seat-selection.html', mess=mess)
     else:
         ticket = session['ticket']
@@ -147,7 +148,7 @@ def seat_selection():
 @app.route('/payment', methods=['get', 'post'])
 def payment():
     if 'ticket' not in session:
-        mess="Sorry you not have any ticket"
+        mess = "Sorry you not have any ticket"
         return render_template('payment.html', mess=mess)
 
     if request.method == 'POST':
@@ -160,7 +161,7 @@ def payment():
         ticket['payment'] = payment
         ticket['position'] = position
         session['ticket'] = ticket
-        
+
         return jsonify({
             "mess": 'Book success!!',
         })
@@ -176,10 +177,11 @@ def airport_pay():
 
     return send_file(img, mimetype='image')
 
+
 @app.route('/momo-pay', methods=['post'])
 def momo_pay():
     ticket = session['ticket']
-    total = int((ticket['count_seat'] * ticket['price'])*22000)
+    total = int((ticket['count_seat'] * ticket['price']) * 22000)
 
     momo = MoMo(amount=str(total))
     rs = momo.send_momo()
@@ -197,6 +199,7 @@ def momo_pay():
 @app.route('/status_payment')
 def status_payment():
     return render_template('status_payment.html')
+
 
 @app.route('/profile')
 def profile():
@@ -225,12 +228,23 @@ def login_for_user():
 def login_admin():
     return utils.check_user(type_user=UserRole.ADMIN)
 
-@app.route('/report', methods=['get','post'])
+
+@app.route('/report', methods=['get', 'post'])
 def report():
-    info = utils.get_scheduled()
-    # import pdb
-    # pdb.set_trace()
-    return render_template('report.html', info= info)
+    info = ''
+    if request.method == 'POST':
+        month = ''
+        year = ''
+        if request.form.get('month'):
+            month = request.form.get('month')
+
+        if request.form.get('year'):
+            year = request.form.get('year')
+
+        info = utils.get_scheduled(month=month, year=year)
+
+    return render_template('report.html', info=info)
+
 
 @app.errorhandler(404)
 def page_not_found(e):
