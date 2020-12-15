@@ -1,6 +1,7 @@
 {% extends 'layout.html' %} {% block body %}
 <div class="container">
     <h2 class="text-center">Book history</h2>
+    <div id="add-ticket"></div>
     {% for book_from in b_history_flight_from %}
         {% for book_to in b_history_flight_to %}
             {% if book_from.flight.id == book_to.flight.id %}
@@ -31,5 +32,7 @@
         {% endfor %}
     {% endfor %}
 </div>
-
+<script type="text/javascript">
+   loadLocal();
+</script>
 {% endblock %}

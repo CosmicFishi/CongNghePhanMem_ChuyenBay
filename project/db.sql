@@ -76,4 +76,4 @@ INSERT INTO `seat_type` (`id`, `plane_id`, `seat_name`, `row_from`, `row_to`, `a
 (17,	6,	'Ghế phổ thông đặc biệt ',	9,	13,	6,	0),
 (18,	6,	'Ghế phổ thông',	14,	20,	8,	0);
 
--- 2020-12-14 16:08:44
+-- 2020-12-15 04:07:24

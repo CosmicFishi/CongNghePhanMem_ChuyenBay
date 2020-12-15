@@ -1,11 +1,13 @@
-from flask import render_template, request, session, jsonify
+from flask import render_template, request, session, jsonify, send_file
 from saleapp import app, utils, login, decorator
 from saleapp.admin import *
 from saleapp.models import customer, flight, airport, UserRole, seat_type, intermediate_airport
 from datetime import datetime, timedelta
 from flask_login import logout_user, current_user
+from saleapp.config import MoMo
 import json
-
+from PIL import Image
+import qrcode
 
 @app.route("/")
 def index():
@@ -64,7 +66,7 @@ def flight_detail():
 
 @app.route('/book', methods=['post', 'get'])
 def book():
-    if request.method == 'post':
+    if request.method == 'POST':
         return redirect('/')
     else:
         airports = utils.get_airport()
@@ -78,7 +80,6 @@ def book_detail():
     ticket['flight_to'] = (request.form.get('flight_to')).split('.')[1]
     session['ticket'] = ticket
 
-    mess = ''
     flight_from = int((request.form.get('flight_from')).split('.')[0])
     flight_to = int((request.form.get('flight_to')).split('.')[0])
     flight_return = request.form.get('return')
@@ -92,7 +93,8 @@ def book_detail():
 
     if len(flights) == 0:
         mess = "Sorry! We can not found a flight"
-        return render_template('book.html', mess=mess)
+        airports = utils.get_airport()
+        return render_template('book.html', mess=mess, airports=airports)
     else:
         inter_airport = []
         seat = []
@@ -107,8 +109,7 @@ def book_detail():
 @app.route('/book-history')
 def book_history():
     b_history_flight_from, b_history_flight_to = utils.get_book_history(current_user_id=current_user.id);
-    # import pdb
-    # pdb.set_trace()
+
     return render_template('book-history.html', b_history_flight_from=b_history_flight_from,
                            b_history_flight_to=b_history_flight_to)
 
@@ -149,7 +150,7 @@ def payment():
         mess="Sorry you not have any ticket"
         return render_template('payment.html', mess=mess)
 
-    if request.method == 'post':
+    if request.method == 'POST':
         data = json.loads(request.data)
 
         payment = data.get("payment")
@@ -159,10 +160,43 @@ def payment():
         ticket['payment'] = payment
         ticket['position'] = position
         session['ticket'] = ticket
+        
+        return jsonify({
+            "mess": 'Book success!!',
+        })
+    else:
+        return render_template('payment.html')
 
-    return render_template('payment.html', ticket=session['ticket'])
+
+@app.route('/airport-pay', methods=['post'])
+def airport_pay():
+    data = request.get_json('ticket')
+
+    img = qrcode.make(data)
+
+    return send_file(img, mimetype='image')
+
+@app.route('/momo-pay', methods=['post'])
+def momo_pay():
+    ticket = session['ticket']
+    total = int((ticket['count_seat'] * ticket['price'])*22000)
+
+    momo = MoMo(amount=str(total))
+    rs = momo.send_momo()
+
+    if rs:
+        return jsonify({
+            'link': rs
+        })
+    else:
+        jsonify({
+            "mess": "Can be pay by MoMo, plz try again.!!!"
+        })
 
 
+@app.route('/status_payment')
+def status_payment():
+    return render_template('status_payment.html')
 
 @app.route('/profile')
 def profile():

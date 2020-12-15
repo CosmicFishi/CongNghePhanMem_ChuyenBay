@@ -6,6 +6,9 @@
     {% else %}
     <div class="container">
         <div class="card p-3">
+            <div id="qrcode" class="float-left">
+
+            </div>
             <h5>Please confirm the ticket:</h5>
             <p>
                 Flight from {{session['ticket'].flight_from}} to
@@ -15,12 +18,17 @@
             <p>Plane ID: {{session['ticket'].plane_id}}</p>
             <p>Type of seat: {{session['ticket'].seat_name}}</p>
             <p>Amount of seat: {{session['ticket'].count_seat}}</p>
+            <p>Position: {{session['ticket'].position}}</p>
             <p>Price: {{session['ticket'].price}}$</p>
             <p>
                 Total: {{session['ticket'].price *
                 session['ticket'].count_seat}}$
             </p>
-            <button type="button" class="btn btn-success">
+            <button
+                type="button"
+                class="btn btn-success"
+                onclick="handleCommit('{{session['ticket'].flight_from}}', '{{session['ticket'].flight_to}}',{{session['ticket'].plane_id}},'{{session['ticket'].seat_name}}','{{session['ticket'].payment}}', {{session['ticket'].customer_id}},{{session['ticket'].flight_id}},{{session['ticket'].seat_type_id}},{{session['ticket'].count_seat}},{{session['ticket'].price}},{{session['ticket'].position}})"
+            >
                 <h4>COMFIRM</h4>
             </button>
         </div>
