@@ -94,6 +94,7 @@ class scheduled(db.Model):
     count_seat = Column(String(255), nullable=False)
     price = Column(String(255), nullable=False)
     is_used = Column(Boolean, default=False)
+    time_create = Column(DateTime, nullable=False)
 
     def is_accessible(self):
         return current_user.is_authenticated

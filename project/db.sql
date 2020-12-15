@@ -52,10 +52,10 @@ INSERT INTO `plane` (`id`, `plane_name`, `airlines`) VALUES
 (16,	'DUNG 7',	'Bamboo Airways 3'),
 (17,	'AHIHI',	'Bamboo Airways 4');
 
-INSERT INTO `scheduled` (`flight_id`, `customer_id`, `seat_type_id`, `position`, `count_seat`, `price`, `is_used`) VALUES
-(1,	2,	1,	NULL,	'2',	'200',	0),
-(7,	1,	1,	'0102',	'2',	'600',	0),
-(7,	3,	2,	'07',	'1',	'100',	0);
+INSERT INTO `scheduled` (`flight_id`, `customer_id`, `seat_type_id`, `position`, `count_seat`, `price`, `is_used`, `time_create`) VALUES
+(1,	2,	1,	NULL,	'2',	'200',	0, '2020-12-19 23:06:00'),
+(7,	1,	1,	'0102',	'2',	'600',	0, '2020-12-20 23:06:00'),
+(7,	3,	2,	'07',	'1',	'100',	0, '2020-12-25 23:06:00');
 
 INSERT INTO `seat_type` (`id`, `plane_id`, `seat_name`, `row_from`, `row_to`, `amount_of_row`, `price`) VALUES
 (1,	1,	'Ghế thương gia',	1,	8,	4,	300),
