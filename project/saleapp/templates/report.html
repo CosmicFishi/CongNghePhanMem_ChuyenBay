@@ -1,10 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="container">
+    <h1 class="text-center">Report</h1>
+    {% if info %}
+    <div>
+        <div class="card text-center">
+          <div class="card-header">
+            Month:
+          </div>
+
+          <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Flight ID</th>
+                  <th scope="col">Number of tickets</th>
+                  <th scope="col">Revenue</th>
+                </tr>
+              </thead>
+              <tbody>
+            {% for i in info %}
+                <tr>
+                  <td>{{i.scheduled.flight_id}}</td>
+                  <td>{{'{:.0f}'.format(i.sum_ticket)}} tickets</td>
+                  <td>{{i.sum_price}}</td>
+                </tr>
+            {% endfor %}
+              </tbody>
+            </table>
+
+<!--          <div class="card-footer text-muted">-->
+<!--            2 days ago-->
+<!--          </div>-->
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+{% block footer %}
+<div></div>
+{% endblock %}

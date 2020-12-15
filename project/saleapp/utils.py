@@ -170,3 +170,12 @@ def get_book_history(current_user_id):
     # b_history = b_history_flight_to
 
     return b_history_flight_from, b_history_flight_to
+
+def get_scheduled():
+    scheduled_info = db.session.query(
+        scheduled,
+        func.sum(scheduled.count_seat).label('sum_ticket'),
+        func.sum(scheduled.price).label('sum_price')
+    ).group_by(scheduled.flight_id).all()
+
+    return scheduled_info

@@ -225,6 +225,12 @@ def login_for_user():
 def login_admin():
     return utils.check_user(type_user=UserRole.ADMIN)
 
+@app.route('/report', methods=['get','post'])
+def report():
+    info = utils.get_scheduled()
+    # import pdb
+    # pdb.set_trace()
+    return render_template('report.html', info= info)
 
 @app.errorhandler(404)
 def page_not_found(e):
