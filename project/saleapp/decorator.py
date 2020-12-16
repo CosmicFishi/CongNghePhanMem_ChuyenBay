@@ -17,7 +17,7 @@ def login_required(f):
 def login_admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not current_user.is_authenticated and current_user.type_user == UserRole.ADMIN:
+        if current_user.is_authenticated and current_user.type_user == UserRole.ADMIN:
             return f(*args, **kwargs)
         else:
             return redirect('/admin' )
@@ -32,5 +32,16 @@ def login_staff_required(f):
             return f(*args, **kwargs)
         else:
             return redirect('/login-staff')
+
+    return decorated_function
+
+
+def login_admin_staff_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if current_user.is_authenticated and (current_user.type_user == UserRole.ADMIN or current_user.type_user == UserRole.STAFF):
+            return f(*args, **kwargs)
+        else:
+            return redirect('/admin' )
 
     return decorated_function
