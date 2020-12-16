@@ -265,7 +265,7 @@ def staff_seat_selection():
     else:
         ticket = session['ticket']
         seat_used = utils.get_seat_used(flight_id=ticket['flight_id'])
-        seat = utils.get_seat_available(flight_id=ticket['flight_id'], plane_id=ticket['plane_id'])
+        seat = utils.get_seat_available(plane_id=ticket['plane_id'])
         return render_template('staff-seat-selection.html', ticket=ticket, seat=seat, seat_used=seat_used)
 
 
