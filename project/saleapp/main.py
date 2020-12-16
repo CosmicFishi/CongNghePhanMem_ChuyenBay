@@ -100,7 +100,7 @@ def book_history():
         b_history_flight_from, b_history_flight_to = utils.get_book_history(current_user_id=current_user.id);
 
         return render_template('book-history.html', b_history_flight_from=b_history_flight_from,
-                           b_history_flight_to=b_history_flight_to)
+                               b_history_flight_to=b_history_flight_to)
 
 
 @app.route('/add_ticket', methods=['post'])
@@ -152,6 +152,7 @@ def fill_info():
             return redirect('/seat-selection')
 
     return render_template('fill-info.html')
+
 
 @app.route('/seat-selection', methods=['get'])
 def seat_selection():
@@ -259,14 +260,13 @@ def logout():
 @decorator.login_staff_required
 def staff_seat_selection():
     if 'ticket' not in session:
-        mess="Sorry you not have any ticket"
+        mess = "Sorry you not have any ticket"
         return render_template('seat-selection.html', mess=mess)
     else:
         ticket = session['ticket']
         seat_used = utils.get_seat_used(flight_id=ticket['flight_id'])
         seat = utils.get_seat_available(flight_id=ticket['flight_id'], plane_id=ticket['plane_id'])
         return render_template('staff-seat-selection.html', ticket=ticket, seat=seat, seat_used=seat_used)
-
 
 
 @app.route('/staff-book', methods=['get', 'post'])
@@ -278,8 +278,8 @@ def staff_book():
         flight_depart = request.form.get('depart')
 
         flights = flight.query.filter(flight.flight_from == flight_from,
-                            flight.flight_to == flight_to,
-                            flight.time_start > flight_depart).all()
+                                      flight.flight_to == flight_to,
+                                      flight.time_start > flight_depart).all()
         if len(flights) == 0:
             mess = "Sorry! We can not found a flight"
             airports = utils.get_airport()
@@ -335,9 +335,10 @@ def login_admin():
 @decorator.login_admin_staff_required
 def report():
     info = ''
+    month = ''
+    year = ''
+    sum = 0
     if request.method == 'POST':
-        month = ''
-        year = ''
         if request.form.get('month'):
             month = request.form.get('month')
 
@@ -345,9 +346,11 @@ def report():
             year = request.form.get('year')
 
         info = utils.get_scheduled(month=month, year=year)
+        if info:
+            for i in info:
+                sum += i.sum_price
 
-    return render_template('report.html', info=info)
-
+    return render_template('report.html', info=info, year=year, month=month, sum=sum)
 
 @app.route('/update-rules', methods=['post'])
 @decorator.login_admin_required

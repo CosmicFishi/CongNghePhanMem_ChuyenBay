@@ -3,26 +3,26 @@
     {% if mess %}
     <div class="alert alert-danger">{{mess}}</div>
     {% else %}
+    <h2 class="my-2 mb-3 text-center"><strong>Please choose a seat</strong></h2>
     <div class="card p-4">
-        <div class="alert alert-danger">
-            <h4>Legend</h4>
-            <span>Avalable</span>
-            <button type="button" class="btn btn-light">00</button>
-            <span>Not avalable</span>
-            <button type="button" disabled='true' class="btn btn-warning">11</button>
-        </div>
         {% for i in seat %}
             {% if ticket['seat_type_id'] == i.id %}
                 <h5><b>You have {{ticket['count_seat']}} {{i.seat_name}} ticket</b></h5>
+                <div class="note my-2">
+                    <span>Avalable</span>
+                    <button type="button" class="btn btn-light"></button>
+                    <span>Not avalable</span>
+                    <button type="button" disabled='true' class="btn btn-warning"></button>
+                </div>
                 <table class="table" id="checkSeat">
                     <tbody>
                         {% for j in range(i.row_from,i.row_to) %}
                         <tr>
                             {% for k in range(1, i.amount_of_row) %}
-                            <th scope="row">
+                            <th scope="row" class="p-1">
                                 <button
                                     type="button"
-                                    class="btn btn-light"
+                                    class="btn btn-light m-2 col-md-6 col-sm-12"
                                     onclick="checkSeat(this, {{ticket['count_seat']}})"
                                     data="{{j}}{{k}}"
                                 >
@@ -38,9 +38,10 @@
         {% endfor %}
     </div>
     <div class="card p-4">
-        <h5>Please choose payment method:</h5>
-        <div class="m-3">
-            <div class="form-check">
+
+        <h5 class="text-center"><strong>Please choose payment method:</strong></h5>
+        <div class="m-3 mx-auto">
+            <div class=" form-check col-md-12 col-sm-12">
                 <input
                     class="form-check-input payment-method"
                     type="radio"
@@ -54,7 +55,7 @@
                       <img  src="https://developers.momo.vn/images/logo.png" width="25"/>
                 </label>
             </div>
-            <div class="form-check">
+            <div class=" form-check col-md-12 col-sm-12">
                 <input
                     class="form-check-input payment-method"
                     type="radio"
@@ -67,13 +68,16 @@
                 </label>
             </div>
         </div>
-        <button
-            type="button"
-            class="btn btn-success"
-            onclick="commit({{ticket['count_seat']}})"
-        >
-            <h4>COMMIT</h4>
-        </button>
+        <div class="text-center">
+            <button
+                type="button"
+                class="btn btn-primary w-50"
+                onclick="commit({{ticket['count_seat']}})"
+            >
+                <p class="mb-0">Confirm</p>
+            </button>
+        </div>
+
     </div>
     <script>
         checkSeatUsed('{{seat_used}}')

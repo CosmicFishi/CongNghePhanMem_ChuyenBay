@@ -209,6 +209,9 @@ i {
 .w-fit {
     width: fit-content;
 }
+.minWidth-100 {
+    min-width: 80px;
+}
 table td div input {
   position: absolute !important;
   display: block;
@@ -217,4 +220,7 @@ table td div input {
   left:0;
   margin: 0;
   box-sizing: border-box;
+}
+.note {
+    font-size: 12px;
 }

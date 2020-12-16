@@ -7,7 +7,7 @@
         <form method="post" action="{{url_for('report')}}">
             <div class="d-flex flex-wrap pb-4">
                 <div class="form-group col-md-6">
-                    <label for="month">Month: </label>
+                    <label class="col-md-6" for="month">Month: </label>
                     <input
                         type="text"
                         name="month"
@@ -38,7 +38,12 @@
     <div>
         <div class="card text-center">
           <div class="card-header">
-            Month:
+            {% if month %}
+            Month: {{month}}
+            {% endif %}
+              {% if year %}
+              |  Year: {{year}}
+              {% endif %}
           </div>
 
           <table class="table">
@@ -46,7 +51,8 @@
                 <tr>
                   <th scope="col">Flight ID</th>
                   <th scope="col">Number of tickets</th>
-                  <th scope="col">Revenue</th>
+                  <th scope="col">Percent</th>
+                    <th scope="col">Revenue</th>
                 </tr>
               </thead>
               <tbody>
@@ -54,7 +60,8 @@
                 <tr>
                   <td>{{i.scheduled.flight_id}}</td>
                   <td>{{'{:.0f}'.format(i.sum_ticket)}} tickets</td>
-                  <td>{{i.sum_price}}</td>
+                  <td>{{'{:.2f}'.format(i.sum_price/sum*100)}} %</td>
+                    <td>{{i.sum_price}}</td>
                 </tr>
             {% endfor %}
               </tbody>
