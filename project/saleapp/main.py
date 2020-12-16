@@ -349,6 +349,21 @@ def report():
     return render_template('report.html', info=info)
 
 
+@app.route('/update-rules', methods=['post'])
+@decorator.login_admin_required
+def update_rules():
+    number_airport = request.form.get('number_airport')
+    min_flight = request.form.get('min_flight')
+    max_intermediate_airport = request.form.get('max_intermediate_airport')
+    min_time_layover = request.form.get('min_time_layover')
+    max_time_layover = request.form.get('max_time_layover')
+    time_for_cancel_ticket = request.form.get('time_for_cancel_ticket')
+    time_for_booking_ticket = request.form.get('time_for_booking_ticket')
+    
+    utils.update_rule(number_airport, min_flight, max_intermediate_airport, min_time_layover, max_time_layover, time_for_cancel_ticket, time_for_booking_ticket)
+
+    return redirect('/admin/ruleview/')
+
 
 @app.errorhandler(404)
 def page_not_found(e):

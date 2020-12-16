@@ -160,11 +160,26 @@ class intermediate_airport(db.Model):
 
 class admin_properties(db.Model):
     id = Column(Integer, autoincrement=True, primary_key=True)
-    flight_time = Column(String(255), nullable=False, default="30")
-    intermediate_airport = Column(Integer, nullable=False, default=2)
-    flight_stopped_time = Column(String(255), nullable=False, default="20")
-    time_for_cancel_ticket = Column(String(255), nullable=False, default="1 day")
-    time_for_booking_ticket = Column(String(255), nullable=False, default="1 day")
+    number_airport = Column(Integer, nullable=False, default=10)
+    min_flight = Column(String(10), nullable=False, default='000030')
+    max_intermediate_airport = Column(Integer, nullable=False, default=2)
+    min_time_layover = Column(String(10), nullable=False, default='000010')
+    max_time_layover = Column(String(10), nullable=False, default='000020')
+    time_for_cancel_ticket = Column(String(255), nullable=False, default="010000")
+    time_for_booking_ticket = Column(String(255), nullable=False, default="010000")
+
+    def get_time(self, time):
+        day = (time[:2])
+        hour = (time[2:5])
+        min = (time[5:])
+        time=''
+        if day>'00':
+            time+=day+'d'
+        if hour > '00':
+            time+=hour+'h'
+        if min > '00':
+            time+=min+'m'
+
 
 if __name__ == '__main__':
     db.create_all()

@@ -5,7 +5,6 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
-
 INSERT INTO `airport` (`id`, `place`, `airport_name`, `image`) VALUES
 (1,	'TP HCM',	'Tân Sơn Nhất',	'/images/airport/Ho-Chi-Minh-City-SGN.jpg'),
 (2,	'Huế',	'Phú Bài',	'/images/airport/Hue-HUI.jpg'),
@@ -15,11 +14,11 @@ INSERT INTO `airport` (`id`, `place`, `airport_name`, `image`) VALUES
 (6,	'Đà Nẵng',	'Đà Nẵng',	'/images/airport/Da-Nang-DAD.jpg'),
 (7,	'Lâm Đồng',	'Liên Khương',	'/images/airport/Da-Lat-DLI.jpg');
 
-INSERT INTO `customer` (`id`, `user_name`, `account_name`, `password`, `type_user`, `id_card`, `phone`, `active`,  `email`) VALUES
-(1,	'haungo',	'Ngo Van Hau',	'202cb962ac59075b964b07152d234b70',	'ADMIN',	'000011111',	'012345678',	1, 'ngovanhau@gmail.com'),
-(2,	'a',	'Nguyen van A',	'202cb962ac59075b964b07152d234b70',	'USER',	'025651545',	'0383793',	1, 'ngovanhau@gmail.com'),
-(3,	'b',	'Nguyen Van B',	'202cb962ac59075b964b07152d234b70',	'USER',	'285704152',	'0325648122',	1, 'ngovanhau@gmail.com'),
-(4,	'haungo',	'Hau Ngo',	'202cb962ac59075b964b07152d234b70',	'STAFF',	'123465',	'01235679',	1, 'ngovanhau@gmail.com');
+INSERT INTO `customer` (`id`, `user_name`, `email`, `account_name`, `password`, `type_user`, `id_card`, `phone`, `active`) VALUES
+(1,	'haungo',	'ngovanhau@gmail.com',	'Ngo Van Hau',	'202cb962ac59075b964b07152d234b70',	'ADMIN',	'000011111',	'012345678',	1),
+(2,	'a',	'ngovanhau@gmail.com',	'Nguyen van A',	'202cb962ac59075b964b07152d234b70',	'USER',	'025651545',	'0383793',	1),
+(3,	'b',	'ngovanhau@gmail.com',	'Nguyen Van B',	'202cb962ac59075b964b07152d234b70',	'USER',	'285704152',	'0325648122',	1),
+(4,	'haungo',	'ngovanhau@gmail.com',	'Hau Ngo',	'202cb962ac59075b964b07152d234b70',	'STAFF',	'123465',	'01235679',	1);
 
 INSERT INTO `flight` (`id`, `plane_id`, `flight_from`, `flight_to`, `time_start`, `flight_time`) VALUES
 (1,	1,	2,	1,	'2020-12-19 23:00:00',	'0130'),
@@ -54,23 +53,24 @@ INSERT INTO `plane` (`id`, `plane_name`, `airlines`) VALUES
 (16,	'DUNG 7',	'Bamboo Airways 3'),
 (17,	'AHIHI',	'Bamboo Airways 4');
 
-INSERT INTO `scheduled` (`flight_id`, `customer_id`, `seat_type_id`, `position`, `count_seat`, `price`, `is_used`, `time_create`) VALUES
-(1,	2,	1,	'12,13',	2,	200,	0,	'2020-12-19 23:06:00'),
-(7,	1,	1,	'22,33',	2,	600,	0,	'2020-12-20 23:06:00'),
-(7,	3,	2,	'11',	1,	100,	0,	'2020-12-25 23:06:00');
+INSERT INTO `scheduled` (`id`, `flight_id`, `customer_id`, `seat_type_id`, `position`, `count_seat`, `price`, `is_used`, `time_create`) VALUES
+(1,	1,	2,	1,	'12,13,90,100,110,120,126',	2,	200,	0,	'2020-12-19 23:06:00'),
+(2,	7,	1,	1,	'22,33',	2,	600,	0,	'2020-12-20 23:06:00'),
+(3,	7,	3,	2,	'11',	1,	100,	0,	'2020-12-25 23:06:00'),
+(4,	2,	2,	1,	'12,13,93,102,111,123,124,222',	2,	20,	NULL,	'2020-12-16 11:03:39');
 
 INSERT INTO `seat_type` (`id`, `plane_id`, `seat_name`, `row_from`, `row_to`, `amount_of_row`, `price`) VALUES
-(1,	1,	'ECONOMY',	1,	8,	4,	30),
-(2,	1,	'BUSINESS ',	9,	13,	6,	40),
-(4,	2,	'ECONOMY',	1,	8,	4,	20),
-(5,	2,	'BUSINESS ',	9,	13,	6,	40),
-(7,	3,	'ECONOMY',	1,	8,	4,	20),
-(8,	3,	'BUSINESS ',	9,	13,	6,	50),
-(10,4,	'ECONOMY',	1,	8,	4,	20),
-(11,4,	'BUSINESS ',	9,	13,	6,	40),
-(13,5,	'ECONOMY',	1,	8,	4,	20),
-(14,5,	'BUSINESS ',	9,	13,	6,	10),
-(16,6,	'ECONOMY',	1,	8,	4,	20),
-(17,6,	'BUSINESS ',	9,	13,	6,  10)
+(1,	1,	'ECONOMY',	1,	8,	4,	300),
+(2,	1,	'BUSINESS ',	9,	13,	6,	80),
+(4,	2,	'ECONOMY',	1,	8,	4,	0),
+(5,	2,	'BUSINESS ',	9,	13,	6,	0),
+(7,	3,	'ECONOMY',	1,	8,	4,	0),
+(8,	3,	'BUSINESS ',	9,	13,	6,	0),
+(10,	4,	'ECONOMY',	1,	8,	4,	0),
+(11,	4,	'BUSINESS ',	9,	13,	6,	0),
+(13,	5,	'ECONOMY',	1,	8,	4,	0),
+(14,	5,	'BUSINESS ',	9,	13,	6,	0),
+(16,	6,	'ECONOMY',	1,	8,	4,	0),
+(17,	6,	'BUSINESS ',	9,	13,	6,	0);
 
--- 2020-12-16 04:36:59
+-- 2020-12-16 14:38:40

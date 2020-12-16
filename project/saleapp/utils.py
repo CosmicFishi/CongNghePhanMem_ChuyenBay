@@ -2,7 +2,7 @@ from flask import request, redirect, session, render_template
 from sqlalchemy import func, extract
 
 from saleapp import db
-from saleapp.models import customer, UserRole, flight, airport, intermediate_airport, seat_type, scheduled
+from saleapp.models import customer, UserRole, flight, airport,admin_properties, intermediate_airport, seat_type, scheduled
 from flask_login import login_user, current_user
 
 from datetime import datetime, timedelta
@@ -55,6 +55,26 @@ def check_register(account_name, user_name, password, id_card, phone, email):
         return True
     except:
         return False
+
+
+
+def update_rule(number_airport, min_flight, max_intermediate_airport, min_time_layover, max_time_layover, time_for_cancel_ticket, time_for_booking_ticket):
+    rule = admin_properties.query.first()
+    
+    rule.number_airport=number_airport
+    rule.min_flight=min_flight
+    rule.max_intermediate_airport=max_intermediate_airport
+    rule.min_time_layover=min_time_layover
+    rule.max_time_layover=max_time_layover
+    rule.time_for_cancel_ticket=time_for_cancel_ticket
+    rule.time_for_booking_ticket=time_for_booking_ticket
+
+    try:
+        db.session.commit()
+        return True
+    except:
+        return False
+
 
 
 def add_ticket_to_db():

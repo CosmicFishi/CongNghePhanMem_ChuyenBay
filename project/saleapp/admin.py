@@ -16,6 +16,19 @@ class ContactView(BaseView):
         return current_user.is_authenticated
 
 
+class RuleView(BaseView):
+    @expose('/')
+    def index(self):
+        rules = db.session.query(admin_properties).first()
+        seat_types = db.session.query(seat_type).all()
+
+        return self.render('admin/rule.html', rules=rules, seat_types=seat_types)
+
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+
+
 class LogoutView(BaseView):
     @expose('/')
     def index(self):
@@ -47,4 +60,5 @@ admin.add_view(View(intermediate_airport, db.session, name='Sân bay trung gian'
 admin.add_view(View(seat_type, db.session, name='Loại ghế'))
 admin.add_view(ContactView(name='Liên hệ'))
 admin.add_view(LogoutView(name='Logout'))
+admin.add_view(RuleView(name='Rules'))
 admin.add_view(View(admin_properties, db.session, name="Thay đổi quy định"))

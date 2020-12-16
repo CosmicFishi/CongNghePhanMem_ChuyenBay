@@ -1,0 +1,159 @@
+{% extends 'admin/master.html' %} {% block body %} {% if rules %}
+<div class="container">
+  {% if mess %}
+  <div class="alert alert-primary">
+    {{mess}}
+  </div>
+  {% endif %}
+    <form action="{{ url_for('update_rules') }}" method="post">
+        <div class="card p-3 my-4">
+            <h5 class="card-title">Change about flight and airport</h5>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"
+                        >Number of airport
+                    </span>
+                </div>
+                <input
+                    type="number"
+                    name="number_airport"
+                    class="form-control"
+                    value="{{rules.number_airport}}"
+                />
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="min_flight"
+                        >Minium time flight</span
+                    >
+                </div>
+                <input
+                    type="number"
+                    name="min_flight"
+                    class="form-control"
+                    value="{{rules.min_flight}}"
+                />
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"
+                        >Maximu of intermediate airport</span
+                    >
+                </div>
+                <input
+                    type="number"
+                    class="form-control"
+                    name="max_intermediate_airport"
+                    value="{{rules.number_airport}}"
+                />
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"
+                        >Minimine of time layover</span
+                    >
+                </div>
+                <input
+                    type="number"
+                    name="min_time_layover"
+                    class="form-control"
+                    value="{{rules.min_time_layover}}"
+                />
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1"
+                        >Maximu of time layover</span
+                    >
+                </div>
+                <input
+                    type="number"
+                    name="max_time_layover"
+                    class="form-control"
+                    value="{{rules.max_time_layover}}"
+                />
+            </div>
+        </div>
+        <div class="card p-3 my-4">
+            <h5 class="card-title">Change the price of ticket</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Airline</th>
+                        <th scope="col">ECONOMY</th>
+                        <th scope="col">BUSINESS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Vietject</th>
+                        <td>
+                            <div class="form-group">
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="Price"
+                                    aria-label="Price"
+                                    aria-describedby="basic-addon1"
+                                />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="Price"
+                                    aria-label="Price"
+                                    aria-describedby="basic-addon1"
+                                />
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card p-3 my-4">
+            <h5 class="card-title">Change about ticket</h5>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"
+                        >Time for cancel ticket</span
+                    >
+                </div>
+                <input
+                    name="time_for_cancel_ticket"
+                    type="number"
+                    class="form-control"
+                    value="{{rules.time_for_cancel_ticket}}"
+                />
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"
+                        >Time for booking ticket</span
+                    >
+                </div>
+                <input
+                    name="time_for_booking_ticket"
+                    type="number"
+                    class="form-control"
+                    value="{{rules.time_for_booking_ticket}}"
+                />
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-success">Save change</button>
+            <button type="button" onclick="reloadPage()" class="btn btn-primary">Cancel</button>
+        </div>
+    </form>
+</div>
+<script>
+    function reloadPage(){
+        location.reload()
+    }
+</script>
+{% endif %} {% endblock %} input number thoi gian bay toi thieu so san bay toi
+da
