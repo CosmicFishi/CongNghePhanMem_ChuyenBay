@@ -97,9 +97,9 @@ def check_user(type_user=UserRole.ADMIN):
             return redirect('/admin')
 
         if type_user == UserRole.STAFF:
-            return redirect('/login-staff')
+            return redirect('/staff-book')
 
-    return redirect('/login')
+    return redirect('/')
 
 
 def conver_str_time(string_time='', time_format="%d-%m-%Y - %H:%M"):
@@ -221,7 +221,8 @@ def get_scheduled(month='', year=''):
         scheduled_info = db.session.query(
             scheduled,
             func.sum(scheduled.count_seat).label('sum_ticket'),
-            func.sum(scheduled.price).label('sum_price')
+            func.sum(scheduled.price).label('sum_price'),
+            func.sum(scheduled.price).label('percent')
         ) \
             .group_by(scheduled.flight_id) \
             .filter(
@@ -235,7 +236,8 @@ def get_scheduled(month='', year=''):
             scheduled_info = db.session.query(
                 scheduled,
                 func.sum(scheduled.count_seat).label('sum_ticket'),
-                func.sum(scheduled.price).label('sum_price')
+                func.sum(scheduled.price).label('sum_price'),
+                func.sum(scheduled.price).label('percent')
             ) \
                 .group_by(scheduled.flight_id) \
                 .filter(
@@ -247,7 +249,8 @@ def get_scheduled(month='', year=''):
             scheduled_info = db.session.query(
                 scheduled,
                 func.sum(scheduled.count_seat).label('sum_ticket'),
-                func.sum(scheduled.price).label('sum_price')
+                func.sum(scheduled.price).label('sum_price'),
+                func.sum(scheduled.price).label('percent')
             ) \
                 .group_by(scheduled.flight_id) \
                 .filter(

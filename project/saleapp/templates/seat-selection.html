@@ -3,17 +3,17 @@
     {% if mess %}
     <div class="alert alert-danger">{{mess}}</div>
     {% else %}
+    <h2 class="my-2 mb-3 text-center"><strong>Please choose a seat</strong></h2>
     <div class="card p-4">
-        <div class="alert alert-danger">
-            <h4>Legend</h4>
-            <span>Avalable</span>
-            <button type="button" class="btn btn-light">00</button>
-            <span>Not avalable</span>
-            <button type="button" disabled='true' class="btn btn-warning">11</button>
-        </div>
         {% for i in seat %}
             {% if ticket['seat_type_id'] == i.id %}
                 <h5><b>You have {{ticket['count_seat']}} {{i.seat_name}} ticket</b></h5>
+                <div class="note my-2">
+                    <span>Avalable</span>
+                    <button type="button" class="btn btn-light"></button>
+                    <span>Not avalable</span>
+                    <button type="button" disabled='true' class="btn btn-warning"></button>
+                </div>
                 <table class="table" id="checkSeat">
                     <tbody>
                         {% for j in range(i.row_from,i.row_to) %}

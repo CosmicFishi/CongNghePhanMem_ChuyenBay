@@ -221,3 +221,6 @@ table td div input {
   margin: 0;
   box-sizing: border-box;
 }
+.note {
+    font-size: 12px;
+}

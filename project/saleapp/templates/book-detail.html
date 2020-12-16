@@ -5,12 +5,12 @@
         <thead class="thead-dark">
             <tr>
                 <th scope="col" >Flight</th>
-                <th scope="col">Time</th>
+                <th scope="col">Schedule</th>
                 <th scope="col">Duration</th>
                 <th scope="col" class="px-3">Seats</th>
 
                 {% for i in seat[0] %}
-                <th scope="col">{{i.seat_name}}</th>
+                <th scope="col" class="text-center">{{i.seat_name}}</th>
                 {% endfor %}
             </tr>
         </thead>
@@ -21,6 +21,9 @@
                      <p>{{i.plane_id}}</p>
                 </td>
                 <th scope="row">
+                    <p>
+                        <strong>Date: {{ i.time_start.day }}/{{i.time_start.month}}</strong>
+                    </p>
                     <p>
                         <strong>{{i.time_to_start}}</strong> to
                         <strong>{{i.time_end}}</strong>
