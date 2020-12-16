@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 from flask import request, redirect, session, render_template
-from sqlalchemy import func
-=======
-from flask import request, redirect, session
 from sqlalchemy import func, extract
->>>>>>> 3fd7118380b7b2a8ae01e1b572acb75643069e6a
 
 from saleapp import db
 from saleapp.models import customer, UserRole, flight, airport, intermediate_airport, seat_type, scheduled
@@ -208,12 +203,13 @@ def get_history():
     return scheduled.query.all()
 
 
-def get_scheduled():
-    scheduled_info = db.session.query(
-        scheduled,
-        func.sum(scheduled.count_seat).label('sum_ticket'),
-        func.sum(scheduled.price).label('sum_price')
-    ).group_by(scheduled.flight_id).all()
+# def get_scheduled():
+#     scheduled_info = db.session.query(
+#         scheduled,
+#         func.sum(scheduled.count_seat).label('sum_ticket'),
+#         func.sum(scheduled.price).label('sum_price')
+#     ).group_by(scheduled.flight_id).all()
+
 
 def get_scheduled(month='', year=''):
     scheduled_info = ''
@@ -258,6 +254,4 @@ def get_scheduled(month='', year=''):
             ) \
                 .all()
 
-    import pdb
-    pdb.set_trace()
     return scheduled_info
