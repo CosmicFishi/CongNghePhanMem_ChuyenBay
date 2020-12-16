@@ -206,3 +206,15 @@ i {
     background-color: #dc3545 !important;
     border-color: #dc3545 !important;
 }
+.w-fit {
+    width: fit-content;
+}
+table td div input {
+  position: absolute !important;
+  display: block;
+  width: 100%!important;
+  top:0;
+  left:0;
+  margin: 0;
+  box-sizing: border-box;
+}

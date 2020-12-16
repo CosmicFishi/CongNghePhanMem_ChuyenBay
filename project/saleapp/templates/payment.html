@@ -1,6 +1,8 @@
 {% extends 'layout.html' %} {% block body %}
 <div class="login">
     <h1>PAYMENT</h1>
+    <h5 class="text-center">Please confirm the ticket</h5>
+
     {% if mess %}
     <div class="alert alert-danger">{{mess}}</div>
     {% else %}
@@ -9,21 +11,31 @@
             <div id="qrcode" class="float-left">
 
             </div>
-            <h5>Please confirm the ticket:</h5>
-            <p>
-                Flight from {{session['ticket'].flight_from}} to
-                {{session['ticket'].flight_to}}
-            </p>
-            <p>Flight ID: {{session['ticket'].flight_id}}</p>
-            <p>Plane ID: {{session['ticket'].plane_id}}</p>
-            <p>Type of seat: {{session['ticket'].seat_name}}</p>
-            <p>Amount of seat: {{session['ticket'].count_seat}}</p>
-            <p>Position: {{session['ticket'].position}}</p>
-            <p>Price: {{session['ticket'].price}}$</p>
-            <p>
-                Total: {{session['ticket'].price *
-                session['ticket'].count_seat}}$
-            </p>
+            <div class="row">
+                <p class="col-md-6 col-sm-12"><strong>Flight ID:</strong> {{session['ticket'].flight_id}}</p>
+                <p class="col-md-6 col-sm-12"><strong>Plane ID:</strong> {{session['ticket'].plane_id}}</p>
+                <p class="col-md-6 col-sm-12">
+                    <strong>Flight from:</strong> {{session['ticket'].flight_from}}
+                </p>
+                <p class="col-md-6 col-sm-12"><strong>Flight to:</strong> {{session['ticket'].flight_to}}</p>
+            </div>
+            <hr class="my-2" >
+            <div class="row">
+                <p class="col-md-6 col-sm-12"><strong>Type of seat:</strong> {{session['ticket'].seat_name}}</p>
+                <p class="col-md-6 col-sm-12"><strong>Amount of seat:</strong> {{session['ticket'].count_seat}}</p>
+                <p class="col-md-6 col-sm-12"><strong>Position:</strong> {{session['ticket'].position}}</p>
+                <p class="col-md-6 col-sm-12"><strong>Price:</strong> {{session['ticket'].price}}$</p>
+
+            </div>
+
+            <hr class="my-3">
+            <div class="text-center">
+                <h3 class="pb-2">
+                    <strong>Total: </strong>
+                    {{session['ticket'].price * session['ticket'].count_seat}}$
+                </h3>
+            </div>
+
             <button
                 type="button"
                 class="btn btn-success"

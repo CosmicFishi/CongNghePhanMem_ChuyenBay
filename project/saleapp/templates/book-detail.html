@@ -2,11 +2,13 @@
 
 <div class="container">
     <table class="table" stype="border: none;">
-        <thead>
+        <thead class="thead-dark">
             <tr>
+                <th scope="col" >Flight</th>
                 <th scope="col">Time</th>
                 <th scope="col">Duration</th>
-                <th scope="col">Amount seat</th>
+                <th scope="col" class="px-3">Seats</th>
+
                 {% for i in seat[0] %}
                 <th scope="col">{{i.seat_name}}</th>
                 {% endfor %}
@@ -15,16 +17,19 @@
         <tbody>
             {% for i in flights %}
             <tr>
+                <td class="text-center">
+                     <p>{{i.plane_id}}</p>
+                </td>
                 <th scope="row">
                     <p>
                         <strong>{{i.time_to_start}}</strong> to
                         <strong>{{i.time_end}}</strong>
                     </p>
-                    <p>Flight Id: {{i.id}}</p>
-                    <p>Plane Id: {{i.plane_id}}</p>
+
+
                 </th>
                 <td>
-                    <p>Total time: {{i.total_flight_time}}</p>
+                    <p>{{i.total_flight_time}}</p>
                     {% if inter_airport %} {% for d in inter_airport[i.index] %}
                     <p>
                         Delay {{d.intermediate_airport.delay}} at {{
@@ -35,7 +40,7 @@
                     {% endif %}
                 </td>
                 <td>
-                    <div class="input-group mb-3">
+                    <div class="input-group">
                         <input
                             type="number"
                             id="count_seat"
@@ -49,14 +54,21 @@
                 </td>
                 {% for s in seat[i.index] %}
                 <td>
-                    <button
-                        type="button"
-                        onclick="addTicket('{{s.seat_name}}',{{i.id}},{{s.id}},{{s.price}},{{i.plane_id}})"
-                        class="btn btn-primary"
-                    >
-                        <h3 class="px-5 py-2">{{s.price}}</h3>
-                    </button>
-                    <p class="font-italic">{{s.left}} seats left</p>
+                    <div class="text-center">
+                        <h3 class="mx-auto">{{'{:.0f}'.format(s.price)}}$</h3>
+                    </div>
+                        <p class="font-italic text-center mb-2">{{s.left}} seats left</p>
+                    <div class="text-center">
+                        <button
+                            type="button"
+                            onclick="addTicket('{{s.seat_name}}',{{i.id}},{{s.id}},{{s.price}},{{i.plane_id}})"
+                            class="btn btn-primary "
+                        >
+                        Book!
+                        </button>
+                    </div>
+
+
                 </td>
                 {% endfor %}
             </tr>
