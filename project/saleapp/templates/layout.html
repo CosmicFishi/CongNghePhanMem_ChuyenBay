@@ -78,7 +78,7 @@
                         <a class="nav-link" href="{{ url_for('book')}}"><i class="fas fa-globe-africa"></i> BOOK</a>
                     </li>
                     {% endif %}
-                    {% if "{0}".format(current_user.type_user) == 'UserRole.STAFF' %}
+                    {% if "{0}".format(current_user.type_user) == 'UserRole.STAFF' or "{0}".format(current_user.type_user) == 'UserRole.ADMIN'  %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('staff_book')}}">BOOK</a>
                     </li>

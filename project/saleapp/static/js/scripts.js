@@ -154,9 +154,10 @@ function handleCommit(
 function loadLocal() {
     flight = JSON.parse(localStorage.getItem('ticket'));
     qrcode = localStorage.getItem('qrcode');
-    document.getElementById(
-        'add-ticket'
-    ).innerHTML = `<div class="card book-card">
+    if (flight.nameTo && flight.nameFrom && flight.position)
+        document.getElementById(
+            'add-ticket'
+        ).innerHTML = `<div class="card book-card">
                 <div class="card-body">
                     <h5 class="card-title"><i class="fas fa-plane"></i> Flight ID: ${flight.flight_id} <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">Payment required</button></h5>
                 </div>
@@ -264,7 +265,7 @@ function checkSeatUsed(used = '') {
     btn = document.querySelectorAll('#checkSeat button');
     btn.forEach((e) => {
         if (used.indexOf(e.textContent.trim()) >= 0) {
-            e.setAttribute('class', 'btn btn-warning');
+            e.setAttribute('class', 'btn btn-warning m-2 col-md-6 col-sm-12');
             e.setAttribute('disabled', 'true');
         }
     });

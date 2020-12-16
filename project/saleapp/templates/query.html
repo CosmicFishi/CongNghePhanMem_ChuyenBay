@@ -1,28 +1,77 @@
 {% extends 'layout.html' %} {% block body %}
 <div class="query">
-    <form action="" method="post">
-        <div class="container">
-            <div class="form-group col-md-6 col-sm-12">
+    <div class="container">
+        <form action="{{url_for('staff_find')}}" method="post">
+            <div class="form-group col-md-12 col-sm-12">
                 <input
                     type="text"
-                    name="maChuyenBay"
+                    name="flight_id"
                     class="form-control"
-                    placeholder="Mã chuyến bay ..."
+                    placeholder="Flight id ..."
                 />
             </div>
-            <div class="form-group col-md-6 col-sm-12">
+            <div class="form-group col-md-12 col-sm-12">
                 <input
                     autocomplete="true"
                     type="text"
-                    name="tenChuyenBay"
+                    name="email"
                     class="form-control"
-                    placeholder="Tên chuyến bay ..."
+                    placeholder="Email customer ..."
+                />
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <input
+                    autocomplete="true"
+                    type="text"
+                    name="id_card"
+                    class="form-control"
+                    placeholder="Id Card..."
                 />
             </div>
             <div class="btn-submit col-md-12 col-sm-12">
                 <input type="submit" value="Tìm kiếm" class="btn btn-primary" />
             </div>
+        </form>
+        {% if mess %}
+        <div class="alert danger">
+            {{mess}}
         </div>
-    </form>
+        {% endif %}
+
+        {% if flights or customers %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Flight id</th>
+                    <th scope="col">Time start</th>
+                    <th scope="col">Card id</th>
+                    <th scope="col">Flight To</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i in flights %}
+            {% for j in i.scheduled %}
+                <tr>
+                    <th scope="row">{{ i.id }}</th>
+                    <td>{{i.time_start.hour}}h{{i.time_start.minute}}m</td>
+                    <td>{{ j.customer.id_card }}</td>
+                    <td>{{ i.flight_to_id.place }}</td>
+                </tr>
+            {% endfor %}
+            {% endfor %}
+            {% for i in customers %}
+            {% for j in i.scheduled %}
+                <tr>
+                    <th scope="row">{{ j.flight_id }}</th>
+                    <td>{{j.flight.time_start.hour}}h{{j.flight.time_start.minute}}m</td>
+                    <td>{{ i.id_card }}</td>
+                    <td>{{ j.flight.flight_to_id.place }}</td>
+                </tr>
+            {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

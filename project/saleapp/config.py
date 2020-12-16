@@ -11,8 +11,8 @@ class MoMo():
     serectkey = "6VzFAPfP9eGsw47dEPx6FiYqGWete93n"
 
     orderInfo = "Pay for flight with MoMo"
-    returnUrl = "localhost:5000/status_payment"
-    notifyurl = "https://dummy.url/notify"
+    returnUrl = "https://viblo.asia/p/payment-with-momo-eW65GbpOlDO?fbclid=IwAR3RAlACCaqRwt4AA0voIxaLGVxDXI3Fmgq5wPwl4-YzXHTXZ-7zDQ1lnRc"
+    notifyurl = "http://0.0.0.0/notifyUrl-momo"
     amount = "50000" 
     orderId = str(uuid.uuid4())
     requestId = str(uuid.uuid4())
@@ -23,6 +23,8 @@ class MoMo():
     def __init__(self, amount):
         self.amount = amount
 
+    def set_orderId(self, id):
+        self.orderId = id
 
     def set_extraData(self, *args):
         if len(args) > 0:

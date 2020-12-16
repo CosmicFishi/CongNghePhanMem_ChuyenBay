@@ -20,9 +20,9 @@ class RuleView(BaseView):
     @expose('/')
     def index(self):
         rules = db.session.query(admin_properties).first()
-        seat_types = db.session.query(seat_type).all()
+        planes = db.session.query(plane).all()
 
-        return self.render('admin/rule.html', rules=rules, seat_types=seat_types)
+        return self.render('admin/rule.html', rules=rules, planes=planes)
 
     def is_accessible(self):
         return current_user.is_authenticated

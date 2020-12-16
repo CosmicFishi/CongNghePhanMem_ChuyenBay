@@ -190,21 +190,34 @@ def payment():
         return render_template('payment.html')
 
 
-@app.route('/airport-pay', methods=['post'])
+@app.route('/notifyUrl-momo', methods=['post'])
 def airport_pay():
-    data = request.get_json('ticket')
+    data = request.get_json()
+    price = data.get('amount')
 
-    img = qrcode.make(data)
+    ticket = session['ticket']
+    total = int((ticket['count_seat'] * ticket['price']) * 22000)
+    if int(price) == total:
+        utils.add_ticket_to_db()
 
-    return send_file(img, mimetype='image')
+    return jsonify({
+            "mess": "Oke!!!"
+        })
 
 
 @app.route('/momo-pay', methods=['post'])
 def momo_pay():
     ticket = session['ticket']
+
+    if not utils.check_payment():
+        return jsonify({
+            "mess": "Plz dont change any data to server!!!"
+        })
+
     total = int((ticket['count_seat'] * ticket['price']) * 22000)
 
     momo = MoMo(amount=str(total))
+
     rs = momo.send_momo()
 
     if rs:
@@ -212,7 +225,7 @@ def momo_pay():
             'link': rs
         })
     else:
-        jsonify({
+        return jsonify({
             "mess": "Can be pay by MoMo, plz try again.!!!"
         })
 
@@ -304,10 +317,21 @@ def staff_book_history():
                            b_history_flight_to=b_history_flight_to, historys=his)
 
 
-@app.route('/staff-find', methods=['get'])
+@app.route('/staff-find', methods=['get', 'post'])
 @decorator.login_staff_required
 def staff_find():
-    pass
+    if request.method=='POST':
+        mess=''
+        flight_id = request.form.get('flight_id')
+        email = request.form.get('email')
+        id_card = request.form.get('id_card')
+
+        customers, flights = utils.find(flight_id=flight_id, email=email, id_card=id_card)
+        if len(customers)==0 and len(flights)==0:
+            mess='Not Found'
+        return render_template('query.html', mess=mess, flights=flights, customers=customers)
+    else:
+        return render_template('query.html')
 
 
 @app.route('/login-staff', methods=['get', 'post'])
@@ -364,6 +388,34 @@ def update_rules():
     time_for_booking_ticket = request.form.get('time_for_booking_ticket')
     
     utils.update_rule(number_airport, min_flight, max_intermediate_airport, min_time_layover, max_time_layover, time_for_cancel_ticket, time_for_booking_ticket)
+
+    return redirect('/admin/ruleview/')
+
+
+@app.route('/update-ticket-price', methods=['post'])
+@decorator.login_admin_required
+def update_ticket_price():
+    id = request.get_json('id')['id']
+    price = request.get_json('price')['price']
+    row_from = request.get_json('row_from')['row_from']
+    row_to = request.get_json('row_to')['row_to']
+
+    utils.update_price_seat(id=id, price=price, row_from=row_from, row_to=row_to)
+
+    return redirect('/admin/ruleview/')
+
+
+@app.route('/add-seat-type', methods=['post'])
+@decorator.login_admin_required
+def add_seat_type():
+    seat_name = request.form.get('seat_name')
+    price = request.form.get('price')
+    amount_of_row = request.form.get('amount_of_row')
+    plane_id = request.form.get('plane_id')
+    row_from = request.form.get('row_from')
+    row_to = request.form.get('row_to')
+
+    utils.add_seat_type(seat_name=seat_name, price=price, amount_of_row=amount_of_row, plane_id=plane_id, row_from=row_from, row_to=row_to)
 
     return redirect('/admin/ruleview/')
 

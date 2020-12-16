@@ -1,18 +1,14 @@
 {% extends 'admin/master.html' %} {% block body %} {% if rules %}
 <div class="container">
-  {% if mess %}
-  <div class="alert alert-primary">
-    {{mess}}
-  </div>
-  {% endif %}
+    {% if mess %}
+    <div class="alert alert-primary">{{mess}}</div>
+    {% endif %}
     <form action="{{ url_for('update_rules') }}" method="post">
         <div class="card p-3 my-4">
             <h5 class="card-title">Change about flight and airport</h5>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text"
-                        >Number of airport
-                    </span>
+                    <span class="input-group-text">Number of airport </span>
                 </div>
                 <input
                     type="number"
@@ -64,9 +60,7 @@
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1"
-                        >Maximu of time layover</span
-                    >
+                    <span class="input-group-text">Maximu of time layover</span>
                 </div>
                 <input
                     type="number"
@@ -77,51 +71,10 @@
             </div>
         </div>
         <div class="card p-3 my-4">
-            <h5 class="card-title">Change the price of ticket</h5>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Airline</th>
-                        <th scope="col">ECONOMY</th>
-                        <th scope="col">BUSINESS</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">Vietject</th>
-                        <td>
-                            <div class="form-group">
-                                <input
-                                    type="number"
-                                    class="form-control"
-                                    placeholder="Price"
-                                    aria-label="Price"
-                                    aria-describedby="basic-addon1"
-                                />
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <input
-                                    type="number"
-                                    class="form-control"
-                                    placeholder="Price"
-                                    aria-label="Price"
-                                    aria-describedby="basic-addon1"
-                                />
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="card p-3 my-4">
             <h5 class="card-title">Change about ticket</h5>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text"
-                        >Time for cancel ticket</span
-                    >
+                    <span class="input-group-text">Time for cancel ticket</span>
                 </div>
                 <input
                     name="time_for_cancel_ticket"
@@ -146,14 +99,261 @@
         </div>
         <div>
             <button type="submit" class="btn btn-success">Save change</button>
-            <button type="button" onclick="reloadPage()" class="btn btn-primary">Cancel</button>
+            <button
+                type="button"
+                onclick="reloadPage()"
+                class="btn btn-primary"
+            >
+                Cancel
+            </button>
         </div>
     </form>
+    <div>
+        <div class="card p-3 my-4">
+            <h5 class="card-title">Change the price of ticket</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Airline</th>
+                        <th scope="col" colspan="3">Type seat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in planes %}
+                    <tr>
+                        <th scope="row">{{i.airlines}}</th>
+                        {% for j in i.seat_type %}
+                        <td>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"
+                                        >{{j.seat_name}}</span
+                                    >
+                                </div>
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    aria-describedby="basic-addon1"
+                                    value="{{ j.price }}"
+                                    id="{{j.id}}"
+                                />
+                                <div class="input-group-append">
+                                    <button
+                                        form="{{j.id}}"
+                                        class="btn btn-outline-secondary"
+                                        type="button"
+                                        onclick="updatePrice({{j.id}})"
+                                    >
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"
+                                            >From...to...</span
+                                        >
+                                    </div>
+                                    <input
+                                        id="{{j.id}}from"
+                                        type="text"
+                                        value="{{ j.row_from }}"
+                                        class="form-control"
+                                    />
+                                    <input
+                                        id="{{j.id}}to"
+                                        type="text"
+                                        value="{{ j.row_to }}"
+                                        class="form-control"
+                                    />
+                                </div>
+                            </div>
+                        </td>
+                        {% endfor %}
+                        <td>
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-toggle="modal"
+                                data-target="#exampleModal{{i.id}}"
+                            >
+                                Add
+                            </button>
+                            <div
+                                class="modal fade"
+                                id="exampleModal{{i.id}}"
+                                tabindex="-1"
+                                role="dialog"
+                                aria-labelledby="exampleModalLabel"
+                                aria-hidden="true"
+                            >
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <form action="{{url_for('add_seat_type')}}" method="POST">
+                                            <div class="modal-header">
+                                                <h5
+                                                    class="modal-title"
+                                                    id="exampleModalLabel"
+                                                >
+                                                    Add type seat
+                                                </h5>
+                                                <button
+                                                    type="button"
+                                                    class="close"
+                                                    data-dismiss="modal"
+                                                    aria-label="Close"
+                                                >
+                                                    <span aria-hidden="true"
+                                                        >&times;</span
+                                                    >
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="input-group mb-3">
+                                                    <div
+                                                        class="input-group-prepend"
+                                                    >
+                                                        <span
+                                                            class="input-group-text"
+                                                            >Name seat:
+                                                        </span>
+                                                    </div>
+                                                    <input
+                                                        name="seat_name"
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="Name seat"
+                                                    />
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div
+                                                        class="input-group-prepend"
+                                                    >
+                                                        <span
+                                                            class="input-group-text"
+                                                            >Price:
+                                                        </span>
+                                                    </div>
+                                                    <input
+                                                        name="price"
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="Price"
+                                                    />
+                                                </div>
+                                                <div class="input-group">
+                                                    <div
+                                                        class="input-group-prepend"
+                                                    >
+                                                        <span
+                                                            class="input-group-text"
+                                                            id=""
+                                                            >From...to...</span
+                                                        >
+                                                    </div>
+                                                    <input
+                                                        name="row_from"
+                                                        type="text"
+                                                        class="form-control"
+                                                    />
+                                                    <input
+                                                        name="row_to"
+                                                        type="text"
+                                                        class="form-control"
+                                                    />
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div
+                                                        class="input-group-prepend"
+                                                    >
+                                                        <span
+                                                            class="input-group-text"
+                                                            >Seat per row:
+                                                        </span>
+                                                    </div>
+                                                    <input
+                                                        name="amount_of_row"
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="ex: 4"
+                                                    />
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div
+                                                        class="input-group-prepend"
+                                                    >
+                                                        <span
+                                                            class="input-group-text"
+                                                            id="basic-addon1"
+                                                            >Plane id:
+                                                        </span>
+                                                    </div>
+                                                    <input
+                                                        name="plane_id"
+                                                        value="{{i.id}}"
+                                                        type="text"
+                                                        class="form-control"
+                                                        placeholder="Plane id"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-secondary"
+                                                    data-dismiss="modal"
+                                                >
+                                                    Close
+                                                </button>
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-primary"
+                                                >
+                                                    Save changes
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <script>
-    function reloadPage(){
-        location.reload()
+    function reloadPage() {
+        location.reload();
     }
+    function updatePrice(id) {
+        let price = document.getElementById(id).value;
+        let row_from = document.getElementById(id + 'from').value;
+        let row_to = document.getElementById(id + 'to').value;
+        console.log(price, typeof price);
+        fetch('/update-ticket-price', {
+            method: 'post',
+            body: JSON.stringify({
+                id: id,
+                price: price,
+                row_from: row_from,
+                row_to: row_to,
+            }),
+            headers: {
+                'Context-Type': 'application/json',
+            },
+        })
+            .then((res) => {
+                location.href = '/admin/ruleview/';
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+    function saveSeat() {}
 </script>
 {% endif %} {% endblock %} input number thoi gian bay toi thieu so san bay toi
 da

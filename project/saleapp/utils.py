@@ -76,6 +76,19 @@ def update_rule(number_airport, min_flight, max_intermediate_airport, min_time_l
         return False
 
 
+def check_payment():
+    ticket = session['ticket']
+
+    f = flight.query.filter(flight.id == ticket['flight_id']).all()
+    if not len(f) == 1:
+        return False
+
+    s = seat_type.query.filter(seat_type.id==ticket['seat_type_id'], seat_type.price==float(ticket['price'])).all()
+    if not len(s)==1:
+        return False
+
+    return True
+
 
 def add_ticket_to_db():
     ticket = session['ticket']
@@ -88,6 +101,32 @@ def add_ticket_to_db():
         return True
     except:
         return False
+
+
+def add_seat_type(seat_name, price, amount_of_row, plane_id, row_from, row_to):
+    seat = seat_type(seat_name=seat_name, price=price, amount_of_row=amount_of_row, plane_id=plane_id, row_from=row_from, row_to=row_to)
+
+    try:
+        db.session.add(seat)
+        db.session.commit()
+        return True
+    except:
+        return False
+
+
+def update_price_seat(id, price, row_from, row_to):
+    id = int(id)
+    rule = seat_type.query.filter(seat_type.id==id).first()
+    if rule:
+        rule.price = float(price)
+        rule.row_from = int(row_from)
+        rule.row_to = int(row_to)
+
+        try:
+            db.session.commit()
+            return True
+        except:
+            return False
 
 
 def check_type_user(usr):
@@ -279,3 +318,19 @@ def get_scheduled(month='', year=''):
                 .all()
 
     return scheduled_info
+
+
+def find(flight_id, email, id_card):
+    customers = customer.query
+    flights = flight.query
+    if email:
+        customers =customers.filter(customer.email==email)
+
+    if id_card:
+        customers = customers.filter(customer.id_card==id_card)
+
+    if flight_id:
+        flight_id = int(flight_id)
+        flights = flights.filter(flight.id==flight_id)
+
+    return customers.all(), flights.all()
