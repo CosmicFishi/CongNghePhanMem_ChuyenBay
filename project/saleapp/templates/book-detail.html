@@ -1,7 +1,7 @@
 {% extends 'layout.html' %} {% block body %}
 
-<div class="container">
-    <table class="table" stype="border: none;">
+<div class="container px-0">
+    <table class="table">
         <thead class="thead-dark">
             <tr>
                 <th scope="col" >Flight</th>
@@ -25,8 +25,6 @@
                         <strong>{{i.time_to_start}}</strong> to
                         <strong>{{i.time_end}}</strong>
                     </p>
-
-
                 </th>
                 <td>
                     <p>{{i.total_flight_time}}</p>

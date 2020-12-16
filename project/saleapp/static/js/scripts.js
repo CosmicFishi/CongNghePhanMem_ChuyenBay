@@ -158,7 +158,7 @@ function loadLocal() {
         'add-ticket'
     ).innerHTML = `<div class="card book-card">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-plane"></i> Flight ID: ${flight.flight_id} <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">This ticket not pay</button></h5>
+                    <h5 class="card-title"><i class="fas fa-plane"></i> Flight ID: ${flight.flight_id} <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">Payment required</button></h5>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">

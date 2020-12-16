@@ -209,6 +209,9 @@ i {
 .w-fit {
     width: fit-content;
 }
+.minWidth-100 {
+    min-width: 80px;
+}
 table td div input {
   position: absolute !important;
   display: block;
