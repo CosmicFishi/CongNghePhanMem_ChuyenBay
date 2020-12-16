@@ -345,8 +345,7 @@ def report():
             year = request.form.get('year')
 
         info = utils.get_scheduled(month=month, year=year)
-    import pdb
-    pdb.set_trace()
+
     return render_template('report.html', info=info)
 
 

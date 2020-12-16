@@ -9,7 +9,7 @@
             <span>Avalable</span>
             <button type="button" class="btn btn-light">00</button>
             <span>Not avalable</span>
-            <button type="button" disabled class="btn">11</button>
+            <button type="button" disabled='true' class="btn btn-warning" class="btn">11</button>
         </div>
         {% for i in seat %} {% if ticket['seat_type_id'] == i.id %}
         <h5><b>You have {{ticket['count_seat']}} {{i.seat_name}} ticket</b></h5>
