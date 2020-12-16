@@ -4,7 +4,7 @@ from flask import redirect
 from flask_admin import BaseView, expose
 from flask_login import current_user, logout_user
 
-from saleapp.models import plane, scheduled, flight, customer, airport, intermediate_airport, seat_type, UserRole, admin_properties
+from saleapp.models import plane, scheduled, flight, customer, airport, intermediate_airport, seat_type, admin_properties
 
 
 class ContactView(BaseView):

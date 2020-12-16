@@ -1,0 +1,35 @@
+{% extends 'layout.html' %} {% block body %}
+<div class="container">
+    <h2 class="text-center">Book history</h2>
+    <div id="add-ticket"></div>
+    {% for h in historys %}
+        <div class="card book-card">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-plane"></i> Flight ID: {{h.flight.id}}
+                <form method="post" class="float-right"><button type="submit">Delete</button> <input value="{{h.id}}" name="id"></form></h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="d-flex flex-wrap">
+                        <p class="mb-0 col-md-6 col-sm-12"><strong><i class="fas fa-plane-arrival"></i> Flight to: </strong> {{h.flight.flight_to_id.place}}</p>
+                        <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-plane-departure"></i>  Flight from:</strong>{{h.flight.flight_from_id.place}}</p>
+                    </div>
+                    <hr class="my-4">
+                    <div class="d-flex flex-wrap">
+                        <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-clock"></i> Flight start:</strong> {{h.flight.time_start}}</p>
+                        <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-plane"></i> Flight time:</strong> {{h.flight.get_flight_time()}}</p>
+                    </div>
+                    <hr class="my-4">
+                    <div class="d-flex flex-wrap">
+                        <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-suitcase-rolling"></i> Seat type:</strong> {{h.seat_type.seat_name}}</p>
+                        <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-suitcase-rolling"></i> Seat amount:</strong> {{h.count_seat}}</p>
+                    </div>
+                </li>
+              </ul>
+        </div>
+    {% endfor %}
+</div>
+<script type="text/javascript">
+   loadLocal();
+</script>
+{% endblock %}

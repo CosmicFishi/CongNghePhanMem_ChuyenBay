@@ -9,7 +9,12 @@
     <form
         class="d-flex justify-content-between w-100 flex-wrap"
         method="post"
-        action="{{url_for('book_detail')}}"
+        action="
+        {% if '{0}'.format(current_user.type_user) == 'UserRole.STAFF' %}
+            {{ url_for('staff_book') }}
+        {% else %}
+            {{ url_for('book_detail') }}
+        {% endif %}"
     >
         <div class="w-50 pr-2">
             <div class="input-group mb-3">

@@ -11,22 +11,8 @@ import qrcode
 
 @app.route("/")
 def index():
-    f = flight.query.all()
-    cards = []
-    for i in f:
-        card = {}
-        SB = airport.query.get(i.flight_to)
-        card['Anh'] = SB.image
-        card['BayDen'] = SB.place
-        card['MaChuyenBay'] = i.id
-
-        card['TGXuatPhat'] = utils.conver_str_time(i.time_start)
-        card['BayTu'] = airport.query.get(i.flight_from).place
-        cards.append(card)
-
-    categories = utils.read_data()
-
-    return render_template('index.html', categories=categories, cards=cards)
+    flights = flight.query.all()
+    return render_template('index.html', flights=flights)
 
 
 @app.route("/register", methods=['get', 'post'])
@@ -41,11 +27,13 @@ def register():
             user_name = request.form.get('username')
             id_card = request.form.get('CMND')
             phone = request.form.get('SDT')
+            email = request.form.get('email')
 
             if utils.check_register(account_name=account_name,
                                     user_name=user_name,
                                     password=password, phone=phone,
-                                    id_card=id_card):
+                                    id_card=id_card,
+                                    email=email):
                 msg = "Đăng kí thành công"
                 redirect('/')
             else:
@@ -64,13 +52,10 @@ def flight_detail():
     return render_template('flight-detail.html')
 
 
-@app.route('/book', methods=['post', 'get'])
+@app.route('/book', methods=['get'])
 def book():
-    if request.method == 'POST':
-        return redirect('/')
-    else:
-        airports = utils.get_airport()
-        return render_template('book.html', airports=airports)
+    airports = utils.get_airport()
+    return render_template('book.html', airports=airports)
 
 
 @app.route('/book-detail', methods=['post'])
@@ -117,6 +102,8 @@ def book_history():
 @app.route('/add_ticket', methods=['post'])
 def add_ticket():
     data = json.loads(request.data)
+    if 'ticket' not in session:
+        session['ticket'] = {}
     ticket = session['ticket']
     
     ticket['customer_id'] = current_user.id
@@ -176,6 +163,7 @@ def airport_pay():
 
     return send_file(img, mimetype='image')
 
+
 @app.route('/momo-pay', methods=['post'])
 def momo_pay():
     ticket = session['ticket']
@@ -191,6 +179,25 @@ def momo_pay():
     else:
         jsonify({
             "mess": "Can be pay by MoMo, plz try again.!!!"
+        })
+
+
+@app.route('/staff-pay', methods=['post'])
+@decorator.login_staff_required
+def staff_pay():
+    ticket = session['ticket']
+    ticket['position'] = request.get_json('position')['position']
+    session['ticket'] = ticket
+
+    if utils.add_ticket_to_db():
+        return jsonify({
+            'status': 200,
+            "mess": "Add sussecc"
+        })
+    else:
+        return jsonify({
+            'status': 203,
+            "mess": "Add fail, plz try again.!!!"
         })
 
 
@@ -213,6 +220,68 @@ def logout():
     return redirect('/login')
 
 
+@app.route('/staff-seat-selection', methods=['get'])
+@decorator.login_staff_required
+def staff_seat_selection():
+    if 'ticket' not in session:
+        mess="Sorry you not have any ticket"
+        return render_template('seat-selection.html', mess=mess)
+    else:
+        ticket = session['ticket']
+        seat = utils.get_seat_available(flight_id=ticket['flight_id'], plane_id=ticket['plane_id'])
+        return render_template('staff-seat-selection.html', ticket=ticket, seat=seat)
+
+
+
+@app.route('/staff-book', methods=['get', 'post'])
+@decorator.login_staff_required
+def staff_book():
+    if request.method == 'POST':
+        flight_from = int((request.form.get('flight_from')).split('.')[0])
+        flight_to = int((request.form.get('flight_to')).split('.')[0])
+        flight_depart = request.form.get('depart')
+
+        flights = flight.query.filter(flight.flight_from == flight_from,
+                            flight.flight_to == flight_to,
+                            flight.time_start > flight_depart).all()
+        if len(flights) == 0:
+            mess = "Sorry! We can not found a flight"
+            airports = utils.get_airport()
+            return render_template('book.html', mess=mess, airports=airports)
+        else:
+            return render_template('staff-book-detail.html', flights=flights)
+    else:
+        airports = utils.get_airport()
+        return render_template('book.html', airports=airports)
+
+
+@app.route('/staff-book-history', methods=['get', 'post'])
+@decorator.login_staff_required
+def staff_book_history():
+    if request.method == 'POST':
+delete         id = request.form.get('id')
+
+    his = utils.get_history()
+    b_history_flight_from, b_history_flight_to = utils.get_book_history(current_user_id=current_user.id);
+
+    return render_template('staff-book-history.html', b_history_flight_from=b_history_flight_from,
+                           b_history_flight_to=b_history_flight_to, historys=his)
+
+
+@app.route('/staff-find', methods=['get'])
+@decorator.login_staff_required
+def staff_find():
+    pass
+
+
+@app.route('/login-staff', methods=['get', 'post'])
+def login_for_staff():
+    if request.method == 'POST':
+        return utils.check_user(type_user=UserRole.STAFF)
+    else:
+        return render_template('login.html', re='/login-staff')
+
+
 @app.route('/login', methods=['get', 'post'])
 def login_for_user():
     if request.method == 'POST':
@@ -228,14 +297,12 @@ def login_admin():
 @app.route('/report', methods=['get','post'])
 def report():
     info = utils.get_scheduled()
-    # import pdb
-    # pdb.set_trace()
     return render_template('report.html', info= info)
+
 
 @app.errorhandler(404)
 def page_not_found(e):
-    # note that we set the 404 status explicitly
-    return render_template('404.html'), 404
+    return render_template('404.html')
 
 
 @login.user_loader

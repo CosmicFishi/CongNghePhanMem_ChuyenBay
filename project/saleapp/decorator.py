@@ -31,6 +31,6 @@ def login_staff_required(f):
         if current_user.is_authenticated and current_user.type_user == UserRole.STAFF:
             return f(*args, **kwargs)
         else:
-            return redirect('/login' )
+            return redirect('/login-staff')
 
     return decorated_function

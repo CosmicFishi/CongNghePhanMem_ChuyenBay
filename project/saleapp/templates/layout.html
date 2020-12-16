@@ -73,12 +73,19 @@
                             ><i class="fas fa-home"></i> HOME<span class="sr-only">(current)</span></a
                         >
                     </li>
+                    {% if "{0}".format(current_user.type_user) != 'UserRole.STAFF' %}
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ url_for('book')}}"><i class="fas fa-globe-africa"></i> BOOK</a>
                     </li>
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link" href="#">MANAGE BOOKING</a>-->
-<!--                    </li>-->
+                    {% endif %}
+                    {% if "{0}".format(current_user.type_user) == 'UserRole.STAFF' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('staff_book')}}">BOOK</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('staff_find')}}">FIND TICKET</a>
+                    </li>
+                    {% endif %}
                     <li class="nav-item active">
                         <a class="nav-link" href="#">FLIGHT STATUS</a>
                     </li>
@@ -106,7 +113,7 @@
                         <a class="dropdown-item" href="/profile"><i class="fas fa-user-alt"></i> Profile</a>
                         <a
                             class="dropdown-item"
-                            href="{{url_for('book_history')}}"
+                            href="{% if '{0}'.format(current_user.type_user) != 'UserRole.STAFF' %}{{url_for('book_history')}} {% else %}{{url_for('staff_book_history')}}{% endif %}"
                             ><i class="fas fa-history"></i> Book history</a
                         >
                         <div class="dropdown-divider"></div>

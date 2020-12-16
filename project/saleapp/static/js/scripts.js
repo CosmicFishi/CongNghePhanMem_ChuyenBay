@@ -179,14 +179,75 @@ function loadLocal() {
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <img src='${qrcode}'  alt='qrcode' />
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+                        <div class="modal-body text-center pb-2">
+                            <img src='${qrcode}'  alt='qrcode' />
+                        </div>
                     </div>
                 </div>
             </div>
             `;
+}
+
+function addTicketByStaff(seat_name, flight_id, seat_type_id, price, plane_id) {
+    let count_seat = parseInt(document.getElementById('count_seat').value);
+    fetch('/add_ticket', {
+        method: 'post',
+        body: JSON.stringify({
+            flight_id,
+            plane_id,
+            seat_type_id,
+            count_seat,
+            price,
+            seat_name,
+        }),
+        headers: {
+            'Context-Type': 'application/json',
+        },
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            location.href = '/staff-seat-selection';
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
+
+function staffCommit(totalSeat) {
+    btn = document.querySelectorAll('#checkSeat button.danger');
+    if (btn.length !== totalSeat) {
+        alert(`You have to select ${totalSeat} seat >.>`);
+        return;
+    }
+
+    let position = '';
+    let seat = document.querySelectorAll('button.danger');
+    let node = document.querySelectorAll('input.payment-method');
+
+    seat.forEach((e) => {
+        if (position !== '') position += ',';
+        position += e.getAttribute('data');
+    });
+    node.forEach((e) => {
+        if (e.checked) payment = e.value;
+    });
+
+    fetch('/staff-pay', {
+        method: 'post',
+        body: JSON.stringify({
+            position,
+        }),
+        headers: {
+            'Context-Type': 'application/json',
+        },
+    })
+        .then((res) => res.json())
+        .then((res) => {
+            alert(res.mess);
+            if (res.status === 200) location.href = '/staff-book';
+            else location.href = '/staff-book';
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 }

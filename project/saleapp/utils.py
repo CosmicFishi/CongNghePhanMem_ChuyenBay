@@ -1,9 +1,9 @@
-from flask import request, redirect, session
+from flask import request, redirect, session, render_template
 from sqlalchemy import func
 
 from saleapp import db
 from saleapp.models import customer, UserRole, flight, airport, intermediate_airport, seat_type, scheduled
-from flask_login import login_user
+from flask_login import login_user, current_user
 
 from datetime import datetime, timedelta
 import hashlib
@@ -43,10 +43,10 @@ def get_product_by_id(product_id):
             return p
 
 
-def check_register(account_name, user_name, password, id_card, phone):
+def check_register(account_name, user_name, password, id_card, phone, email):
     password = str(hashlib.md5(password.encode('utf-8')).hexdigest())
 
-    u = customer(user_name=user_name, account_name=account_name, password=password, id_card=id_card, phone=phone)
+    u = customer(user_name=user_name, account_name=account_name, password=password, id_card=id_card, phone=phone, email=email)
 
     try:
         print('running')
@@ -55,6 +55,28 @@ def check_register(account_name, user_name, password, id_card, phone):
         return True
     except:
         return False
+
+
+def add_ticket_to_db():
+    ticket = session['ticket']
+
+    sched = scheduled(flight_id=ticket['flight_id'], customer_id=ticket['customer_id'], seat_type_id=ticket['seat_type_id'], position=json.dumps(ticket['position']), count_seat=ticket['count_seat'], price=ticket['price'])
+
+    try:
+        db.session.add(sched)
+        db.session.commit()
+        return True
+    except:
+        return False
+
+
+def check_type_user(usr):
+    if usr == UserRole.STAFF:
+        return 3
+    if usr == UserRole.ADMIN:
+        return 2
+    else:
+        return 1
 
 
 def check_user(type_user=UserRole.ADMIN):
@@ -69,10 +91,15 @@ def check_user(type_user=UserRole.ADMIN):
 
         if user:
             login_user(user=user)
+            setattr(current_user, 'type', check_type_user(type_user))
 
         if type_user == UserRole.ADMIN:
             return redirect('/admin')
-    return redirect('/')
+
+        if type_user == UserRole.STAFF:
+            return redirect('/login-staff')
+
+    return redirect('/login')
 
 
 def conver_str_time(string_time='', time_format="%d-%m-%Y - %H:%M"):
@@ -170,6 +197,11 @@ def get_book_history(current_user_id):
     # b_history = b_history_flight_to
 
     return b_history_flight_from, b_history_flight_to
+
+
+def get_history():
+    return scheduled.query.all()
+
 
 def get_scheduled():
     scheduled_info = db.session.query(

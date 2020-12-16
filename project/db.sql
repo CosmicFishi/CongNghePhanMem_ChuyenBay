@@ -5,6 +5,7 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
+
 INSERT INTO `airport` (`id`, `place`, `airport_name`, `image`) VALUES
 (1,	'TP HCM',	'Tân Sơn Nhất',	'/images/airport/Ho-Chi-Minh-City-SGN.jpg'),
 (2,	'Huế',	'Phú Bài',	'/images/airport/Hue-HUI.jpg'),
@@ -14,10 +15,11 @@ INSERT INTO `airport` (`id`, `place`, `airport_name`, `image`) VALUES
 (6,	'Đà Nẵng',	'Đà Nẵng',	'/images/airport/Da-Nang-DAD.jpg'),
 (7,	'Lâm Đồng',	'Liên Khương',	'/images/airport/Da-Lat-DLI.jpg');
 
-INSERT INTO `customer` (`id`, `user_name`, `account_name`, `password`, `type_user`, `id_card`, `phone`, `active`) VALUES
-(1,	'haungo',	'Ngo Van Hau',	'202cb962ac59075b964b07152d234b70',	'ADMIN',	'000011111',	'012345678',	1),
-(2,	'a',	'Nguyen van A',	'202cb962ac59075b964b07152d234b70',	'USER',	'025651545',	'0383793',	1),
-(3,	'b',	'Nguyen Van B',	'202cb962ac59075b964b07152d234b70',	'USER',	'285704152',	'0325648122',	1);
+INSERT INTO `customer` (`id`, `user_name`, `account_name`, `password`, `type_user`, `id_card`, `phone`, `active`,  `email`) VALUES
+(1,	'haungo',	'Ngo Van Hau',	'202cb962ac59075b964b07152d234b70',	'ADMIN',	'000011111',	'012345678',	1, 'ngovanhau@gmail.com'),
+(2,	'a',	'Nguyen van A',	'202cb962ac59075b964b07152d234b70',	'USER',	'025651545',	'0383793',	1, 'ngovanhau@gmail.com'),
+(3,	'b',	'Nguyen Van B',	'202cb962ac59075b964b07152d234b70',	'USER',	'285704152',	'0325648122',	1, 'ngovanhau@gmail.com'),
+(4,	'haungo',	'Hau Ngo',	'202cb962ac59075b964b07152d234b70',	'STAFF',	'123465',	'01235679',	1, 'ngovanhau@gmail.com');
 
 INSERT INTO `flight` (`id`, `plane_id`, `flight_from`, `flight_to`, `time_start`, `flight_time`) VALUES
 (1,	1,	2,	1,	'2020-12-19 23:06:00',	'0130'),
@@ -53,9 +55,9 @@ INSERT INTO `plane` (`id`, `plane_name`, `airlines`) VALUES
 (17,	'AHIHI',	'Bamboo Airways 4');
 
 INSERT INTO `scheduled` (`flight_id`, `customer_id`, `seat_type_id`, `position`, `count_seat`, `price`, `is_used`, `time_create`) VALUES
-(1,	2,	1,	NULL,	'2',	'200',	0, '2020-12-19 23:06:00'),
-(7,	1,	1,	'0102',	'2',	'600',	0, '2020-12-20 23:06:00'),
-(7,	3,	2,	'07',	'1',	'100',	0, '2020-12-25 23:06:00');
+(1,	2,	1,	'1213',	2,	200,	0,	'2020-12-19 23:06:00'),
+(7,	1,	1,	'2233',	2,	600,	0,	'2020-12-20 23:06:00'),
+(7,	3,	2,	'11',	1,	100,	0,	'2020-12-25 23:06:00');
 
 INSERT INTO `seat_type` (`id`, `plane_id`, `seat_name`, `row_from`, `row_to`, `amount_of_row`, `price`) VALUES
 (1,	1,	'Ghế thương gia',	1,	8,	4,	300),
@@ -76,4 +78,4 @@ INSERT INTO `seat_type` (`id`, `plane_id`, `seat_name`, `row_from`, `row_to`, `a
 (17,	6,	'Ghế phổ thông đặc biệt ',	9,	13,	6,	0),
 (18,	6,	'Ghế phổ thông',	14,	20,	8,	0);
 
--- 2020-12-15 04:07:24
+-- 2020-12-16 04:36:59

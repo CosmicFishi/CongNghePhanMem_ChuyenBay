@@ -1,8 +1,14 @@
 {% extends 'layout.html' %} {% block body %}
 <div class="login">
     <h1>LOGIN</h1>
-    <form method="post" action="{{url_for('login_for_user')}}">
+
+    <form method="post" action="{{re}}">
         <div class="container">
+            {% if mess %}
+            <div class="alert alert-danger">
+                {{mess}}
+            </div>
+            {% endif %}
             <div class="form-group">
                 <label for="username">User name:</label>
                 <input

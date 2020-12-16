@@ -61,13 +61,13 @@
 
 <div class="body">
     <div class="cards">
-        {% for card in cards %}
+        {% for f in flights %}
         <div class="card" style="width: 18rem">
-            <img src="static{{card.Anh}}" class="card-img-top" alt="..." />
+            <img src="static{{f.flight_to_id.image}}" class="card-img-top" alt="..." />
             <div class="card-body">
-                <p class="card-text">From:<strong> {{card['BayTu']}} </strong></p>
-                <p class="card-text">To: <strong> {{card['BayDen']}} </strong></p>
-                <p>Time: <strong>{{ card.TGXuatPhat }}</strong></p>
+                <p class="card-text">From:<strong> {{f.flight_from_id.airport_name}} </strong></p>
+                <p class="card-text">To: <strong> {{f.flight_to_id.airport_name}} </strong></p>
+                <p>Time flight: <strong>{{ f.time_start.day }}/{{f.time_start.month}} - {{f.time_start.hour}}h{{f.time_start.minute}}m </strong></p>
                 <hr class="my-3">
                 <div class="w-100 text-right">
                     <a href="#" class="btn btn-primary w-50"><i class="fas fa-umbrella-beach"></i> Book</a>

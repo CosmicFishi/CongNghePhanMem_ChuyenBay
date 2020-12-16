@@ -1,0 +1,72 @@
+{% extends 'layout.html' %} {% block body %}
+
+<div class="container">
+    <table class="table" stype="border: none;">
+        <thead>
+            <tr>
+                <th scope="col">Time</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Amount seat</th>
+                {% for s in flights[0].plane.seat_type %}
+                <th scope="col">{{s.seat_name}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for f in flights %}
+            <tr>
+                <th scope="row">
+                    <p>
+                        <strong>Date: {{ f.time_start.day }}/{{f.time_start.month}}</strong>
+                    </p>
+                    <p>
+                        <strong>Time: {{f.time_start.hour}}h{{f.time_start.minute}}m </strong>
+                    </p>
+                    <p>Flight Id: {{f.id}}</p>
+                    <p>Plane Id: {{f.plane_id}}</p>
+                </th>
+                <td>
+                    <p>Total time: {{f.get_flight_time()}}</p>
+                    {% if f.intermediate_airport[0] %}
+                    {% for d in f.intermediate_airport %}
+                    <p>
+                        Delay {{d.get_time_layover()}} at {{
+                        d.airport.airport_name }}
+                    </p>
+                    {% endfor %}
+                    {% else %}
+                    <p>Non stop</p>
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="input-group mb-3">
+                        <input
+                            type="number"
+                            id="count_seat"
+                            onchange="check_number_input()"
+                            value="1"
+                            class="form-control"
+                            aria-label="Default"
+                            aria-describedby="inputGroup-sizing-default"
+                        />
+                    </div>
+                </td>
+                {% for s in f.plane.seat_type %}
+                <td>
+                    <button
+                        type="button"
+                        onclick="addTicketByStaff('{{s.seat_name}}',{{f.id}},{{s.id}},{{s.price}},{{f.plane_id}})"
+                        class="btn btn-primary"
+                    >
+                        <h3 class="px-5 py-2">{{s.price}}</h3>
+                    </button>
+                    <p class="font-italic">{{s.get_seat_left(f.id)}} seats left</p>
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
