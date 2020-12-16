@@ -9,6 +9,7 @@ import json
 from PIL import Image
 import qrcode
 
+
 @app.route("/")
 def index():
     flights = flight.query.all()
@@ -105,7 +106,7 @@ def add_ticket():
     if 'ticket' not in session:
         session['ticket'] = {}
     ticket = session['ticket']
-    
+
     ticket['customer_id'] = current_user.id
     ticket['flight_id'] = data.get("flight_id")
     ticket['plane_id'] = data.get("plane_id")
@@ -123,7 +124,7 @@ def add_ticket():
 @app.route('/seat-selection', methods=['get'])
 def seat_selection():
     if 'ticket' not in session:
-        mess="Sorry you not have any ticket"
+        mess = "Sorry you not have any ticket"
         return render_template('seat-selection.html', mess=mess)
     else:
         ticket = session['ticket']
@@ -134,7 +135,7 @@ def seat_selection():
 @app.route('/payment', methods=['get', 'post'])
 def payment():
     if 'ticket' not in session:
-        mess="Sorry you not have any ticket"
+        mess = "Sorry you not have any ticket"
         return render_template('payment.html', mess=mess)
 
     if request.method == 'POST':
@@ -147,7 +148,7 @@ def payment():
         ticket['payment'] = payment
         ticket['position'] = position
         session['ticket'] = ticket
-        
+
         return jsonify({
             "mess": 'Book success!!',
         })
@@ -167,7 +168,7 @@ def airport_pay():
 @app.route('/momo-pay', methods=['post'])
 def momo_pay():
     ticket = session['ticket']
-    total = int((ticket['count_seat'] * ticket['price'])*22000)
+    total = int((ticket['count_seat'] * ticket['price']) * 22000)
 
     momo = MoMo(amount=str(total))
     rs = momo.send_momo()
@@ -204,6 +205,7 @@ def staff_pay():
 @app.route('/status_payment')
 def status_payment():
     return render_template('status_payment.html')
+
 
 @app.route('/profile')
 def profile():
@@ -259,7 +261,7 @@ def staff_book():
 @decorator.login_staff_required
 def staff_book_history():
     if request.method == 'POST':
-delete         id = request.form.get('id')
+        id = request.form.get('id')
 
     his = utils.get_history()
     b_history_flight_from, b_history_flight_to = utils.get_book_history(current_user_id=current_user.id);
@@ -294,10 +296,23 @@ def login_for_user():
 def login_admin():
     return utils.check_user(type_user=UserRole.ADMIN)
 
-@app.route('/report', methods=['get','post'])
+
+@app.route('/report', methods=['get', 'post'])
 def report():
-    info = utils.get_scheduled()
-    return render_template('report.html', info= info)
+    info = ''
+    if request.method == 'POST':
+        month = ''
+        year = ''
+        if request.form.get('month'):
+            month = request.form.get('month')
+
+        if request.form.get('year'):
+            year = request.form.get('year')
+
+        info = utils.get_scheduled(month=month, year=year)
+
+    return render_template('report.html', info=info)
+
 
 
 @app.errorhandler(404)
