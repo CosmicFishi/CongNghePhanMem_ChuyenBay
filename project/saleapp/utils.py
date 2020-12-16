@@ -171,14 +171,15 @@ def get_seat_type_by_flight(plane_id, flight_id):
     return seat
 
 
-def get_seat_available(flight_id, plane_id):
-    seat = seat_type.query.filter(seat_type.plane_id == plane_id).all()
-    # ticket = scheduled.query.filter(scheduled.flight_id == flight_id).all()
-    #
-    # for i in ticket:
-    #     i.position = i.position.split(',')
+def get_seat_used(flight_id):
+    used = scheduled.query.filter(scheduled.flight_id==flight_id).all()
+    rs = ''
+    for i in used:
+        rs += i.position +','
+    return rs
 
-    return seat
+def get_seat_available(plane_id):
+    return seat_type.query.filter(seat_type.plane_id == plane_id).all()
 
 
 def get_book_history(current_user_id):

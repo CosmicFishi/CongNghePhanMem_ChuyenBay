@@ -94,9 +94,12 @@ def book_detail():
 
 @app.route('/book-history')
 def book_history():
-    b_history_flight_from, b_history_flight_to = utils.get_book_history(current_user_id=current_user.id);
+    if not current_user.is_authenticated:
+        return render_template('book-history.html')
+    else:
+        b_history_flight_from, b_history_flight_to = utils.get_book_history(current_user_id=current_user.id);
 
-    return render_template('book-history.html', b_history_flight_from=b_history_flight_from,
+        return render_template('book-history.html', b_history_flight_from=b_history_flight_from,
                            b_history_flight_to=b_history_flight_to)
 
 
@@ -107,7 +110,6 @@ def add_ticket():
         session['ticket'] = {}
     ticket = session['ticket']
 
-    ticket['customer_id'] = current_user.id
     ticket['flight_id'] = data.get("flight_id")
     ticket['plane_id'] = data.get("plane_id")
     ticket['seat_type_id'] = data.get("seat_type_id")
@@ -115,11 +117,41 @@ def add_ticket():
     ticket['count_seat'] = data.get("count_seat")
     ticket['price'] = data.get("price")
 
-    session['ticket'] = ticket
-    return jsonify({
-        "mess": 'Book success!!',
-    })
+    if current_user.is_authenticated:
+        ticket['customer_id'] = current_user.id
+        session['ticket'] = ticket
+        return jsonify({
+            "status": 200,
+            "mess": 'Book success!!',
+        })
+    else:
+        session['ticket'] = ticket
+        return jsonify({
+            "status": 204,
+            "mess": 'Book success!!',
+        })
 
+
+@app.route('/fill-info', methods=['get', 'post'])
+def fill_info():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        email_confirm = request.form.get('email-confirm')
+
+        if email != email_confirm:
+            return render_template('fill-info.html', mess="Email not match!!!")
+        else:
+            name = request.form.get('name')
+            phone1 = request.form.get('phone1')
+            phone2 = request.form.get('phone2')
+            ticket = session['ticket']
+            ticket['email'] = email
+            ticket['name'] = name
+            ticket['phone'] = str(phone1) + str(phone2)
+            session['ticket'] = ticket
+            return redirect('/seat-selection')
+
+    return render_template('fill-info.html')
 
 @app.route('/seat-selection', methods=['get'])
 def seat_selection():
@@ -128,8 +160,9 @@ def seat_selection():
         return render_template('seat-selection.html', mess=mess)
     else:
         ticket = session['ticket']
-        seat = utils.get_seat_available(flight_id=ticket['flight_id'], plane_id=ticket['plane_id'])
-        return render_template('seat-selection.html', ticket=ticket, seat=seat)
+        seat_used = utils.get_seat_used(flight_id=ticket['flight_id'])
+        seat = utils.get_seat_available(plane_id=ticket['plane_id'])
+        return render_template('seat-selection.html', ticket=ticket, seat=seat, seat_used=seat_used)
 
 
 @app.route('/payment', methods=['get', 'post'])
@@ -230,8 +263,9 @@ def staff_seat_selection():
         return render_template('seat-selection.html', mess=mess)
     else:
         ticket = session['ticket']
+        seat_used = utils.get_seat_used(flight_id=ticket['flight_id'])
         seat = utils.get_seat_available(flight_id=ticket['flight_id'], plane_id=ticket['plane_id'])
-        return render_template('staff-seat-selection.html', ticket=ticket, seat=seat)
+        return render_template('staff-seat-selection.html', ticket=ticket, seat=seat, seat_used=seat_used)
 
 
 
@@ -298,6 +332,7 @@ def login_admin():
 
 
 @app.route('/report', methods=['get', 'post'])
+@decorator.login_admin_staff_required
 def report():
     info = ''
     if request.method == 'POST':
@@ -327,4 +362,4 @@ def load_user(user_id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')

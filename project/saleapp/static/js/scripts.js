@@ -1,4 +1,13 @@
-function addTicket(seat_name, flight_id, seat_type_id, price, plane_id) {
+function addTicket(
+    seat_name,
+    flight_id,
+    seat_type_id,
+    price,
+    plane_id,
+    total_flight_time,
+    time_to_start,
+    time_end
+) {
     let count_seat = parseInt(document.getElementById('count_seat').value);
     fetch('/add_ticket', {
         method: 'post',
@@ -16,7 +25,18 @@ function addTicket(seat_name, flight_id, seat_type_id, price, plane_id) {
     })
         .then((res) => res.json())
         .then((data) => {
-            location.href = '/seat-selection';
+            localStorage.setItem(
+                'ticket',
+                JSON.stringify({
+                    total_flight_time,
+                    time_to_start,
+                    time_end,
+                })
+            );
+            if (data.status === 200) location.href = '/seat-selection';
+            else {
+                location.href = '/fill-info';
+            }
         })
         .catch((err) => {
             console.log(err);
@@ -83,27 +103,25 @@ function handleCommit(
     phaneId,
     seatName,
     payMethod,
-    customer_id,
     flight_id,
     seat_type_id,
     count_seat,
     price,
     position
 ) {
-    flight = JSON.stringify({
+    flight = {
         nameFrom,
         nameTo,
         phaneId,
         seatName,
         payMethod,
-        customer_id,
         flight_id,
         seat_type_id,
         count_seat,
         price,
         position,
-    });
-    let baseUrl = `http://api.qrserver.com/v1/create-qr-code/?data=${flight_id},${customer_id},${seat_type_id},${position},${count_seat},${price}&size=200x200`;
+    };
+    let baseUrl = `http://api.qrserver.com/v1/create-qr-code/?data=${flight_id},${seat_type_id},${position},${count_seat},${price}&size=200x200`;
     if (payMethod === 'momo') {
         fetch('/momo-pay', {
             method: 'post',
@@ -123,7 +141,9 @@ function handleCommit(
                 console.log(err);
             });
     } else if (payMethod === 'airport') {
-        localStorage.setItem('ticket', flight);
+        let ticket = JSON.parse(localStorage.getItem('ticket'));
+        ticket = { ...flight, ...ticket };
+        localStorage.setItem('ticket', JSON.stringify(ticket));
         localStorage.setItem('qrcode', baseUrl);
         location.href = '/book-history';
     } else {
@@ -138,38 +158,27 @@ function loadLocal() {
         'add-ticket'
     ).innerHTML = `<div class="card book-card">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-plane"></i> Flight ID: ${
-                        flight.flight_id
-                    } <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">This ticket not pay</button></h5>
+                    <h5 class="card-title"><i class="fas fa-plane"></i> Flight ID: ${flight.flight_id} <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">This ticket not pay</button></h5>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <div class="d-flex flex-wrap">
-                            <p class="mb-0 col-md-6 col-sm-12"><strong><i class="fas fa-plane-arrival"></i> Flight to: </strong>${
-                                flight.nameFrom
-                            }</p>
-                            <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-plane-departure"></i>  Flight from:</strong>${
-                                flight.nameTo
-                            }</p>
+                            <p class="mb-0 col-md-6 col-sm-12"><strong><i class="fas fa-plane-arrival"></i> Flight to: </strong>${flight.nameFrom}</p>
+                            <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-plane-departure"></i>  Flight from:</strong>${flight.nameTo}</p>
                         </div>
                         <hr class="my-4">
                         <div class="d-flex flex-wrap">
-                            <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-clock"></i> Flight start:</strong> ${'None'}</p>
-                            <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-plane"></i> Flight time:</strong> ${'flight time'}</p>
+                            <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-clock"></i> Flight start:</strong> ${flight.time_to_start}</p>
+                            <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-plane"></i> Flight time:</strong> ${flight.total_flight_time}</p>
                         </div>
                         <hr class="my-4">
                         <div class="d-flex flex-wrap">
-                            <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-suitcase-rolling"></i> Seat type:</strong> ${
-                                flight.seatName
-                            }</p>
-                            <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-suitcase-rolling"></i> Seat amount:</strong> ${
-                                flight.count_seat
-                            }</p>
+                            <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-suitcase-rolling"></i> Seat type:</strong> ${flight.seatName}</p>
+                            <p class="mb-0 col-md-6 col-sm-12" ><strong><i class="fas fa-suitcase-rolling"></i> Seat position:</strong> ${flight.position}</p>
                         </div>
                     </li>
                     </ul>
             </div>
-            
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -250,4 +259,13 @@ function staffCommit(totalSeat) {
         .catch((err) => {
             console.log(err);
         });
+}
+function checkSeatUsed(used = '') {
+    btn = document.querySelectorAll('#checkSeat button');
+    btn.forEach((e) => {
+        if (used.indexOf(e.textContent.trim()) >= 0) {
+            e.setAttribute('class', 'btn btn-warning');
+            e.setAttribute('disabled', 'true');
+        }
+    });
 }
