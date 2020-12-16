@@ -12,6 +12,7 @@ class UserRole(UserEnum):
     ADMIN = 2
     STAFF = 3
 
+
 class customer(db.Model, UserMixin):
     id = Column(Integer, autoincrement=True, primary_key=True)
     user_name = Column(String(50), nullable=False)
@@ -104,11 +105,11 @@ class seat_type(db.Model):
         return (self.row_to - self.row_from) * self.amount_of_row
 
     def get_seat_left(self, flight_id):
-        sch =  scheduled.query.filter(scheduled.flight_id == flight_id).all()
+        sch = scheduled.query.filter(scheduled.flight_id == flight_id).all()
         used = 0;
         for i in sch:
             used += int(i.count_seat)
-        return  self.get_total_seat() - used
+        return self.get_total_seat() - used
 
     def seat_be_use(self):
         sch = scheduled.query.filter(scheduled.seat_type_id == self.id).all()
@@ -119,6 +120,7 @@ class seat_type(db.Model):
 
     def is_seat_be_use(self, position):
         return position in self.seat_be_use()
+
 
 class scheduled(db.Model):
     id = Column(Integer, autoincrement=True, primary_key=True)
@@ -137,6 +139,7 @@ class scheduled(db.Model):
 
     def get_total_money(self):
         return float(self.price) * int(self.count_seat)
+
 
 class intermediate_airport(db.Model):
     flight_id = Column(Integer, ForeignKey(flight.id), primary_key=True)
@@ -158,6 +161,7 @@ class intermediate_airport(db.Model):
             delay += ' ' + t[2:] + 'm'
         return delay
 
+
 class admin_properties(db.Model):
     id = Column(Integer, autoincrement=True, primary_key=True)
     number_airport = Column(Integer, nullable=False, default=10)
@@ -172,13 +176,13 @@ class admin_properties(db.Model):
         day = (time[:2])
         hour = (time[2:5])
         min = (time[5:])
-        time=''
-        if day>'00':
-            time+=day+'d'
+        time = ''
+        if day > '00':
+            time += day + 'd'
         if hour > '00':
-            time+=hour+'h'
+            time += hour + 'h'
         if min > '00':
-            time+=min+'m'
+            time += min + 'm'
 
 
 if __name__ == '__main__':

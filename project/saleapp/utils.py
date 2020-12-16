@@ -163,7 +163,7 @@ def check_user(type_user=UserRole.ADMIN):
 
 def conver_str_time(string_time='', time_format="%d-%m-%Y - %H:%M"):
     # d = datetime.strptime(string_time, "%Y-%m-%d %H:%M:%S")
-    d = string_time
+    d = string_timeta
     return d.strftime(time_format)
 
 
