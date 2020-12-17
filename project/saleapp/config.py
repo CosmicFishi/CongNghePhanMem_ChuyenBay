@@ -11,8 +11,8 @@ class MoMo():
     serectkey = "6VzFAPfP9eGsw47dEPx6FiYqGWete93n"
 
     orderInfo = "Pay for flight with MoMo"
-    returnUrl = "https://viblo.asia/p/payment-with-momo-eW65GbpOlDO?fbclid=IwAR3RAlACCaqRwt4AA0voIxaLGVxDXI3Fmgq5wPwl4-YzXHTXZ-7zDQ1lnRc"
-    notifyurl = "http://0.0.0.0/notifyUrl-momo"
+    returnUrl = "http://0.0.0.0:5000/status_payment"
+    notifyUrl = "http://0.0.0.0:5000/notifyUrl-momo"
     amount = "50000" 
     orderId = str(uuid.uuid4())
     requestId = str(uuid.uuid4())
@@ -35,7 +35,7 @@ class MoMo():
 
     
     def make_signature(self):
-        rawSignature = "partnerCode=" + self.partnerCode + "&accessKey=" + self.accessKey + "&requestId=" + self.requestId + "&amount=" + self.amount + "&orderId=" + self.orderId + "&orderInfo=" + self.orderInfo + "&returnUrl=" + self.returnUrl + "&notifyUrl=" + self.notifyurl + "&extraData=" + self.extraData
+        rawSignature = "partnerCode=" + self.partnerCode + "&accessKey=" + self.accessKey + "&requestId=" + self.requestId + "&amount=" + self.amount + "&orderId=" + self.orderId + "&orderInfo=" + self.orderInfo + "&returnUrl=" + self.returnUrl + "&notifyUrl=" + self.notifyUrl + "&extraData=" + self.extraData
         h = hmac.new(bytes(self.serectkey, 'utf-8'), rawSignature.encode('utf-8'), hashlib.sha256)
         return h.hexdigest()
 
@@ -45,7 +45,7 @@ class MoMo():
             "accessKey": self.accessKey,
             "partnerCode": self.partnerCode,
             "requestType": self.requestType,
-            "notifyUrl": self.notifyurl,
+            "notifyUrl": self.notifyUrl,
             "returnUrl": self.returnUrl,
             "orderId": self.orderId,
             "amount": self.amount,

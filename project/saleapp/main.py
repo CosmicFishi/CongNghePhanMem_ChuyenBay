@@ -6,8 +6,6 @@ from datetime import datetime, timedelta
 from flask_login import logout_user, current_user
 from saleapp.config import MoMo
 import json
-from PIL import Image
-import qrcode
 
 
 @app.route("/")
